@@ -5,6 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Inmueble\**" />
+    <Content Remove="Views\Inmueble\**" />
+    <EmbeddedResource Remove="Views\Inmueble\**" />
+    <None Remove="Views\Inmueble\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Inmueble\Index.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
   </ItemGroup>

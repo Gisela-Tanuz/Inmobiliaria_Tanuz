@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Inmobiliaria_Tanuz.Models.Contrato>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Lista de Contratos</h1>
+
+<p>
+    <a asp-action="Create">Crear un nuevo contrato</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdContrato)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InquilinoId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InmuebleId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaInicio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaFin)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdContrato)
+            </td>
+            <td>
+                @(item.Inquilino.Nombre + " " + item.Inquilino.Apellido)
+            </td>
+            <td>
+                @(item.Duenio.IdInmueble)
+              <!--item.Duenio.Duenio.Nombre + " " + item.Duenio.Duenio.Apellido) -->
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaInicio, "{ 0:dd/MM/yyyy}")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaFin, "{ 0:dd/MM/yyyy}")
+            </td>
+
+
+
+            <td>
+                @Html.ActionLink("Actualizar", "Edit", new { id = item.IdContrato }) ||
+                @Html.ActionLink("Detalles", "Details", new { id = item.IdContrato }) ||
+                @Html.ActionLink("Eliminar", "Delete", new { id = item.IdContrato })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

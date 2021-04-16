@@ -20,11 +20,13 @@ namespace Inmobiliaria_Tanuz.Controllers
         }
         // GET: PropietarioController
         public ActionResult Index()
-        {
-            IList<Propietario> lta = repositorio.Obtener();
-            return View(lta);
-            
-        }
+        
+            {
+                IList<Propietario> lta = repositorio.Obtener();
+                return View(lta);
+
+            }
+        
 
         // GET: PropietarioController/Details/5
         public ActionResult Details(int id)
