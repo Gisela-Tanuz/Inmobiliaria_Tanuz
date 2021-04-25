@@ -5,19 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Views\Inmueble\**" />
-    <Content Remove="Views\Inmueble\**" />
-    <EmbeddedResource Remove="Views\Inmueble\**" />
-    <None Remove="Views\Inmueble\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Views\Inmueble\Index.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="linq2db" Version="3.3.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\img\" />
+  </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

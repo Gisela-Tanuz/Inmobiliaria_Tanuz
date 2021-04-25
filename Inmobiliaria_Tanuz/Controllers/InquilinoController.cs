@@ -1,4 +1,5 @@
 ﻿using Inmobiliaria_Tanuz.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +20,7 @@ namespace Inmobiliaria_Tanuz.Controllers
             this.config = config;
         }
         // GET: InquilinoController
+  
         public ActionResult Index()
         {
             IList<Inquilino> lta = repositorio.Obtener();
@@ -26,14 +28,16 @@ namespace Inmobiliaria_Tanuz.Controllers
         }
 
         // GET: InquilinoController/Details/5
+        
         public ActionResult Details(int id)
         {
-           Inquilino inquilino = repositorio.ObtenerPorId(id);
+            Inquilino inquilino = repositorio.ObtenerPorId(id);
             return View(inquilino);
-           
+
         }
 
         // GET: InquilinoController/Create
+      
         public ActionResult Create()
         {
             return View();
@@ -42,21 +46,16 @@ namespace Inmobiliaria_Tanuz.Controllers
         // POST: InquilinoController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        
         public ActionResult Create(Inquilino inquilino)
         {
-            /* try
-             {
-                 return RedirectToAction(nameof(Index));
-             }
-             catch
-             {
-                 return View();
-             }*/
+          
             repositorio.Alta(inquilino);
             return RedirectToAction(nameof(Index));
         }
 
         // GET: InquilinoController/Edit/5
+     
         public ActionResult Edit(int id)
         {
             var i = repositorio.ObtenerPorId(id);
@@ -67,6 +66,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         // POST: InquilinoController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+   
         public ActionResult Edit(int id, Inquilino inquilino)
         {
             try
@@ -82,6 +82,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         }
 
         // GET: InquilinoController/Delete/5
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id)
         {
             var i = repositorio.ObtenerPorId(id);
@@ -92,15 +93,19 @@ namespace Inmobiliaria_Tanuz.Controllers
         // POST: InquilinoController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id, Inquilino inquilino)
         {
             try
             {
                 repositorio.Baja(id);
+                TempData["Mensaje"] = "Eliminación realizada correctamente";
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch(Exception ex)
             {
+                ViewBag.Error = ex.Message;
+                ViewBag.StackTrate = ex.StackTrace;
                 return View(inquilino);
             }
         }

@@ -7,7 +7,7 @@
 <h1>Lista de Contratos</h1>
 
 <p>
-    <a asp-action="Create">Crear un nuevo contrato</a>
+    <a asp-action="Create">Crear nuevo</a>
 </p>
 <table class="table">
     <thead>
@@ -27,7 +27,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.FechaFin)
             </th>
-
             <th></th>
         </tr>
     </thead>
@@ -38,25 +37,25 @@
                 @Html.DisplayFor(modelItem => item.IdContrato)
             </td>
             <td>
-                @(item.Inquilino.Nombre + " " + item.Inquilino.Apellido)
+                @(item.Inquilino.Nombre+" "+ item.Inquilino.Apellido)
             </td>
             <td>
-                @(item.Duenio.IdInmueble)
-              <!--item.Duenio.Duenio.Nombre + " " + item.Duenio.Duenio.Apellido) -->
+                @(item.Inmueble.Duenio.Nombre+" "+item.Inmueble.Duenio.Apellido)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FechaInicio, "{ 0:dd/MM/yyyy}")
+                @Html.DisplayFor(modelItem => item.FechaInicio)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FechaFin, "{ 0:dd/MM/yyyy}")
+                @Html.DisplayFor(modelItem => item.FechaFin)
             </td>
-
-
 
             <td>
                 @Html.ActionLink("Actualizar", "Edit", new { id = item.IdContrato }) ||
                 @Html.ActionLink("Detalles", "Details", new { id = item.IdContrato }) ||
-                @Html.ActionLink("Eliminar", "Delete", new { id = item.IdContrato })
+                @Html.ActionLink("Eliminar", "Delete", new { id = item.IdContrato })||
+                <a asp-route-id="@item.IdContrato " asp-controller="Pagos" asp-action="VerPagos">Ver Pagos</a>
+
+
             </td>
         </tr>
 }

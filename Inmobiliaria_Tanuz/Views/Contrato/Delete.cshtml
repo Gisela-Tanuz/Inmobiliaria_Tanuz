@@ -6,7 +6,7 @@
 
 <h1>Eliminar</h1>
 
-<h3>¿Esta seguro que desea eliminar este contrato?</h3>
+<h3>¿Esta seguro de eliminar el contrato?</h3>
 <div>
     <h4>Contrato</h4>
     <hr />
@@ -21,15 +21,14 @@
             @Html.DisplayNameFor(model => model.InquilinoId)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InquilinoId)
+            @Html.DisplayFor(model => model.Inquilino.Apellido)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.InmuebleId)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InmuebleId)
+            @Html.DisplayFor(model => model.Inmueble.Duenio.Apellido)
         </dd>
-
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FechaInicio)
         </dt>
@@ -42,10 +41,28 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.FechaFin)
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Inmueble.Direccion)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Inmueble.Direccion)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Inmueble.Precio)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Inmueble.Precio)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Inmueble.Estado)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Inmueble.Estado)
+        </dd>
     </dl>
     
     <form asp-action="Delete">
         <input type="submit" value="Eliminar" class="btn btn-danger" /> |
-        <a asp-action="Index">Volver a la lista</a>
+        <a asp-action="Index">Volver a la Lista</a>
     </form>
 </div>

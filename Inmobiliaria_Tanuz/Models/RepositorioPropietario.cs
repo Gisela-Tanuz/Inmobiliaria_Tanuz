@@ -47,14 +47,15 @@ namespace Inmobiliaria_Tanuz.Models
             return res;
         }
 
+       
         public int Alta(Propietario p)
         {
             var res = -1;
             using (SqlConnection connection = new(connectionString))
             {
                 string sql = $"INSERT INTO Propietario (Nombre, Apellido, Dni, Telefono, Email, Usuario, Contraseña )" +
-                    $"VALUES (@nombre, @apellido, @dni, @telefono, @email, @usuario, @contraseña);" +
-                    $"SELECT SCOPE_IDENTITY();";
+                    $" VALUES (@nombre, @apellido, @dni, @telefono, @email, @usuario, @contraseña);" +
+                    $" SELECT SCOPE_IDENTITY();";
                 using (var command = new SqlCommand(sql, connection))
                 {
 
@@ -155,6 +156,73 @@ namespace Inmobiliaria_Tanuz.Models
                 }
             }
             return p;
+        }
+        public Propietario ObtenerPorEmail(string email)
+        {
+            Propietario p = null;
+            using (SqlConnection connection = new(connectionString))
+            {
+                string sql = $"SELECT IdPropietario, Nombre, Apellido, Dni, Telefono, Email, Usuario, Contraseña FROM Propietario" +
+                    $" WHERE Email=@email";
+                using (SqlCommand command = new(sql, connection))
+                {
+                    command.CommandType = CommandType.Text;
+                    command.Parameters.Add("@email", SqlDbType.VarChar).Value = email;
+                    connection.Open();
+                    var reader = command.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        p = new Propietario
+                        {
+                            IdPropietario = reader.GetInt32(0),
+                            Nombre = reader.GetString(1),
+                            Apellido = reader.GetString(2),
+                            Dni = reader.GetString(3),
+                            Telefono = reader.GetString(4),
+                            Email = reader.GetString(5),
+                            Usuario = reader.GetString(6),
+                            Contraseña = reader.GetString(7),
+                        };
+                    }
+                    connection.Close();
+                }
+            }
+            return p;
+        }
+        public IList<Propietario> BuscarPorNombre(string nombre)
+        {
+            IList<Propietario> res = new List<Propietario>();
+            Propietario p = null;
+            nombre = "%" + nombre + "%";
+            using (SqlConnection connection = new(connectionString))
+            {
+                string sql = $"SELECT IdPropietario, Nombre, Apellido, Dni, Telefono, Email, Usuario, Contraseña FROM Propietario" +
+                    $" WHERE Nombre LIKE @nombre OR Apellido LIKE @nombre";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    command.Parameters.Add("@nombre", SqlDbType.VarChar).Value = nombre;
+                    command.CommandType = CommandType.Text;
+                    connection.Open();
+                    var reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        p = new Propietario
+                        {
+                            IdPropietario = reader.GetInt32(0),
+                            Nombre = reader.GetString(1),
+                            Apellido = reader.GetString(2),
+                            Dni = reader.GetString(3),
+                            Telefono = reader.GetString(4),
+                            Email = reader.GetString(5),
+                            Usuario = reader.GetString(6),
+                            Contraseña = reader.GetString(7),
+                        };
+                        res.Add(p);
+                    }
+                    connection.Close();
+                }
+            }
+            return res;
         }
     }
 }

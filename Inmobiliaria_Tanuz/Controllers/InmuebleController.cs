@@ -1,4 +1,5 @@
 ﻿using Inmobiliaria_Tanuz.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -23,73 +24,86 @@ namespace Inmobiliaria_Tanuz.Controllers
         }
 
         // GET: InmuebleController
+        
         public ActionResult Index()
         {
+            var lista = repositorio.Obtener();
+            return View(lista);
+        }
+
+        // GET: Inmuebles/Details/6
+   
+        public ActionResult Disponibles(int id)
+        {
+            var lista = repositorio.ObtenerDisponibles();
+            return View(lista);
+        }
+
+        // GET: InmuebleController/Details/5
+
+        public ActionResult Details(int id)
+        {
+       
             try
             {
-                var lista = repositorio.Obtener();
-                if (TempData.ContainsKey("Id"))
-                    ViewBag.Id = TempData["Id"];
-                if (TempData.ContainsKey("Mensaje"))
-                    ViewBag.Mensaje = TempData["Mensaje"];
-                return View(lista);
+                var entidad = repositorio.ObtenerPorId(id);
+                ViewBag.Estado = Inmueble.ObtenerEstado();
+                return View(entidad);
             }
             catch (Exception ex)
             {
-
                 ViewBag.Error = ex.Message;
                 ViewBag.StackTrate = ex.StackTrace;
                 return View();
             }
-        
-        }
-
-        // GET: InmuebleController/Details/5
-        public ActionResult Details(int id)
-        {
-            var entidad = repositorio.ObtenerPorId(id);
-            return View(entidad);
             
         }
 
         // GET: InmuebleController/Create
+        
         public ActionResult Create()
         {
             ViewBag.Propietario = repoPropietario.Obtener();
             return View();
-            
+           
         }
 
         // POST: InmuebleController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Inmueble entidad)
+       
+        public ActionResult Create(Inmueble i)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    repositorio.Alta(entidad);
-                    TempData["Id"] = entidad.IdInmueble;
+                    int res = repositorio.Alta(i);
+                    TempData["Id"] = i.IdInmueble;
+                    repositorio.EstadoDisponible(i);
+                    TempData["Mensaje"] = "Se ha creado un nuevo inmueble";
                     return RedirectToAction(nameof(Index));
+                   
                 }
                 else
                 {
                     ViewBag.Propietario = repoPropietario.Obtener();
-                    return View(entidad);
+                    return View(i);
                 }
             }
             catch (Exception ex)
             {
                 ViewBag.Error = ex.Message;
                 ViewBag.StackTrate = ex.StackTrace;
-                return View(entidad);
+                return View(i);
             }
         }
 
         // GET: InmuebleController/Edit/5
+      
         public ActionResult Edit(int id)
         {
+          
             var entidad = repositorio.ObtenerPorId(id);
             ViewBag.Propietario = repoPropietario.Obtener();
             if (TempData.ContainsKey("Mensaje"))
@@ -99,21 +113,24 @@ namespace Inmobiliaria_Tanuz.Controllers
             return View(entidad);
         }
 
+
         // POST: InmuebleController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+      
         public ActionResult Edit(int id, Inmueble entidad)
-        {
+        { 
             try
-            {
+            {   
                 entidad.IdInmueble = id;
                 repositorio.Modificar(entidad);
+                ViewBag.Inmueble = Inmueble.ObtenerEstado();
                 TempData["Mensaje"] = "Datos guardados correctamente";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
-                ViewBag.Propietarios = repoPropietario.Obtener();
+                ViewBag.Propietario = repoPropietario.Obtener();
                 ViewBag.Error = ex.Message;
                 ViewBag.StackTrate = ex.StackTrace;
                 return View(entidad);
@@ -121,33 +138,62 @@ namespace Inmobiliaria_Tanuz.Controllers
         }
 
         // GET: InmuebleController/Delete/5
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id)
         {
-            var entidad = repositorio.ObtenerPorId(id);
+            Inmueble i = repositorio.ObtenerPorId(id);
             if (TempData.ContainsKey("Mensaje"))
                 ViewBag.Mensaje = TempData["Mensaje"];
             if (TempData.ContainsKey("Error"))
                 ViewBag.Error = TempData["Error"];
-            return View(entidad);
+            return View(i);
+           
         }
 
         // POST: InmuebleController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id, Inmueble entidad)
         {
             try
             {
                 repositorio.Baja(id);
-                TempData["Mensaje"] = "Eliminación realizada correctamente";
+                TempData["Id"] = "eliminó el inmueble";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
-                ViewBag.Error = ex.Message;
-                ViewBag.StackTrate = ex.StackTrace;
+                if (ex.Message.StartsWith("The DELETE statement conflicted with the REFERENCE"))
+                {
+                    var i = repositorio.ObtenerPorId(id);
+                    ViewBag.Error = "No se puede eliminar el inmueble, ya que tiene contratos a su nombre";
+                }
+                else
+                {
+                    ViewBag.Error = ex.Message;
+                    ViewBag.StackTrate = ex.StackTrace;
+                }
                 return View(entidad);
             }
+            /*  try
+              {
+                  repositorio.Baja(id);
+                  TempData["Mensaje"] = "Eliminación realizada correctamente";
+                  return RedirectToAction(nameof(Index));
+              }
+              catch (Exception ex)
+              {
+                  ViewBag.Error = ex.Message;
+                  ViewBag.StackTrate = ex.StackTrace;
+                  return View(entidad);
+              }*/
+        }
+        
+        public ActionResult PorPropietario(int id)
+        {
+            var lista = repositorio.BuscarPropietario(id);
+            return View(lista);
         }
     }
 }

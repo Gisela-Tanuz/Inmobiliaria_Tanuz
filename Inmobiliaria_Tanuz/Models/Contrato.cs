@@ -9,16 +9,17 @@ namespace Inmobiliaria_Tanuz.Models
 {
     public class Contrato
     {
+        [Key]
         [Display(Name="Codigo")]
         public int IdContrato { get; set;}
         [Display(Name = "Inquilino")]
         public int InquilinoId { get; set; }
-        [ForeignKey("IdInquilino")]
+        [ForeignKey(nameof(InquilinoId))]
         public Inquilino Inquilino { get; set; }
-        [Display(Name = "Dueño")]
+        [Display(Name = "Dueño del Inmueble")]
         public int InmuebleId { get; set; }
-        [ForeignKey("IdInmueble")]
-        public Inmueble Duenio { get; set; }
+        [ForeignKey(nameof(InmuebleId))]
+        public Inmueble Inmueble { get; set; }
         [Display(Name = "Fecha de Inicio")]
         [DataType(DataType.Date)]
         public DateTime FechaInicio { get; set; }

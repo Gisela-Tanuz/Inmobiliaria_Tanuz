@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Inmobiliaria_Tanuz.Models
 {
     public class Propietario
-    {
+    {   [Key]
         [Display(Name = "Codigo")]
         public int IdPropietario { get; set; }
         public string Nombre { get; set; }

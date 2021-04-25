@@ -1,4 +1,5 @@
 ﻿using Inmobiliaria_Tanuz.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -12,16 +13,19 @@ namespace Inmobiliaria_Tanuz.Controllers
     public class ContratoController : Controller { 
        private readonly RepositorioContrato repositorio;
        private readonly RepositorioInquilino repoInquilino;
+        private readonly RepositorioInmueble repoInmueble;
        private readonly IConfiguration config;
 
         public ContratoController(IConfiguration config)
         {
             this.repositorio = new RepositorioContrato(config);
             this.repoInquilino = new RepositorioInquilino(config);
+            this.repoInmueble = new RepositorioInmueble(config);
             this.config = config;
         }
 
         // GET: ContratoController
+     
         public ActionResult Index()
         {
             var lista = repositorio.Obtener();
@@ -33,6 +37,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         }
 
         // GET: ContratoController/Details/5
+        
         public ActionResult Details(int id)
         {
             var contrato = repositorio.ObtenerPorId(id);
@@ -41,43 +46,47 @@ namespace Inmobiliaria_Tanuz.Controllers
         }
 
         // GET: ContratoController/Create
+  
         public ActionResult Create()
         {
+            ViewBag.Inquilino = repoInquilino.Obtener();
+            ViewBag.Inmueble = repoInmueble.Obtener();
             return View();
         }
+        
 
         // POST: ContratoController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Contrato contrato)
+       
+        public ActionResult Create(Contrato c)
         {
             try
             {
-                if (ModelState.IsValid)
-                {
-                    repositorio.Alta(contrato);
-                    TempData["Id"] = contrato.IdContrato;
-                    return RedirectToAction(nameof(Index));
-                }
-                else
-                {
-                    ViewBag.Inquilino = repoInquilino.Obtener();
-                    return View(contrato);
-                }
+                
+                int res= repositorio.Alta(c);
+                Inquilino i = repoInquilino.ObtenerPorId(c.InquilinoId);
+                TempData["Id"] = c.IdContrato;
+                return RedirectToAction(nameof(Index));
+
             }
             catch (Exception ex)
             {
+               
+                ViewBag.Inquilino = repoInquilino.Obtener();
                 ViewBag.Error = ex.Message;
                 ViewBag.StackTrate = ex.StackTrace;
-                return View(contrato);
+                return View(c);
             }
         }
 
-            // GET: ContratoController/Edit/5
-            public ActionResult Edit(int id)
+        // GET: ContratoController/Edit/5
+        
+        public ActionResult Edit(int id)
         {
             var con = repositorio.ObtenerPorId(id);
             ViewBag.Inquilino = repoInquilino.Obtener();
+            ViewBag.Inmueble = repoInmueble.Obtener();
             if (TempData.ContainsKey("Mensaje"))
                 ViewBag.Mensaje = TempData["Mensaje"];
             if (TempData.ContainsKey("Error"))
@@ -89,18 +98,20 @@ namespace Inmobiliaria_Tanuz.Controllers
         // POST: ContratoController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        
         public ActionResult Edit(int id, Contrato contrato)
         {
             try
             {
                 contrato.IdContrato = id;
                 repositorio.Modificar(contrato);
-                TempData["Mensaje"] = "Datos guardados correctamente";
+                TempData["Mensaje"] = "Los datos han sido actualizados correctamente";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
                 ViewBag.Inquilino = repoInquilino.Obtener();
+                ViewBag.Inmueble = repoInmueble.Obtener();
                 ViewBag.Error = ex.Message;
                 ViewBag.StackTrate = ex.StackTrace;
                 return View(contrato);
@@ -108,6 +119,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         }
 
         // GET: ContratoController/Delete/5
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id)
         {
             var con = repositorio.ObtenerPorId(id);
@@ -122,6 +134,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         // POST: ContratoController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id, Contrato contrato)
         {
             try

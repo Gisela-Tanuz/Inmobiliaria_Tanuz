@@ -8,6 +8,7 @@ namespace Inmobiliaria_Tanuz.Models
 {
     public class Inquilino
     {
+        [Key]
         [Display(Name = "Codigo")]
         public int IdInquilino { get; set; }
         public string Nombre { get; set; }
@@ -15,9 +16,13 @@ namespace Inmobiliaria_Tanuz.Models
         public string Dni { get; set; }
         public string Telefono { get; set; }
         public string Email { get; set; }
+        [Display(Name = "Nombre del Garante")]
         public string NombreGarante { get; set; }
+        [Display(Name = "Direccion del Garante")]
         public string DireccionGarante { get; set; }
+        [Display(Name = "Telefono del Garante")]
         public string TelGarante { get; set; }
+        [Display(Name = "Lugar de trabajo")]
         public string LugarDeTrabajo { get; set; }
 
     }

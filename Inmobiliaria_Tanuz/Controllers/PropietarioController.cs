@@ -1,4 +1,7 @@
-﻿using Inmobiliaria_Tanuz.Models;
+﻿
+using Inmobiliaria_Tanuz.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +22,7 @@ namespace Inmobiliaria_Tanuz.Controllers
             this.config = config;
         }
         // GET: PropietarioController
+  
         public ActionResult Index()
         
             {
@@ -26,9 +30,10 @@ namespace Inmobiliaria_Tanuz.Controllers
                 return View(lta);
 
             }
-        
+
 
         // GET: PropietarioController/Details/5
+       
         public ActionResult Details(int id)
         {
             Propietario propietario = repositorio.ObtenerPorId(id);
@@ -37,6 +42,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         }
 
         // GET: PropietarioController/Create
+      
         public ActionResult Create()
         {
             return View();
@@ -45,21 +51,35 @@ namespace Inmobiliaria_Tanuz.Controllers
         // POST: PropietarioController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Propietario propietario)
+         public ActionResult Create(Propietario propietario)
         {
-            /*  try
-              {
-                  return RedirectToAction(nameof(Index));
-              }
-              catch
-              {
-                  return View();
-              }*/
-            repositorio.Alta(propietario);
-            return RedirectToAction(nameof(Index));
-        }
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    propietario.Contraseña = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                        password: propietario.Contraseña,
+                        salt: System.Text.Encoding.ASCII.GetBytes(config["Salt"]),
+                        prf: KeyDerivationPrf.HMACSHA1,
+                        iterationCount: 1000,
+                        numBytesRequested: 256 / 8));
+                    repositorio.Alta(propietario);
+                    TempData["Id"] = propietario.IdPropietario;
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                    return View(propietario);
+
+            } catch (Exception ex)
+            {
+                ViewBag.Error = ex.Message;
+                ViewBag.StackTrace = ex.StackTrace;
+                return View(propietario);
+             }
+         }
 
         // GET: PropietarioController/Edit/5
+       
         public ActionResult Edit(int id)
         {
             var p = repositorio.ObtenerPorId(id);
@@ -70,6 +90,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         // POST: PropietarioController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        
         public ActionResult Edit(int id, Propietario propietario)
         {
             try
@@ -85,6 +106,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         }
 
         // GET: PropietarioController/Delete/5
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id)
         {
             var p = repositorio.ObtenerPorId(id);
@@ -95,6 +117,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         // POST: PropietarioController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id, Propietario propietario)
         {
             try

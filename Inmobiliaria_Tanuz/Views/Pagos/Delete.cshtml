@@ -1,0 +1,50 @@
+﻿@model Inmobiliaria_Tanuz.Models.Pagos
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Eliminar Pagos</h1>
+
+<h3>Esta seguro de elimiar este pago?</h3>
+<div>
+    <h4>Pagos</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IdPago)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IdPago)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ContratoId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ContratoId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NroDePago)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NroDePago)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Fecha)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Fecha)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Importe)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Importe)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+        <a  asp-controller="Contrato"  asp-action="Index">Volver a la lista</a>
+    </form>
+</div>
