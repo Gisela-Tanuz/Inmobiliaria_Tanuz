@@ -45,8 +45,7 @@ namespace Inmobiliaria_Tanuz
                 options.AddPolicy("Administrador", policy => policy.RequireClaim(ClaimTypes.Role, "Administrador"));
                 options.AddPolicy("Empleado", policy => policy.RequireClaim(ClaimTypes.Role, "Empleado"));
 
-                //options.AddPolicy("Permitidos", policy => policy.RequireRole(ClaimTypes.Role,"SuperoAdministrador", "Administrador", "Empleado"));
-                //options.AddPolicy("Autorizados", policy => policy.RequireRole(ClaimTypes.Role, "SuperAdministrador"));
+                
             });
             services.AddMvc();
             services.AddSignalR();//añade signalR

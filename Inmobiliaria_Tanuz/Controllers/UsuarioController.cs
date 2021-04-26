@@ -31,7 +31,7 @@ namespace Inmobiliaria_Tanuz.Controllers
             this.config = config;
         }
         // GET: UsuarioController
-        [Authorize(Policy = "Administrador")]
+        [Authorize(Policy = "SuperAdministrador")]
         public ActionResult Index()
         {
             var usuarios = repositorio.Obtener();
@@ -40,7 +40,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         }
 
         // GET: UsuarioController/Details/5
-        [Authorize(Policy = "Administrador")]
+        [Authorize(Policy = "SuperAdministrador")]
         public ActionResult Details(int id)
         {
             var e = repositorio.ObtenerPorId(id);
@@ -49,7 +49,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         }
 
         // GET: UsuarioController/Create
-        [Authorize(Policy = "Administrador")]
+        [Authorize(Policy = "SuperAdministrador")]
         public ActionResult Create()
         {
             ViewBag.Roles = Usuario.ObtenerRoles();
@@ -60,7 +60,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         // POST: UsuarioController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Policy = "Administrador")]
+        [Authorize(Policy = "SuperAdministrador")]
         public ActionResult Create(Usuario u)
         {
             if (!ModelState.IsValid)
@@ -109,10 +109,10 @@ namespace Inmobiliaria_Tanuz.Controllers
     
 
         // GET: UsuarioController/Edit/5
-        [Authorize(Policy = "Administrador")]
+        [Authorize(Policy = "SuperAdministrador")]
         public ActionResult Edit(int id)
         {
-            ViewData["Title"] = "Editar usuario";
+            ViewData["Title"] = "Edit";
             var u = repositorio.ObtenerPorId(id);
             ViewBag.Roles = Usuario.ObtenerRoles();
             return View(u);
@@ -121,7 +121,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         // POST: UsuarioController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Policy = "Administrador")]
+        [Authorize(Policy = "SuperAdministrador")]
         public ActionResult Edit(int id, Usuario u)
         {
             var vista = "Edit";
@@ -162,7 +162,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         }
      
         // GET: UsuarioController/Delete/5
-        [Authorize(Policy = "Administrador")]
+        [Authorize(Policy = "SuperAdministrador")]
         public ActionResult Delete(int id)
         {
             var i = repositorio.ObtenerPorId(id);
@@ -173,7 +173,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         // POST: UsuarioController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Policy = "Administrador")]
+        [Authorize(Policy = "SuperAdministrador")]
         public ActionResult Delete(int id, Usuario u)
         {
             try

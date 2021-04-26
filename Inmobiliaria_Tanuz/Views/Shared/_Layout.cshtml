@@ -9,9 +9,9 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-warning border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Inmobiliaria Tanuz</a>
+                <a class="navbar-brand" style="font-family: 'Tahoma'" asp-area="" asp-controller="Home" asp-action="Index">Inmobiliaria Tanuz</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -19,42 +19,42 @@
                  <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                      <ul class="navbar-nav flex-grow-1">
                          <li class="nav-item">
-                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                             <a class="nav-link text-dark" style="font-family: 'Tahoma'" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                          </li>
                          <li class="nav-item">
-                             <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="Login">Ingresar</a>
+                             <a class="nav-link text-dark" style="font-family: 'Tahoma'" asp-area="" asp-controller="Usuario" asp-action="Login">Ingresar</a>
                          </li>
                          @if (User.IsInRole("SuperAdministrador"))
                          {
                              <li class="nav-item">
-                                 <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="Index">Usuario</a>
+                                 <a class="nav-link text-dark"style="font-family: 'Tahoma'" asp-area="" asp-controller="Usuario" asp-action="Index">Usuario</a>
                              </li>
 }
                          @if (User.IsInRole("Administrador") || User.IsInRole("Empleado"))
                          {
                              <li class="nav-item">
-                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                                 <a class="nav-link text-dark" style="font-family: 'Tahoma'" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                              </li>
 
                              <li class="nav-item">
-                                 <a class="nav-link text-dark" asp-area="" asp-controller="Propietario" asp-action="Index">Propietarios</a>
+                                 <a class="nav-link text-dark" style="font-family: 'Tahoma'" asp-area="" asp-controller="Propietario" asp-action="Index">Propietarios</a>
                              </li>
                              <li class="nav-item">
-                                 <a class="nav-link text-dark" asp-area="" asp-controller="Inquilino" asp-action="Index">Inquilinos</a>
+                                 <a class="nav-link text-dark" style="font-family: 'Tahoma'" asp-area="" asp-controller="Inquilino" asp-action="Index">Inquilinos</a>
                              </li>
                              <li class="nav-item">
-                                 <a class="nav-link text-dark" asp-area="" asp-controller="Inmueble" asp-action="Index">Inmueble</a>
+                                 <a class="nav-link text-dark" style="font-family: 'Tahoma'" asp-area="" asp-controller="Inmueble" asp-action="Index">Inmueble</a>
                              </li>
                              <li class="nav-item">
-                                 <a class="nav-link text-dark" asp-area="" asp-controller="Contrato" asp-action="Index">Contratos</a>
+                                 <a class="nav-link text-dark" style="font-family: 'Tahoma'" asp-area="" asp-controller="Contrato" asp-action="Index">Contratos</a>
                              </li>
                              <li class="nav-item">
-                                 <a class="nav-link text-dark" asp-area="" asp-controller="Pagos" asp-action="Index">Pagos</a>
+                                 <a class="nav-link text-dark" style="font-family: 'Tahoma'" asp-area="" asp-controller="Pagos" asp-action="Index">Pagos</a>
                              </li>}
                              @if (User.IsInRole("SuperAdministrador") || User.IsInRole("Administrador") || User.IsInRole("Empleado"))
                              {
                                  <li class="nav-item">
-                                     <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="Logout">Salir</a>
+                                     <a class="nav-link text-decoration-none" style="font-family:'Tahoma'" asp-area="" asp-controller="Usuario" asp-action="Logout">Salir</a>
                                  </li>
                              }
 

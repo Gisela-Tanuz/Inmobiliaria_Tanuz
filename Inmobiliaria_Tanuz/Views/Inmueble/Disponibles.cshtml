@@ -8,10 +8,10 @@
 @if (User.IsInRole("Administrador") || User.IsInRole("Empleado"))
 {
     
-        <h1>Inmuebles Disponibles</h1>
+        <h1 style="font-family:'Tahoma'">Inmuebles Disponibles</h1>
 
         <p>
-            <a asp-action="Create">Crear Nuevo</a>
+            <a class="btn btn-outline-secondary" style="font-family:'Tahoma'" asp-action ="Create">Crear Nuevo</a>
         </p>
     }
 
@@ -100,5 +100,5 @@
     </tbody>
 </table>
 <div>
-    <a asp-action="Index">Volver a la lista</a>
+    <a class="btn btn-outline-secondary" style="font-family:Tahoma" asp-action="Index">Volver a la lista</a>
 </div>

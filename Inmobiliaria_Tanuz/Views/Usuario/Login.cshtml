@@ -4,17 +4,17 @@
     ViewData["Title"] = "Login";
 }
 
-<h1>Ingresar</h1>
 
-<h4>Login</h4>
+<h1 class="text-lg-left bg-warning font-weight-bold text-white" style="font-family:'Tahoma'">Ingresar</h1>
+
 <hr />
-<div class="row">
+<div class="row text-lg-center">
     <div class="col-md-4">
-        <form asp-action="Login">
+        <form asp-action="Login" class="text-lg-center">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
+                <label asp-for="Email"  class="control-label"></label>
+                <input asp-for="Email" class="form-control"/>
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
