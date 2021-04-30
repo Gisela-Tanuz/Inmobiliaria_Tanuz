@@ -19,7 +19,7 @@
 <table class="table">
     <thead>
         <tr>
-            @if (User.IsInRole("Permitidos"))
+            @if (User.IsInRole("Administrador"))
             {
                 <th>
                     @Html.DisplayNameFor(model => model.IdInmueble)
@@ -53,7 +53,7 @@
         @foreach (var item in Model)
         {
         <tr>
-            @if (User.IsInRole("Permitidos"))
+            @if (User.IsInRole("Administrador"))
             {
                 <td>
                     @Html.DisplayFor(modelItem => item.IdInmueble)
@@ -83,15 +83,12 @@
 
             </td>
             <td>
-                <!--   if (User.IsInRole("Permitidos")){ -->
+              
 
-                @Html.ActionLink("Editar", "Edit", new { id = item.IdInmueble }) ||
-                <!--Html.ActionLink("Crear contrato", "../Contrato/Create", new { id = item.IdInmueble })-->
-                <!-- }
-     if (User.IsInRole("Administrador"))
-     {-->
+                @Html.ActionLink("Actualizar", "Edit", new { id = item.IdInmueble }) ||
+                
                 @Html.ActionLink("Eliminar", "Delete", new { id = item.IdInmueble }) ||
-                <!-- }-->
+                
                 <a asp-route-id="@item.IdInmueble " asp-controller="Contrato" asp-action="">Crear Contrato</a>
             </td>
             

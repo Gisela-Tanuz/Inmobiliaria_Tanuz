@@ -60,7 +60,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         }
 
         // GET: InmuebleController/Create
-        
+        [Authorize(Policy = "Administrador")]
         public ActionResult Create()
         {
             ViewBag.Propietario = repoPropietario.Obtener();
@@ -71,7 +71,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         // POST: InmuebleController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-       
+        [Authorize(Policy = "Administrador")]
         public ActionResult Create(Inmueble i)
         {
             try
@@ -100,7 +100,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         }
 
         // GET: InmuebleController/Edit/5
-      
+        [Authorize(Policy = "Administrador")]
         public ActionResult Edit(int id)
         {
           
@@ -117,7 +117,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         // POST: InmuebleController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-      
+        [Authorize(Policy = "Administrador")]
         public ActionResult Edit(int id, Inmueble entidad)
         { 
             try
@@ -176,24 +176,8 @@ namespace Inmobiliaria_Tanuz.Controllers
                 }
                 return View(entidad);
             }
-            /*  try
-              {
-                  repositorio.Baja(id);
-                  TempData["Mensaje"] = "Eliminación realizada correctamente";
-                  return RedirectToAction(nameof(Index));
-              }
-              catch (Exception ex)
-              {
-                  ViewBag.Error = ex.Message;
-                  ViewBag.StackTrate = ex.StackTrace;
-                  return View(entidad);
-              }*/
         }
         
-        public ActionResult PorPropietario(int id)
-        {
-            var lista = repositorio.BuscarPropietario(id);
-            return View(lista);
-        }
+       
     }
 }

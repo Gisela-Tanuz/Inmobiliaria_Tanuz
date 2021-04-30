@@ -187,19 +187,19 @@ namespace Inmobiliaria_Tanuz.Controllers
                 return View();
             }
         }
-        [AllowAnonymous]
+      //  [AllowAnonymous]
         // GET: Usuarios/Login/
-        public ActionResult Login()
+        /*public ActionResult Login()
         {
             return PartialView("Login", new Login());
-        }
-        //[AllowAnonymous]
+        }*/
+        [AllowAnonymous]
         // GET: Usuarios/Login/
-       // public ActionResult Login(string returnUrl)
-        //{
-          //  TempData["returnUrl"] = returnUrl;
-           // return View();
-        //}
+       public ActionResult Login(string returnUrl)
+        {
+           TempData["returnUrl"] = returnUrl;
+           return View();
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]

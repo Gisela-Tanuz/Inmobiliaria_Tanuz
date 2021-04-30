@@ -4,8 +4,9 @@
     ViewData["Title"] = "Index";
 }
 
-<h1 style="font-family:'Tahoma'">Lista de  Inmuebles</h1>
-<a class="btn btn-outline-secondary" style="font-family:Tahoma" asp-action="Disponibles">Ver inmuebles disponibles</a><br />
+<h1 style="font-family:'Tahoma'">Lista de  Inmuebles.</h1>
+<a class="btn btn-outline-secondary" style="font-family:Tahoma" asp-action="Disponibles">Ver inmuebles disponibles</a>
+<br />
 
 <a class="btn btn-outline-secondary" style="font-family:Tahoma" asp-action="Create">Crear nuevo</a>
 
@@ -43,41 +44,41 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdInmueble)
-            </td>
-            <td>
-                @(item.Duenio.Nombre+" "+ item.Duenio.Apellido)
-            </td>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdInmueble)
+                </td>
+                <td>
+                    @(item.Duenio.Nombre+" "+ item.Duenio.Apellido)
+                </td>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.Direccion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Uso)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tipo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ambientes)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Precio)
-            </td>
-            <td>
-                <!--   Html.DisplayFor(modelItem => item.Estado)-->
-                @(item.Estado == 1 ? "Disponible" : "No Disponible")
-            </td>
-            <td>
-                @Html.ActionLink("Actualizar", "Edit", new { id = item.IdInmueble }) ||
-                @Html.ActionLink("Detalles", "Details", new { id = item.IdInmueble }) ||
-                @Html.ActionLink("Eliminar", "Delete", new { id = item.IdInmueble }) ||
-                <a asp-route-id="@item.IdInmueble " asp-action="PorPropietario">Ver propiedades</a>
-            </td>
-            
-        </tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Direccion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Uso)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tipo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ambientes)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Precio)
+                </td>
+                <td>
+                    <!--   Html.DisplayFor(modelItem => item.Estado)-->
+                    @(item.Estado == 1 ? "Disponible" : "No Disponible")
+                </td>
+                <td>
+                    @Html.ActionLink("Actualizar", "Edit", new { id = item.IdInmueble }) ||
+                    @Html.ActionLink("Detalles", "Details", new { id = item.IdInmueble }) ||
+                    @Html.ActionLink("Eliminar", "Delete", new { id = item.IdInmueble }) ||
+                    <a asp-route-id="@item.IdInmueble " asp-action="PorPropietario">Ver propiedades</a>
+                </td>
+
+            </tr>
         }
     </tbody>
 </table>

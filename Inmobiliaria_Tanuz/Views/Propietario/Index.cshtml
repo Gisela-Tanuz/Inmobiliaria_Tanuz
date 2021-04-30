@@ -2,12 +2,13 @@
 
 @{
     ViewData["Title"] = "Index";
+    Inmueble i = ViewBag.Inmueble as Inmueble;
 }
 
 <h1 style="font-family:Tahoma">Lista de propietarios.</h1>
 
 <p>
-    <a class="btn btn-outline-secondary" style="font-family:Tahoma" asp-action="Create" >Crear un nuevo propietario</a>
+    <a class="btn btn-outline-secondary" style="font-family:Tahoma" asp-action="Create">Crear un nuevo propietario</a>
 </p>
 <table class="table">
     <thead>
@@ -33,41 +34,43 @@
             <th>
                 @Html.DisplayNameFor(model => model.Usuario)
             </th>
-            
+
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdPropietario)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Apellido)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Dni)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Telefono)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Usuario)
-            </td>
-            
-            <td>
-                @Html.ActionLink("Actualizar", "Edit", new { id= item.IdPropietario }) ||
-                @Html.ActionLink("Detalles", "Details", new { id = item.IdPropietario }) ||
-                @Html.ActionLink("Eliminar", "Delete", new { id = item.IdPropietario })
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdPropietario)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Apellido)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Dni)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Telefono)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Usuario)
+                </td>
+
+                <td>
+                    @Html.ActionLink("Actualizar", "Edit", new { id = item.IdPropietario }) ||
+                    @Html.ActionLink("Detalles", "Details", new { id = item.IdPropietario }) ||
+                    @Html.ActionLink("Eliminar", "Delete", new { id = item.IdPropietario }) ||
+                    <a asp-route-id="@item.IdPropietario " asp-action="PorPropietario">Ver propiedades</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

@@ -25,7 +25,7 @@ namespace Inmobiliaria_Tanuz.Controllers
             this.config = config;
         }
         // GET: PagosController
-        
+      
         public ActionResult Index()
         {
 
@@ -34,43 +34,43 @@ namespace Inmobiliaria_Tanuz.Controllers
         }
 
         // GET: PagosController/Details/5
-      
+
         public ActionResult Details(int id)
         {
             var pago = repositorio.ObtenerPorId(id);
             return View(pago);
-           
+
         }
 
         // GET: PagosController/Create
-      
+        [Authorize(Policy = "Administrador")]
         public ActionResult Create(int id)
         {
+            
+                ViewBag.Contrato = repoContrato.ObtenerPorInmuebles(id);
+                Contrato c = repoContrato.ObtenerPorInmuebles(id);
+                IList<Pagos> pagos = repositorio.ObtenerPagoxContrato(c.IdContrato);
+                if (pagos.Count == 0)
+                {
+                    ViewBag.NroDePago = 1;
+                }
+                else
+                {
+                    int nrop = pagos.Count;
+                    ViewBag.NroDePago = nrop + 1;
+                }
 
-            ViewBag.Contrato = repoContrato.ObtenerPorInmuebles(id);
-            Contrato c = repoContrato.ObtenerPorInmuebles(id);
-            IList<Pagos> pagos = repositorio.ObtenerPagoxContrato(c.IdContrato);
-            if (pagos.Count == 0)
-            {
-                ViewBag.NroDePago = 1;
-            }
-            else
-            {
-                int nrop = pagos.Count;
-                ViewBag.NroDePago = nrop + 1;
-            }
-          
-            return View();
+                return View();
 
         }
-
+        
         // POST: PagosController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-       
+        [Authorize(Policy = "Administrador")]
         public ActionResult Create(Pagos p)
         {
-       
+
             try
             {
                 int res = repositorio.Alta(p);
@@ -85,7 +85,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         }
 
         // GET: PagosController/Edit/5
-     
+        [Authorize(Policy = "Administrador")]
         public ActionResult Edit(int id)
         {
             var p = repositorio.ObtenerPorId(id);
@@ -97,13 +97,14 @@ namespace Inmobiliaria_Tanuz.Controllers
         // POST: PagosController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        
+        [Authorize(Policy = "Administrador")]
         public ActionResult Edit(int id, Pagos pagos)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
+                    pagos.IdPago = id;
                     int res = repositorio.Modificar(pagos);
                     return RedirectToAction(nameof(Index));
                 }

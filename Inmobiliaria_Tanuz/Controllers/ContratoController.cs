@@ -46,7 +46,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         }
 
         // GET: ContratoController/Create
-  
+        [Authorize(Policy = "Administrador")]
         public ActionResult Create()
         {
             ViewBag.Inquilino = repoInquilino.Obtener();
@@ -58,7 +58,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         // POST: ContratoController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-       
+        [Authorize(Policy = "Administrador")]
         public ActionResult Create(Contrato c)
         {
             try
@@ -81,7 +81,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         }
 
         // GET: ContratoController/Edit/5
-        
+        [Authorize(Policy = "Administrador")]
         public ActionResult Edit(int id)
         {
             var con = repositorio.ObtenerPorId(id);
@@ -98,7 +98,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         // POST: ContratoController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        
+        [Authorize(Policy = "Administrador")]
         public ActionResult Edit(int id, Contrato contrato)
         {
             try
@@ -150,5 +150,7 @@ namespace Inmobiliaria_Tanuz.Controllers
                 return View(contrato);
             }
         }
+     
+         
     }
 }

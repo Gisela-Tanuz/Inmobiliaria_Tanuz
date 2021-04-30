@@ -37,7 +37,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         }
 
         // GET: InquilinoController/Create
-      
+        [Authorize(Policy = "Administrador")]
         public ActionResult Create()
         {
             return View();
@@ -46,7 +46,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         // POST: InquilinoController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        
+        [Authorize(Policy = "Administrador")]
         public ActionResult Create(Inquilino inquilino)
         {
           
@@ -55,7 +55,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         }
 
         // GET: InquilinoController/Edit/5
-     
+        [Authorize(Policy = "Administrador")]
         public ActionResult Edit(int id)
         {
             var i = repositorio.ObtenerPorId(id);
@@ -66,7 +66,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         // POST: InquilinoController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-   
+        [Authorize(Policy = "Administrador")]
         public ActionResult Edit(int id, Inquilino inquilino)
         {
             try

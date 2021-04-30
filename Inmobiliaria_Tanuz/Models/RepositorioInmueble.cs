@@ -34,7 +34,7 @@ namespace Inmobiliaria_Tanuz.Models
 					command.Parameters.AddWithValue("@estado", i.Estado);
 					connection.Open();
 					res = Convert.ToInt32(command.ExecuteScalar());
-                    i.IdInmueble = res;
+					i.IdInmueble = res;
 					connection.Close();
 				}
 			}
@@ -46,7 +46,7 @@ namespace Inmobiliaria_Tanuz.Models
 			using (SqlConnection connection = new(connectionString))
 			{
 				string sql = $"DELETE FROM Inmueble WHERE IdInmueble = {id}";
-				using (SqlCommand command = new (sql, connection))
+				using (SqlCommand command = new(sql, connection))
 				{
 					command.CommandType = CommandType.Text;
 					connection.Open();
@@ -84,7 +84,7 @@ namespace Inmobiliaria_Tanuz.Models
 		}
 		public IList<Inmueble> Obtener()
 		{
-            List<Inmueble> res = new List<Inmueble>();
+			List<Inmueble> res = new List<Inmueble>();
 			using (SqlConnection connection = new(connectionString))
 			{
 				string sql = $"SELECT IdInmueble,PropietarioId, Direccion, Uso, Tipo, Ambientes,Precio, Estado, p.Nombre, p.Apellido" +
@@ -94,18 +94,18 @@ namespace Inmobiliaria_Tanuz.Models
 					command.CommandType = CommandType.Text;
 					connection.Open();
 					var reader = command.ExecuteReader();
-                    while (reader.Read())
+					while (reader.Read())
 					{
-                        Inmueble entidad = new Inmueble
+						Inmueble entidad = new Inmueble
 						{
 							IdInmueble = reader.GetInt32(0),
-                            PropietarioId = reader.GetInt32(1),
+							PropietarioId = reader.GetInt32(1),
 							Direccion = reader.GetString(2),
 							Uso = reader.GetString(3),
 							Tipo = reader.GetString(4),
 							Ambientes = reader.GetInt32(5),
 							Precio = reader.GetDecimal(6),
-                            Estado = reader.GetInt32(7),
+							Estado = reader.GetInt32(7),
 
 							Duenio = new Propietario
 							{
@@ -160,7 +160,7 @@ namespace Inmobiliaria_Tanuz.Models
 			}
 			return inmueble;
 		}
-		public int EstadoDisponible (Inmueble inmueble)
+		public int EstadoDisponible(Inmueble inmueble)
 		{
 			int i = -1;
 			using (SqlConnection connection = new(connectionString))
@@ -169,7 +169,7 @@ namespace Inmobiliaria_Tanuz.Models
 					$"WHERE IdInmueble = @id";
 				using (SqlCommand command = new(sql, connection))
 				{
-				    command.Parameters.AddWithValue("@id", inmueble.IdInmueble);
+					command.Parameters.AddWithValue("@id", inmueble.IdInmueble);
 					command.CommandType = CommandType.Text;
 					connection.Open();
 					i = command.ExecuteNonQuery();
@@ -187,7 +187,7 @@ namespace Inmobiliaria_Tanuz.Models
 					$"WHERE IdInm = @id";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
-					
+
 					command.Parameters.AddWithValue("@id", inmueble.IdInmueble);
 					command.CommandType = CommandType.Text;
 					connection.Open();
@@ -217,7 +217,7 @@ namespace Inmobiliaria_Tanuz.Models
 						i = new Inmueble
 						{
 							IdInmueble = reader.GetInt32(0),
-							PropietarioId= reader.GetInt32(1),
+							PropietarioId = reader.GetInt32(1),
 							Direccion = reader.GetString(2),
 							Uso = reader.GetString(3),
 							Tipo = reader.GetString(4),
@@ -250,14 +250,14 @@ namespace Inmobiliaria_Tanuz.Models
 						Inmueble i = new Inmueble
 						{
 							IdInmueble = reader.GetInt32(0),
-							PropietarioId = reader.GetInt32(1), 
+							PropietarioId = reader.GetInt32(1),
 							Direccion = reader.GetString(2),
 							Uso = reader.GetString(3),
 							Tipo = reader.GetString(4),
 							Ambientes = reader.GetInt32(5),
 							Precio = reader.GetDecimal(6),
 							Estado = reader.GetInt32(7),
-							
+
 							Duenio = new Propietario
 							{
 								Nombre = reader.GetString(8),
@@ -271,6 +271,8 @@ namespace Inmobiliaria_Tanuz.Models
 			}
 			return inmuebles;
 		}
+
+		
 		
 		public IList<Inmueble> BuscarPropietario(int id)
 		{

@@ -82,7 +82,7 @@ namespace Inmobiliaria_Tanuz.Models
 			using (SqlConnection connection = new(connectionString))
 			{
 				string sql = "SELECT IdContrato, InquilinoId, InmuebleId, FechaInicio, FechaFin, " +
-					  $" i.Nombre, i.Apellido, im.Direccion, im.Precio, im.Estado, p.Nombre, p.Apellido " +
+					  $" i.Nombre, i.Apellido, im.Direccion, im.Uso, im.Tipo, im.Precio, im.Estado, p.Nombre, p.Apellido " +
 					  $" FROM Contrato c INNER JOIN Inquilino i ON c.InquilinoId = i.IdInquilino " +
 					  $" INNER JOIN Inmueble im ON c.InmuebleId = im.IdInmueble " +
 					  $"INNER JOIN Propietario p ON im.PropietarioId = p.IdPropietario";
@@ -109,12 +109,14 @@ namespace Inmobiliaria_Tanuz.Models
 							Inmueble = new Inmueble
 							{
 								Direccion = reader.GetString(7),
-								Precio = reader.GetDecimal(8),
-								Estado = reader.GetInt32(9),
+								Uso = reader.GetString(8),
+								Tipo = reader.GetString(9),
+								Precio = reader.GetDecimal(10),
+								Estado = reader.GetInt32(11),
 								Duenio = new Propietario
 								{
-									Nombre = reader.GetString(10),
-									Apellido = reader.GetString(11),
+									Nombre = reader.GetString(12),
+									Apellido = reader.GetString(13),
 								}
 							}
 						};
@@ -132,7 +134,7 @@ namespace Inmobiliaria_Tanuz.Models
 			using (SqlConnection connection = new(connectionString))
 			{
 				string sql = "SELECT IdContrato, InquilinoId, InmuebleId, FechaInicio, FechaFin, " +
-					  $" i.Nombre, i.Apellido, im.Direccion, im.Precio, im.Estado, p.Nombre, p.Apellido " +
+					  $" i.Nombre, i.Apellido, im.Direccion,im.Uso, im.Tipo, im.Precio, im.Estado, p.Nombre, p.Apellido " +
 					  $" FROM Contrato c INNER JOIN Inquilino i ON c.InquilinoId = i.IdInquilino " +
 					  $" INNER JOIN Inmueble im ON c.InmuebleId = im.IdInmueble " +
 					  $"INNER JOIN Propietario p ON im.PropietarioId = p.IdPropietario " +
@@ -161,12 +163,14 @@ namespace Inmobiliaria_Tanuz.Models
 							Inmueble = new Inmueble
 							{
 								Direccion = reader.GetString(7),
-								Precio = reader.GetDecimal(8),
-								Estado = reader.GetInt32(9),
+								Uso = reader.GetString(8),
+								Tipo =  reader.GetString(9),
+								Precio = reader.GetDecimal(10),
+								Estado = reader.GetInt32(11),
 								Duenio = new Propietario
 								{
-									Nombre = reader.GetString(10),
-									Apellido = reader.GetString(11),
+									Nombre = reader.GetString(12),
+									Apellido = reader.GetString(13),
 								}
 							}
 						};
@@ -186,10 +190,10 @@ namespace Inmobiliaria_Tanuz.Models
 			{
 				string sql = $" SELECT IdContrato, InquilinoId, InmuebleId, FechaInicio, FechaFin, " +
 					$" i.Nombre, i.Apellido ," +
-					$" im.Direccion, im.Tipo, im.Precio" +
+					$" im.Direccion, im.Uso, im.Tipo, im.Precio" +
 					$" FROM Contrato c INNER JOIN Inmueble im ON c.InmuebleId = im.IdInmueble " +
 					$" INNER JOIN Inquilino i ON c.InquilinoId = i.IdInquilino " +
-					$" WHERE c.InmuebleId = @id";
+					$" WHERE InmuebleId = @id";
 
 				using (SqlCommand command = new(sql, connection))
 				{
@@ -216,8 +220,9 @@ namespace Inmobiliaria_Tanuz.Models
 							Inmueble = new Inmueble
 							{
 								Direccion = reader.GetString(7),
-								Tipo = reader.GetString(8),
-								Precio = reader.GetDecimal(9),
+								Uso = reader.GetString(8),
+								Tipo = reader.GetString(9),
+								Precio = reader.GetDecimal(10),
 							}
 
 
@@ -231,5 +236,6 @@ namespace Inmobiliaria_Tanuz.Models
 			return c;
 
 		}
+	
 	}
 }

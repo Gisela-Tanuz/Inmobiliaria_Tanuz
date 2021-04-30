@@ -42,7 +42,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         }
 
         // GET: PropietarioController/Create
-      
+        [Authorize(Policy = "Administrador")]
         public ActionResult Create()
         {
             return View();
@@ -79,7 +79,7 @@ namespace Inmobiliaria_Tanuz.Controllers
          }
 
         // GET: PropietarioController/Edit/5
-       
+        [Authorize(Policy = "Administrador")]
         public ActionResult Edit(int id)
         {
             var p = repositorio.ObtenerPorId(id);
@@ -90,7 +90,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         // POST: PropietarioController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        
+        [Authorize(Policy = "Administrador")]
         public ActionResult Edit(int id, Propietario propietario)
         {
             try
@@ -130,5 +130,11 @@ namespace Inmobiliaria_Tanuz.Controllers
                 return View(propietario);
             }
         }
+        public ActionResult PorPropietario(int id)
+        {
+            var lista = repositorio.BuscarPropietario(id);
+            return View(lista);
+        }
+
     }
 }

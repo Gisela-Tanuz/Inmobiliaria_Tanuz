@@ -224,5 +224,45 @@ namespace Inmobiliaria_Tanuz.Models
             }
             return res;
         }
+        public IList<Inmueble> BuscarPropietario(int id)
+        {
+            IList<Inmueble> res = new List<Inmueble>();
+            Inmueble i = null;
+            using (SqlConnection connection = new(connectionString))
+            {
+                string sql = $"SELECT IdInmueble, PropietarioId, Direccion, Uso, Tipo, Ambientes,  Precio, Estado , p.Nombre, p.Apellido" +
+                    $" FROM Inmueble i INNER JOIN Propietario p ON i.PropietarioId = p.IdPropietario" +
+                    $" WHERE PropietarioId=@id";
+                using (SqlCommand command = new(sql, connection))
+                {
+                    command.Parameters.Add("@id", SqlDbType.Int).Value = id;
+                    command.CommandType = CommandType.Text;
+                    connection.Open();
+                    var reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        i = new Inmueble
+                        {
+                            IdInmueble = reader.GetInt32(0),
+                            PropietarioId = reader.GetInt32(1),
+                            Direccion = reader.GetString(2),
+                            Uso = reader.GetString(3),
+                            Tipo = reader.GetString(4),
+                            Ambientes = reader.GetInt32(5),
+                            Precio = reader.GetDecimal(6),
+                            Estado = reader.GetInt32(7),
+                            Duenio = new Propietario
+                            {
+                                Nombre = reader.GetString(8),
+                                Apellido = reader.GetString(9),
+                            }
+                        };
+                        res.Add(i);
+                    }
+                    connection.Close();
+                }
+            }
+            return res;
+        }
     }
 }

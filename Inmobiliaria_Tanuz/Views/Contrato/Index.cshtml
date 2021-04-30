@@ -5,59 +5,67 @@
 }
 
 <h1 style="font-family:Tahoma">Lista de Contratos.</h1>
+<hr>
 
-<p>
-    <a class="btn btn-outline-secondary" style="font-family:Tahoma"asp-action="Create">Crear nuevo</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.IdContrato)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.InquilinoId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.InmuebleId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaInicio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaFin)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdContrato)
-            </td>
-            <td>
-                @(item.Inquilino.Nombre+" "+ item.Inquilino.Apellido)
-            </td>
-            <td>
-                @(item.Inmueble.Duenio.Nombre+" "+item.Inmueble.Duenio.Apellido)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaInicio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaFin)
-            </td>
+    <p>
+        <a class="btn btn-outline-secondary" style="font-family:Tahoma" asp-action="Create">Crear nuevo</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.IdContrato)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.InquilinoId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.InmuebleId)
+                </th>
+                <th>
+                    Direccion
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FechaInicio)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FechaFin)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdContrato)
+                    </td>
+                    <td>
+                        @(item.Inquilino.Nombre+" "+ item.Inquilino.Apellido)
+                    </td>
+                    <td>
+                        @(item.Inmueble.Duenio.Nombre+" "+item.Inmueble.Duenio.Apellido)
+                    </td>
+                    <td>
+                        @(item.Inmueble.Direccion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaInicio)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaFin)
+                    </td>
 
-            <td>
-                @Html.ActionLink("Actualizar", "Edit", new { id = item.IdContrato }) ||
-                @Html.ActionLink("Detalles", "Details", new { id = item.IdContrato }) ||
-                @Html.ActionLink("Eliminar", "Delete", new { id = item.IdContrato })||
-                <a asp-route-id="@item.IdContrato " asp-controller="Pagos" asp-action="VerPagos">Ver Pagos</a>
+                    <td>
+                        @Html.ActionLink("Actualizar", "Edit", new { id = item.IdContrato }) ||
+                        @Html.ActionLink("Detalles", "Details", new { id = item.IdContrato }) ||
+                        @Html.ActionLink("Eliminar", "Delete", new { id = item.IdContrato })||
+                        <a asp-route-id="@item.IdContrato " asp-controller="Pagos" asp-action="VerPagos">Ver Pagos</a>
 
 
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
