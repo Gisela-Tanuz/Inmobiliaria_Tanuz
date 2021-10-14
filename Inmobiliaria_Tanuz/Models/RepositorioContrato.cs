@@ -164,7 +164,7 @@ namespace Inmobiliaria_Tanuz.Models
 							{
 								Direccion = reader.GetString(7),
 								Uso = reader.GetString(8),
-								Tipo =  reader.GetString(9),
+								Tipo = reader.GetString(9),
 								Precio = reader.GetDecimal(10),
 								Estado = reader.GetInt32(11),
 								Duenio = new Propietario
@@ -236,6 +236,62 @@ namespace Inmobiliaria_Tanuz.Models
 			return c;
 
 		}
-	
+		public List<Contrato> ObtenerContratoVigente(DateTime fechaInicio, DateTime fechaFin)
+		{
+			List<Contrato> res = new List<Contrato>();
+
+			using (SqlConnection connection = new(connectionString))
+			{
+				string sql = $" SELECT IdContrato, InquilinoId, InmuebleId, FechaInicio, FechaFin, " +
+					$" i.Nombre, i.Apellido ," +
+					$" im.Direccion, im.Uso, im.Tipo, im.Precio,p.Nombre, p.Apellido" +
+					$" FROM Contrato c INNER JOIN Inmueble im ON c.InmuebleId = im.IdInmueble " +
+					$" INNER JOIN Inquilino i ON c.InquilinoId = i.IdInquilino " +
+					$"INNER JOIN Propietario p ON im.PropietarioId = p.IdPropietario "+
+					$" WHERE FechaInicio <= @fechaFin AND FechaFin >= @fechaInicio;";
+				using (SqlCommand command = new(sql, connection))
+				{
+					command.Parameters.Add("@fechaInicio", SqlDbType.Date).Value = fechaInicio;
+					command.Parameters.Add("@fechaFin", SqlDbType.Date).Value = fechaFin;
+					command.CommandType = CommandType.Text;
+					connection.Open();
+
+					var reader = command.ExecuteReader();
+					while (reader.Read())
+					{
+						Contrato c = new Contrato
+						{
+							IdContrato = reader.GetInt32(0),
+							InquilinoId = reader.GetInt32(1),
+							InmuebleId = reader.GetInt32(2),
+							FechaInicio = reader.GetDateTime(3),
+							FechaFin = reader.GetDateTime(4),
+
+							Inquilino = new Inquilino
+							{
+								Nombre = reader.GetString(5),
+								Apellido = reader.GetString(6),
+							},
+
+							Inmueble = new Inmueble
+							{
+								Direccion = reader.GetString(7),
+								Uso = reader.GetString(8),
+								Tipo = reader.GetString(9),
+								Precio = reader.GetDecimal(10),
+								Duenio = new Propietario
+								{
+									Nombre = reader.GetString(11),
+									Apellido = reader.GetString(12),
+								}
+							}
+						};
+						res.Add(c);
+					}
+					connection.Close();
+				}
+			}
+			return res;
+		}
 	}
 }

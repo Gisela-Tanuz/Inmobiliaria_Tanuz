@@ -10,11 +10,12 @@ using System.Threading.Tasks;
 
 namespace Inmobiliaria_Tanuz.Controllers
 {
-    public class ContratoController : Controller { 
-       private readonly RepositorioContrato repositorio;
-       private readonly RepositorioInquilino repoInquilino;
+    public class ContratoController : Controller
+    {
+        private readonly RepositorioContrato repositorio;
+        private readonly RepositorioInquilino repoInquilino;
         private readonly RepositorioInmueble repoInmueble;
-       private readonly IConfiguration config;
+        private readonly IConfiguration config;
 
         public ContratoController(IConfiguration config)
         {
@@ -25,7 +26,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         }
 
         // GET: ContratoController
-     
+
         public ActionResult Index()
         {
             var lista = repositorio.Obtener();
@@ -37,12 +38,12 @@ namespace Inmobiliaria_Tanuz.Controllers
         }
 
         // GET: ContratoController/Details/5
-        
+
         public ActionResult Details(int id)
         {
             var contrato = repositorio.ObtenerPorId(id);
             return View(contrato);
-           
+
         }
 
         // GET: ContratoController/Create
@@ -53,7 +54,7 @@ namespace Inmobiliaria_Tanuz.Controllers
             ViewBag.Inmueble = repoInmueble.Obtener();
             return View();
         }
-        
+
 
         // POST: ContratoController/Create
         [HttpPost]
@@ -63,8 +64,8 @@ namespace Inmobiliaria_Tanuz.Controllers
         {
             try
             {
-                
-                int res= repositorio.Alta(c);
+
+                int res = repositorio.Alta(c);
                 Inquilino i = repoInquilino.ObtenerPorId(c.InquilinoId);
                 TempData["Id"] = c.IdContrato;
                 return RedirectToAction(nameof(Index));
@@ -72,7 +73,7 @@ namespace Inmobiliaria_Tanuz.Controllers
             }
             catch (Exception ex)
             {
-               
+
                 ViewBag.Inquilino = repoInquilino.Obtener();
                 ViewBag.Error = ex.Message;
                 ViewBag.StackTrate = ex.StackTrace;
@@ -92,7 +93,7 @@ namespace Inmobiliaria_Tanuz.Controllers
             if (TempData.ContainsKey("Error"))
                 ViewBag.Error = TempData["Error"];
             return View(con);
-            
+
         }
 
         // POST: ContratoController/Edit/5
@@ -128,7 +129,7 @@ namespace Inmobiliaria_Tanuz.Controllers
             if (TempData.ContainsKey("Error"))
                 ViewBag.Error = TempData["Error"];
             return View(con);
-            
+
         }
 
         // POST: ContratoController/Delete/5
@@ -150,7 +151,35 @@ namespace Inmobiliaria_Tanuz.Controllers
                 return View(contrato);
             }
         }
-     
-         
+        public ActionResult BuscarContratoPorFecha(BuscarPorFechas porFechas)
+        {
+            try
+            {
+                List<Contrato> lista = repositorio.ObtenerContratoVigente(porFechas.FechaInicio, porFechas.FechaFinal);
+                if (lista != null)
+                {
+                    ViewData["Title"] = "Contratos vigentes";
+                    return View(nameof(Index),lista);
+                }
+                else
+                {
+                    TempData["Mensaje"] = "No hay contratos disponibles en esas fechas";
+                    return RedirectToAction(nameof(Index));
+                }
+           }
+            catch (Exception ex)
+            {
+             //   TempData["Mensaje"] = "Error";
+                ViewBag.Error = ex.Message;
+                ViewBag.StackTrate = ex.StackTrace;
+                return RedirectToAction(nameof(Index));
+            }
+
+        }
     }
 }
+
+
+        
+            
+     

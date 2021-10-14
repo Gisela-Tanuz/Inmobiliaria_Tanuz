@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<Inmobiliaria_Tanuz.Models.Contrato>
 
-@{
-    ViewData["Title"] = "Index";
-}
+<h3>@ViewBag.Title</h3>
+   
+
 
 <h1 style="font-family:Tahoma">Lista de Contratos.</h1>
 <hr>
@@ -10,6 +10,17 @@
     <p>
         <a class="btn btn-outline-secondary" style="font-family:Tahoma" asp-action="Create">Crear nuevo</a>
     </p>
+    <form class="form-inline" asp-action="BuscarContratoPorFecha" asp-controller="Contrato">
+        <div class="input-group-sm">
+            <label for="FechaInicio" class="control-label"></label>
+            <input type="date" name="FechaInicio" class="form-control" required />
+        </div>
+        <div class="input-group-sm">
+            <label for="FechaFinal" class="control-label"></label>
+            <input type="date" name="FechaFinal" class="form-control" required />
+        </div>
+        <button type="submit" class="btn btn-outline-secondary">Contratos vigentes</button>
+    </form>
     <table class="table">
         <thead>
             <tr>
@@ -45,7 +56,7 @@
                         @(item.Inquilino.Nombre+" "+ item.Inquilino.Apellido)
                     </td>
                     <td>
-                        @(item.Inmueble.Duenio.Nombre+" "+item.Inmueble.Duenio.Apellido)
+                        @(item.Inmueble.Duenio.Nombre+" "+ item.Inmueble.Duenio.Apellido)
                     </td>
                     <td>
                         @(item.Inmueble.Direccion)
