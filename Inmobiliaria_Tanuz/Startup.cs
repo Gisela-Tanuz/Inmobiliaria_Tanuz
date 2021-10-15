@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -63,10 +64,12 @@ namespace Inmobiliaria_Tanuz
             services.AddTransient<IRepositorio<Usuario>, RepositorioUsuario>();
             services.AddTransient<IRepositorio<Contrato>, RepositorioContrato>();
             services.AddTransient<IRepositorio<Pagos>, RepositorioPagos>();
-            /*services.AddDbContext<DataContext>(
-          
-                options => options.UseSqlServer(
-                configuration["ConnectionStrings:DefaultConnection"]));*/
+            /* services.AddDbContext<DataContext>(
+
+                 options => options.UseSqlServer(
+                 configuratio(n["ConnectionStrings:DefaultConnection"]));*/
+
+            services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration["ConnectionString:DefaultConnection"]));
         
     }
 
