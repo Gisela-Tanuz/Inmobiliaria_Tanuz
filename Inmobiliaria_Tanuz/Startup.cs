@@ -1,6 +1,7 @@
-using Inmobiliaria_Tanuz.Models;
+﻿using Inmobiliaria_Tanuz.Models;
 using LinqToDB;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -10,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +21,10 @@ using System.Threading.Tasks;
 namespace Inmobiliaria_Tanuz
 {
     public class Startup
+
     {
+        private readonly IConfiguration configuration;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -28,8 +33,8 @@ namespace Inmobiliaria_Tanuz
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-     
-         public void ConfigureServices(IServiceCollection services)
+
+        public void ConfigureServices(IServiceCollection services)
         {
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options => //el sitio web valida con cookie
@@ -37,7 +42,40 @@ namespace Inmobiliaria_Tanuz
                     options.LoginPath = "/Usuario/Login";  // redirige para el login
                     options.LogoutPath = "/Usuario/Logout"; // redirige para el logout
                     options.AccessDeniedPath = "/Home/Restringido"; // para accesos denegados
-                });
+                })
+               .AddJwtBearer(options =>
+               //la api web valida con token
+               {
+                   options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                   {
+                       ValidateIssuer = true,
+                       ValidateAudience = true,
+                       ValidateLifetime = true,
+                       ValidateIssuerSigningKey = true,
+                       ValidIssuer = configuration["TokenAuthentication:Issuer"],
+                       ValidAudience = configuration["TokenAuthentication:Audience"],
+                       IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(
+                           configuration["TokenAuthentication:SecretKey"])),
+                   };
+                   // opción extra para usar el token el hub
+                   options.Events = new JwtBearerEvents
+                   {
+                       OnMessageReceived = context =>
+                       {
+                           // lee el token de la consulta
+                           var accessToken = context.Request.Query["access_token"];
+                           // la solicitud para el hub
+                           var path = context.HttpContext.Request.Path;
+                           if (!string.IsNullOrEmpty(accessToken) &&
+                               path.StartsWithSegments("/chatsegurohub"))
+                           {//reemplazar la url por la usada en la ruta ⬆
+                               context.Token = accessToken;
+                           }
+                           return Task.CompletedTask;
+                       }
+                   };
+               });
+
             //services.AddControllersWithViews();
             services.AddAuthorization(options =>
             {
@@ -49,27 +87,24 @@ namespace Inmobiliaria_Tanuz
                 
             });
             services.AddMvc();
-            services.AddSignalR();//a�ade signalR
+            services.AddSignalR();//añade signalR
                                   //IUserIdProvider permite cambiar el ClaimType usado para obtener el UserIdentifier en Hub
-                                  // services.AddSingleton<IUserIdProvider, UserIdProvider>();
+           // services.AddSingleton<IUserIdProvider, UsetIdProvider>();
             /*
             Transient objects are always different; a new instance is provided to every controller and every service.
             Scoped objects are the same within a request, but different across different requests.
             Singleton objects are the same for every object and every request.
             */
-           
+
             services.AddTransient<IRepositorio<Propietario>, RepositorioPropietario>();
             services.AddTransient<IRepositorio<Inquilino>, RepositorioInquilino>();
             services.AddTransient<IRepositorio<Inmueble>, RepositorioInmueble>();
             services.AddTransient<IRepositorio<Usuario>, RepositorioUsuario>();
             services.AddTransient<IRepositorio<Contrato>, RepositorioContrato>();
             services.AddTransient<IRepositorio<Pagos>, RepositorioPagos>();
-            /* services.AddDbContext<DataContext>(
+           
 
-                 options => options.UseSqlServer(
-                 configuratio(n["ConnectionStrings:DefaultConnection"]));*/
-
-            services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration["ConnectionString:DefaultConnection"]));
+            services.AddDbContext<Models.DataContext>(options => options.UseSqlServer(configuration["ConnectionString:DefaultConnection"]));
         
     }
 
@@ -96,7 +131,7 @@ namespace Inmobiliaria_Tanuz
             app.UseAuthorization();
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();//p�gina amarilla de errores
+                app.UseDeveloperExceptionPage();//página amarilla de errores
             }
 
             app.UseEndpoints(endpoints =>
