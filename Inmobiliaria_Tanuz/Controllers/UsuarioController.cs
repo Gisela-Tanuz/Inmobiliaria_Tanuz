@@ -7,8 +7,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
@@ -225,6 +227,9 @@ namespace Inmobiliaria_Tanuz.Controllers
                         TempData["returnUrl"] = returnUrl;
                         return View();
                     }
+                    var Key = new SymmetricSecurityKey(
+                        System.Text.Encoding.ASCII.GetBytes(config["TokenAutentication:SecretKey"]));
+                    var credenciales = new SigningCredentials(Key, SecurityAlgorithms.HmacSha256);
 
                     var claims = new List<Claim>
                     {
@@ -232,8 +237,8 @@ namespace Inmobiliaria_Tanuz.Controllers
                         new Claim("FullName", e.Nombre + " " + e.Apellido),
                         new Claim(ClaimTypes.Role, e.RolNombre),
                     };
-
-                    var claimsIdentity = new ClaimsIdentity(
+                  
+                     var claimsIdentity = new ClaimsIdentity(
                         claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
                     await HttpContext.SignInAsync(

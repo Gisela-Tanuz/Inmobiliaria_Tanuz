@@ -49,13 +49,13 @@ namespace Inmobiliaria_Tanuz.Api
             return Ok(context.Propietario.Find(id));
         }
         //GET: api/<ValuesController>
-        [HttpGet("usuarios/{id=0}")]
+        [HttpGet("usuario/{id=0}")]
         public IActionResult GetUser(int id) 
         {
             return Ok(context.Usuario.ToList());
         }
         //GET: api/<ValuesController>
-        [HttpGet("emails/{id=0}")]
+        [HttpGet("email/{id=0}")]
         public IActionResult Emails(int id) 
         {
             if (id > 0)

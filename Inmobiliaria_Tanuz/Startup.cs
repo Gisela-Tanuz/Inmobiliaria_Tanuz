@@ -58,7 +58,7 @@ namespace Inmobiliaria_Tanuz
                            configuration["TokenAuthentication:SecretKey"])),
                    };
                    // opción extra para usar el token el hub
-                   options.Events = new JwtBearerEvents
+                  /* options.Events = new JwtBearerEvents
                    {
                        OnMessageReceived = context =>
                        {
@@ -73,7 +73,7 @@ namespace Inmobiliaria_Tanuz
                            }
                            return Task.CompletedTask;
                        }
-                   };
+                   };*/
                });
 
             //services.AddControllersWithViews();
@@ -139,6 +139,7 @@ namespace Inmobiliaria_Tanuz
                 endpoints.MapControllerRoute("login", "login/{**accion}", new { controller = "Usuario", action = "Login" });
 
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+
             });
         }
     }
