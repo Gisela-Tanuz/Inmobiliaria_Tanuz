@@ -15,10 +15,21 @@ namespace Inmobiliaria_Tanuz
     {
 		public static void Main(string[] args)
 		{
-			//En visual studio este el "run" recomendado:
+			CreateHostBuilder(args).Build().Run();
+		}
+
+		public static IHostBuilder CreateHostBuilder(string[] args) =>
+			Host.CreateDefaultBuilder(args)
+				.ConfigureWebHostDefaults(webBuilder =>
+				{
+					webBuilder.UseStartup<Startup>();
+				});
+	}
+	/*	public static void Main(string[] args)
+		{
+			
 			CreateWebHostBuilder(args).Build().Run();
-			//En VS Code este otro es el "run" recomendado:
-			//CreateKestrel(args).Build().Run();
+			
 		}
 
 		public static IWebHostBuilder CreateWebHostBuilder(string[] args)
@@ -50,6 +61,6 @@ namespace Inmobiliaria_Tanuz
 				.UseStartup<Startup>();
 			return host;
 		}
-	}
+	}*/
 }
 
