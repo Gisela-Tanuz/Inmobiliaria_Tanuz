@@ -33,7 +33,7 @@ namespace Inmobiliaria_Tanuz.Api
         {
             return new string[] { "value1", "value2" };
         }*/
-        //GET: api/<PropietariosController>
+        //GET: api/<Controller>
         [HttpGet]
         public async Task<ActionResult<Propietario>> Get() {
             try
@@ -46,7 +46,7 @@ namespace Inmobiliaria_Tanuz.Api
             }
         }
 
-        // GET api/<PropietariosController>/5
+        // GET api/<Controller>/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -60,7 +60,7 @@ namespace Inmobiliaria_Tanuz.Api
             }
 
         }
-        //GET api/<PropietariosController>/GetAll
+        //GET api/<Controller>/GetAll
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
@@ -73,7 +73,7 @@ namespace Inmobiliaria_Tanuz.Api
                 return BadRequest(ex);
             }
         }
-        // POST api/<PropietariosController>//login
+        // POST api/<Controller>/login
         [HttpPost("login")]
         public async Task<IActionResult>Login([FromForm] Login login)
         {
@@ -115,13 +115,13 @@ namespace Inmobiliaria_Tanuz.Api
             }
         }
 
-        // PUT api/<PropietariosController>/5
+        // PUT api/Controller>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE api/<PropietariosController>/5
+        // DELETE api/<Controller>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

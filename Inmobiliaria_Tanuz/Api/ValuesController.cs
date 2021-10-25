@@ -1,4 +1,5 @@
 ﻿using Inmobiliaria_Tanuz.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
@@ -48,6 +49,7 @@ namespace Inmobiliaria_Tanuz.Api
         {
             return Ok(context.Propietario.Find(id));
         }
+
         //GET: api/<ValuesController>
         [HttpGet("usuario/{id=0}")]
         public IActionResult GetUser(int id) 
@@ -74,14 +76,15 @@ namespace Inmobiliaria_Tanuz.Api
                 Ok(context.Propietario.Select(x => new { Id = x.IdPropietario, x.Email }).ToList());
         }
 
-        // GET: api/<ValuesController>
-        /*[HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-        */
+
         
+        // POST api/<ValuesController>
+        [HttpPost]
+        public void Post([FromForm] string value, IFormFile file)
+        {
+          
+        }
+
 
         // POST api/<ValuesController>/usuario/5
         [HttpPost("usuario/{id}")]

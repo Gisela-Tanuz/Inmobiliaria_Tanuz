@@ -13,7 +13,7 @@ namespace Inmobiliaria_Tanuz
 {
     public class Program
     {
-		public static void Main(string[] args)
+	/*	public static void Main(string[] args)
 		{
 			CreateHostBuilder(args).Build().Run();
 		}
@@ -24,10 +24,10 @@ namespace Inmobiliaria_Tanuz
 				{
 					webBuilder.UseStartup<Startup>();
 				});
-	}
-	/*	public static void Main(string[] args)
+	}*/
+		public static void Main(string[] args)
 		{
-			
+
 			CreateWebHostBuilder(args).Build().Run();
 			
 		}
@@ -39,7 +39,7 @@ namespace Inmobiliaria_Tanuz
 				{
 					logging.ClearProviders();//limpia los proveedores x defecto de log (consola+depuración)
 					logging.AddConsole();//agrega log de consola
-										 //logging.AddConfigur(new LoggerConfiguration().WriteTo.File("serilog.txt").CreateLogger())
+			       // logging.AddConfiguration(new LoggerConfiguration().WriteTo.File("serilog.txt").CreateLogger())
 				})
 				.UseStartup<Startup>();
 			return host;
@@ -55,12 +55,12 @@ namespace Inmobiliaria_Tanuz
 				.UseConfiguration(config)
 				.UseKestrel()
 				.UseContentRoot(Directory.GetCurrentDirectory())
-				//.UseUrls("http://localhost:5000", "https://localhost:5001")//permite escuchar SOLO peticiones locales
+				.UseUrls("http://localhost:5000", "https://localhost:5001")//permite escuchar SOLO peticiones locales
 				.UseUrls("http://*:5000", "https://*:5001")//permite escuchar peticiones locales y remotas
 				.UseIISIntegration()
 				.UseStartup<Startup>();
 			return host;
 		}
-	}*/
+	}
 }
 

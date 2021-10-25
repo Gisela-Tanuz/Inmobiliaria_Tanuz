@@ -9,6 +9,8 @@ namespace Inmobiliaria_Tanuz.Models
 {
     public class Pagos
     {
+        [Column("IdPago")]
+        [Key]
         [Display(Name = "Codigo")]
         public int IdPago { get; set; }
         [Display(Name= "Contrato ")]

@@ -23,14 +23,16 @@ namespace Inmobiliaria_Tanuz.Controllers
         private readonly RepositorioUsuario repositorio;
         private readonly IWebHostEnvironment environment;
         private readonly IConfiguration config;
+      
         
 
-        public UsuarioController(IConfiguration config, IWebHostEnvironment environment) 
+        public UsuarioController(IConfiguration config, IWebHostEnvironment environment,RepositorioUsuario user) 
         {
            
             repositorio = new RepositorioUsuario(config);
             this.environment = environment;
             this.config = config;
+            this.repositorio = user; 
         }
         // GET: UsuarioController
         [Authorize(Policy = "SuperAdministrador")]
@@ -88,7 +90,7 @@ namespace Inmobiliaria_Tanuz.Controllers
                         Directory.CreateDirectory(path);
                     }
 
-                    //Path.GetFileName(u.AvatarFile.FileName);//este nombre se puede repetir
+                    Path.GetFileName(u.AvatarFile.FileName);//este nombre se puede repetir
                     string fileName = "avatar_" + u.Id + Path.GetExtension(u.AvatarFile.FileName);
                     string pathCompleto = Path.Combine(path, fileName);
                     u.Avatar = Path.Combine("/Uploads/", fileName);
@@ -294,9 +296,9 @@ namespace Inmobiliaria_Tanuz.Controllers
                 var ext = Path.GetExtension(u.Avatar);
                 return new FileStreamResult(stream, $"image/{ext.Substring(1)}");
             }
-            catch  //(Exception ex)
-            { 
-                throw ;
+            catch  (Exception ex)
+            {
+                 throw ;
             }
         }
         // GET: Usuarios/Create
@@ -313,9 +315,9 @@ namespace Inmobiliaria_Tanuz.Controllers
                 res.FileDownloadName = "Datos.csv";
                 return res;
             }
-            catch //(Exception ex)
+            catch (Exception ex)
             {
-                throw;
+                throw ;
             }
         }
         // GET: /salir

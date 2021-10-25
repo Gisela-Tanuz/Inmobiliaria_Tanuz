@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -63,24 +63,9 @@ namespace Inmobiliaria_Tanuz
                        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(
                            configuration["TokenAuthentication:SecretKey"])),
                    };
-                   // opción extra para usar el token el hub
-                   options.Events = new JwtBearerEvents
-                   {
-                       OnMessageReceived = context =>
-                       {
-                           // lee el token de la consulta
-                           var accessToken = context.Request.Query["access_token"];
-                           // la solicitud para el hub
-                           var path = context.HttpContext.Request.Path;
-                           if (!string.IsNullOrEmpty(accessToken) &&
-                               path.StartsWithSegments("/chatsegurohub"))
-                           {//reemplazar la url por la usada en la ruta ⬆
-                               context.Token = accessToken;
-                           }
-                           return Task.CompletedTask;
-                       }
-                   };
+               });
                    services.AddControllersWithViews();
+                   services.AddControllers();
                    services.AddAuthorization(options =>
                    {
                        options.AddPolicy("Administrador", policy => policy.RequireRole("Administrador", "SuperAdministrador"));
@@ -93,7 +78,7 @@ namespace Inmobiliaria_Tanuz
                    services.AddMvc();
                    services.AddSignalR();//añade signalR
                                          //IUserIdProvider permite cambiar el ClaimType usado para obtener el UserIdentifier en Hub
-                                         // services.AddSingleton<IUserIdProvider, UsetIdProvider>();
+                   //services.AddSingleton<IUserIdProvider, UsetIdProvider>();
                    /*
                    Transient objects are always different; a new instance is provided to every controller and every service.
                    Scoped objects are the same within a request, but different across different requests.
@@ -108,35 +93,14 @@ namespace Inmobiliaria_Tanuz
                    services.AddTransient<IRepositorio<Pagos>, RepositorioPagos>();
 
 
-                   services.AddDbContext<DbContext>(
-                         options => options.UseSqlServer(
-                             configuration["ConnectionStrings:DefaultConnection"]
-                         )
-                     );
-               });
-        }
+            services.AddDbContext<DataContext>(
+                  options => options.UseSqlServer(
+                      Configuration.GetConnectionString("DefaultConnection")));
+                     
+               }
+        
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        /*  public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-          {
-              if (env.IsDevelopment())
-              {
-                  app.UseDeveloperExceptionPage();
-              }
-              else
-              {
-                  app.UseExceptionHandler("/Home/Error");
-                  // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                  app.UseHsts();
-              }
-              app.UseHttpsRedirection();
-              app.UseStaticFiles();
-
-              app.UseRouting();
-              app.UseCookiePolicy(new CookiePolicyOptions { MinimumSameSitePolicy = SameSiteMode.None, });
-              //Habilita la autorizacion y autenticacion
-              app.UseAuthentication();
-              app.UseAuthorization();*/
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             // Todos estos métodos permiten manejar errores 404
@@ -161,14 +125,13 @@ namespace Inmobiliaria_Tanuz
                 MinimumSameSitePolicy = SameSiteMode.None,
             });
             // Habilitar autenticación
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
             // App en ambiente de desarrollo?
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();//página amarilla de errores
             }
-
 
             app.UseEndpoints(endpoints =>
             {
