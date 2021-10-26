@@ -15,7 +15,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.IdInmueble)
+                @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.PropietarioId)
@@ -46,7 +46,7 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.IdInmueble)
+                    @Html.DisplayFor(modelItem => item.Id)
                 </td>
                 <td>
                     @(item.Duenio.Nombre+" "+ item.Duenio.Apellido)
@@ -72,10 +72,10 @@
                     @(item.Estado == 1 ? "Disponible" : "No Disponible")
                 </td>
                 <td>
-                    @Html.ActionLink("Actualizar", "Edit", new { id = item.IdInmueble }) ||
-                    @Html.ActionLink("Detalles", "Details", new { id = item.IdInmueble }) ||
-                    @Html.ActionLink("Eliminar", "Delete", new { id = item.IdInmueble }) ||
-                    <a asp-route-id="@item.IdInmueble " asp-action="PorPropietario">Ver propiedades</a>
+                    @Html.ActionLink("Actualizar", "Edit", new { id = item.Id }) ||
+                    @Html.ActionLink("Detalles", "Details", new { id = item.Id }) ||
+                    @Html.ActionLink("Eliminar", "Delete", new { id = item.Id }) ||
+                    <a asp-route-id="@item.Id " asp-action="PorPropietario">Ver propiedades</a>
                 </td>
 
             </tr>

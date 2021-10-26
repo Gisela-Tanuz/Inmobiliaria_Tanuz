@@ -79,7 +79,7 @@ namespace Inmobiliaria_Tanuz.Controllers
                 if (ModelState.IsValid)
                 {
                     int res = repositorio.Alta(i);
-                    TempData["Id"] = i.IdInmueble;
+                    TempData["Id"] = i.Id;
                     repositorio.EstadoDisponible(i);
                     TempData["Mensaje"] = "Se ha creado un nuevo inmueble";
                     return RedirectToAction(nameof(Index));
@@ -122,7 +122,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         { 
             try
             {   
-                entidad.IdInmueble = id;
+                entidad.Id = id;
                 repositorio.Modificar(entidad);
                 ViewBag.Inmueble = Inmueble.ObtenerEstado();
                 TempData["Mensaje"] = "Datos guardados correctamente";

@@ -9,7 +9,7 @@ namespace Inmobiliaria_Tanuz.Models
     public class Propietario
     {   [Key]
         [Display(Name = "Codigo")]
-        public int IdPropietario { get; set; }
+        public int Id { get; set; }
         public string Nombre { get; set; }
         public string Apellido { get; set; }
         public string Dni { get; set; }

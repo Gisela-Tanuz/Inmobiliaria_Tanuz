@@ -22,7 +22,7 @@
             @if (User.IsInRole("Administrador"))
             {
                 <th>
-                    @Html.DisplayNameFor(model => model.IdInmueble)
+                    @Html.DisplayNameFor(model => model.Id)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.PropietarioId)
@@ -56,7 +56,7 @@
             @if (User.IsInRole("Administrador"))
             {
                 <td>
-                    @Html.DisplayFor(modelItem => item.IdInmueble)
+                    @Html.DisplayFor(modelItem => item.Id)
                 </td>
                 <td>
                     @(item.Duenio.Nombre + " " + item.Duenio.Apellido)
@@ -85,11 +85,11 @@
             <td>
               
 
-                @Html.ActionLink("Actualizar", "Edit", new { id = item.IdInmueble }) ||
+                @Html.ActionLink("Actualizar", "Edit", new { id = item.Id }) ||
                 
-                @Html.ActionLink("Eliminar", "Delete", new { id = item.IdInmueble }) ||
+                @Html.ActionLink("Eliminar", "Delete", new { id = item.Id }) ||
                 
-                <a asp-route-id="@item.IdInmueble " asp-controller="Contrato" asp-action="">Crear Contrato</a>
+                <a asp-route-id="@item.Id " asp-controller="Contrato" asp-action="">Crear Contrato</a>
             </td>
             
             </tr>

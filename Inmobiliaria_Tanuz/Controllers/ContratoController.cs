@@ -67,7 +67,7 @@ namespace Inmobiliaria_Tanuz.Controllers
 
                 int res = repositorio.Alta(c);
                 Inquilino i = repoInquilino.ObtenerPorId(c.InquilinoId);
-                TempData["Id"] = c.IdContrato;
+                TempData["Id"] = c.Id;
                 return RedirectToAction(nameof(Index));
 
             }
@@ -104,7 +104,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         {
             try
             {
-                contrato.IdContrato = id;
+                contrato.Id = id;
                 repositorio.Modificar(contrato);
                 TempData["Mensaje"] = "Los datos han sido actualizados correctamente";
                 return RedirectToAction(nameof(Index));

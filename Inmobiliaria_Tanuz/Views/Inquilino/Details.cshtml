@@ -11,10 +11,10 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdInquilino)
+            @Html.DisplayNameFor(model => model.Id)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdInquilino)
+            @Html.DisplayFor(model => model.Id)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Nombre)
@@ -73,6 +73,6 @@
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Actualizar", "Edit", new { id= Model.IdInquilino }) |
+    @Html.ActionLink("Actualizar", "Edit", new { id= Model.Id }) |
     <a asp-action="Index">Volver a la lista</a>
 </div>

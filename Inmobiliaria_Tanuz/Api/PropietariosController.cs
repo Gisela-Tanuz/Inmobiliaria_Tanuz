@@ -52,7 +52,7 @@ namespace Inmobiliaria_Tanuz.Api
         {
             try
             {
-                var entidad = await context.Propietario.SingleOrDefaultAsync(x => x.IdPropietario == id);
+                var entidad = await context.Propietario.SingleOrDefaultAsync(x => x.Id == id);
                 return entidad != null ? Ok(entidad) : NotFound();
             } catch (Exception ex)
             {

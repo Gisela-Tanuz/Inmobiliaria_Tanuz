@@ -14,7 +14,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.IdPropietario)
+                @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Nombre)
@@ -43,7 +43,7 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.IdPropietario)
+                    @Html.DisplayFor(modelItem => item.Id)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Nombre)
@@ -65,10 +65,10 @@
                 </td>
 
                 <td>
-                    @Html.ActionLink("Actualizar", "Edit", new { id = item.IdPropietario }) ||
-                    @Html.ActionLink("Detalles", "Details", new { id = item.IdPropietario }) ||
-                    @Html.ActionLink("Eliminar", "Delete", new { id = item.IdPropietario }) ||
-                    <a asp-route-id="@item.IdPropietario " asp-action="PorPropietario">Ver propiedades</a>
+                    @Html.ActionLink("Actualizar", "Edit", new { id = item.Id }) ||
+                    @Html.ActionLink("Detalles", "Details", new { id = item.Id }) ||
+                    @Html.ActionLink("Eliminar", "Delete", new { id = item.Id }) ||
+                    <a asp-route-id="@item.Id " asp-action="PorPropietario">Ver propiedades</a>
                 </td>
             </tr>
         }

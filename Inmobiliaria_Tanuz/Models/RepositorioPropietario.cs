@@ -19,7 +19,7 @@ namespace Inmobiliaria_Tanuz.Models
             IList<Propietario> res = new List<Propietario>();
             using (SqlConnection connection = new(connectionString))
             {
-                string sql = $"SELECT IdPropietario, Nombre, Apellido, Dni, Telefono, Email, Usuario, Contraseña" +
+                string sql = $"SELECT Id, Nombre, Apellido, Dni, Telefono, Email, Usuario, Contraseña" +
                     $" FROM Propietario";
                 using (SqlCommand command = new(sql, connection))
                 {
@@ -30,7 +30,7 @@ namespace Inmobiliaria_Tanuz.Models
                     {
                         Propietario p = new()
                         {
-                            IdPropietario = reader.GetInt32(0),
+                            Id = reader.GetInt32(0),
                             Nombre = reader.GetString(1),
                             Apellido = reader.GetString(2),
                             Dni = reader.GetString(3),
@@ -69,7 +69,7 @@ namespace Inmobiliaria_Tanuz.Models
 
                     connection.Open();
                     res = Convert.ToInt32(command.ExecuteScalar());
-                    p.IdPropietario = res;
+                    p.Id = res;
                     connection.Close();
 
                 }
@@ -85,7 +85,7 @@ namespace Inmobiliaria_Tanuz.Models
             {
                 string sql = $"UPDATE Propietario SET Nombre=@nombre, Apellido=@apellido, Dni=@dni, Telefono=@telefono," +
                     $" Email=@email, Usuario=@usuario, Contraseña=@contraseña " +
-                    $"WHERE IdPropietario = @id";
+                    $"WHERE Id = @id";
                 using (SqlCommand command = new(sql, connection))
                 {
                     command.CommandType = CommandType.Text;
@@ -96,7 +96,7 @@ namespace Inmobiliaria_Tanuz.Models
                     command.Parameters.AddWithValue("@email", p.Email);
                     command.Parameters.AddWithValue("@usuario", p.Usuario);
                     command.Parameters.AddWithValue("@contraseña", p.Contraseña);
-                    command.Parameters.AddWithValue("@id", p.IdPropietario);
+                    command.Parameters.AddWithValue("@id", p.Id);
                     connection.Open();
                     res = command.ExecuteNonQuery();
                     connection.Close();
@@ -110,7 +110,7 @@ namespace Inmobiliaria_Tanuz.Models
             int res = -1;
             using (SqlConnection connection = new(connectionString))
             {
-                string sql = $"DELETE FROM Propietario WHERE IdPropietario = @id";
+                string sql = $"DELETE FROM Propietario WHERE Id = @id";
                 using (var command = new SqlCommand(sql, connection))
                 {
                     command.CommandType = CommandType.Text;
@@ -127,8 +127,8 @@ namespace Inmobiliaria_Tanuz.Models
             Propietario p = null;
             using (SqlConnection connection = new(connectionString))
             {
-                string sql = $"SELECT IdPropietario, Nombre, Apellido, Dni, Telefono, Email, Usuario, Contraseña FROM Propietario " +
-                    $"WHERE IdPropietario=@id;";
+                string sql = $"SELECT Id, Nombre, Apellido, Dni, Telefono, Email, Usuario, Contraseña FROM Propietario " +
+                    $"WHERE Id=@id;";
                 using (var command = new SqlCommand(sql, connection))
                 {
 
@@ -141,7 +141,7 @@ namespace Inmobiliaria_Tanuz.Models
                         p = new Propietario();
 
                         {
-                            p.IdPropietario = int.Parse(reader["IdPropietario"].ToString());
+                            p.Id = int.Parse(reader["Id"].ToString());
                             p.Nombre = reader["Nombre"].ToString();
                             p.Apellido = reader["Apellido"].ToString();
                             p.Dni = reader["Dni"].ToString();
@@ -162,7 +162,7 @@ namespace Inmobiliaria_Tanuz.Models
             Propietario p = null;
             using (SqlConnection connection = new(connectionString))
             {
-                string sql = $"SELECT IdPropietario, Nombre, Apellido, Dni, Telefono, Email, Usuario, Contraseña FROM Propietario" +
+                string sql = $"SELECT Id, Nombre, Apellido, Dni, Telefono, Email, Usuario, Contraseña FROM Propietario" +
                     $" WHERE Email=@email";
                 using (SqlCommand command = new(sql, connection))
                 {
@@ -174,7 +174,7 @@ namespace Inmobiliaria_Tanuz.Models
                     {
                         p = new Propietario
                         {
-                            IdPropietario = reader.GetInt32(0),
+                            Id = reader.GetInt32(0),
                             Nombre = reader.GetString(1),
                             Apellido = reader.GetString(2),
                             Dni = reader.GetString(3),
@@ -196,7 +196,7 @@ namespace Inmobiliaria_Tanuz.Models
             nombre = "%" + nombre + "%";
             using (SqlConnection connection = new(connectionString))
             {
-                string sql = $"SELECT IdPropietario, Nombre, Apellido, Dni, Telefono, Email, Usuario, Contraseña FROM Propietario" +
+                string sql = $"SELECT Id, Nombre, Apellido, Dni, Telefono, Email, Usuario, Contraseña FROM Propietario" +
                     $" WHERE Nombre LIKE @nombre OR Apellido LIKE @nombre";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
@@ -208,7 +208,7 @@ namespace Inmobiliaria_Tanuz.Models
                     {
                         p = new Propietario
                         {
-                            IdPropietario = reader.GetInt32(0),
+                            Id = reader.GetInt32(0),
                             Nombre = reader.GetString(1),
                             Apellido = reader.GetString(2),
                             Dni = reader.GetString(3),
@@ -230,7 +230,7 @@ namespace Inmobiliaria_Tanuz.Models
             Inmueble i = null;
             using (SqlConnection connection = new(connectionString))
             {
-                string sql = $"SELECT IdInmueble, PropietarioId, Direccion, Uso, Tipo, Ambientes,  Precio, Estado , p.Nombre, p.Apellido" +
+                string sql = $"SELECT Id, PropietarioId, Direccion, Uso, Tipo, Ambientes,  Precio, Estado , p.Nombre, p.Apellido" +
                     $" FROM Inmueble i INNER JOIN Propietario p ON i.PropietarioId = p.IdPropietario" +
                     $" WHERE PropietarioId=@id";
                 using (SqlCommand command = new(sql, connection))
@@ -243,7 +243,7 @@ namespace Inmobiliaria_Tanuz.Models
                     {
                         i = new Inmueble
                         {
-                            IdInmueble = reader.GetInt32(0),
+                            Id = reader.GetInt32(0),
                             PropietarioId = reader.GetInt32(1),
                             Direccion = reader.GetString(2),
                             Uso = reader.GetString(3),

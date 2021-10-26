@@ -25,7 +25,7 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.IdContrato)
+                    @Html.DisplayNameFor(model => model.Id)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.InquilinoId)
@@ -50,7 +50,7 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.IdContrato)
+                        @Html.DisplayFor(modelItem => item.Id)
                     </td>
                     <td>
                         @(item.Inquilino.Nombre+" "+ item.Inquilino.Apellido)
@@ -69,10 +69,10 @@
                     </td>
 
                     <td>
-                        @Html.ActionLink("Actualizar", "Edit", new { id = item.IdContrato }) ||
-                        @Html.ActionLink("Detalles", "Details", new { id = item.IdContrato }) ||
-                        @Html.ActionLink("Eliminar", "Delete", new { id = item.IdContrato })||
-                        <a asp-route-id="@item.IdContrato " asp-controller="Pagos" asp-action="VerPagos">Ver Pagos</a>
+                        @Html.ActionLink("Actualizar", "Edit", new { id = item.Id }) ||
+                        @Html.ActionLink("Detalles", "Details", new { id = item.Id }) ||
+                        @Html.ActionLink("Eliminar", "Delete", new { id = item.Id })||
+                        <a asp-route-id="@item.Id" asp-controller="Pagos" asp-action="VerPagos">Ver Pagos</a>
 
 
                     </td>

@@ -26,13 +26,13 @@ namespace Inmobiliaria_Tanuz.Controllers
       
         
 
-        public UsuarioController(IConfiguration config, IWebHostEnvironment environment,RepositorioUsuario user) 
+        public UsuarioController(IConfiguration config, IWebHostEnvironment environment) 
         {
            
             repositorio = new RepositorioUsuario(config);
             this.environment = environment;
             this.config = config;
-            this.repositorio = user; 
+          
         }
         // GET: UsuarioController
         [Authorize(Policy = "SuperAdministrador")]

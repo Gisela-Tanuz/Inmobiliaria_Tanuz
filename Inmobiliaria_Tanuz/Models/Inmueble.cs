@@ -19,7 +19,7 @@ namespace Inmobiliaria_Tanuz.Models
     {
         [Key]
         [Display(Name = "Codigo")]
-        public int IdInmueble { get; set; }
+        public int Id { get; set; }
         [Display(Name = "Dueño")]
         public int PropietarioId { get; set; }
         [ForeignKey(nameof(PropietarioId))]

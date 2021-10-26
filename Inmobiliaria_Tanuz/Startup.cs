@@ -42,13 +42,7 @@ namespace Inmobiliaria_Tanuz
                     options.LogoutPath = "/Usuarios/Logout";
                     options.AccessDeniedPath = "/Home/Restringido";
                 })
-            /*services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options => //el sitio web valida con cookie
-                {
-                    options.LoginPath = "/Usuario/Login";  // redirige para el login
-                    options.LogoutPath = "/Usuario/Logout"; // redirige para el logout
-                    options.AccessDeniedPath = "/Home/Restringido"; // para accesos denegados
-                })*/
+           
                .AddJwtBearer(options =>
                //la api web valida con token
                {

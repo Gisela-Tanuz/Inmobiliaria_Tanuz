@@ -64,7 +64,7 @@ namespace Inmobiliaria_Tanuz.Controllers
                         iterationCount: 1000,
                         numBytesRequested: 256 / 8));
                     repositorio.Alta(propietario);
-                    TempData["Id"] = propietario.IdPropietario;
+                    TempData["Id"] = propietario.Id;
                     return RedirectToAction(nameof(Index));
                 }
                 else
@@ -95,7 +95,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         {
             try
             {
-                propietario.IdPropietario = id;
+                propietario.Id = id;
                 repositorio.Modificar(propietario);
                 return RedirectToAction(nameof(Index));
             }
