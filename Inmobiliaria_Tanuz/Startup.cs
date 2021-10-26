@@ -87,9 +87,7 @@ namespace Inmobiliaria_Tanuz
                    services.AddTransient<IRepositorio<Pagos>, RepositorioPagos>();
 
 
-            services.AddDbContext<DataContext>(
-                  options => options.UseSqlServer(
-                      Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
                      
                }
         
