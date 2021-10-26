@@ -20,6 +20,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         {
             this.repositorio = new RepositorioPropietario(config);
             this.config = config;
+            
         }
         // GET: PropietarioController
   
@@ -57,12 +58,13 @@ namespace Inmobiliaria_Tanuz.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    propietario.Contraseña = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                    string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
                         password: propietario.Contraseña,
                         salt: System.Text.Encoding.ASCII.GetBytes(config["Salt"]),
                         prf: KeyDerivationPrf.HMACSHA1,
                         iterationCount: 1000,
                         numBytesRequested: 256 / 8));
+                    propietario.Contraseña = hashed;
                     repositorio.Alta(propietario);
                     TempData["Id"] = propietario.Id;
                     return RedirectToAction(nameof(Index));

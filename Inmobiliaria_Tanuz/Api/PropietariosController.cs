@@ -1,4 +1,6 @@
 ﻿using Inmobiliaria_Tanuz.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +18,7 @@ using System.Threading.Tasks;
 namespace Inmobiliaria_Tanuz.Api
 {
     [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     public class PropietariosController : ControllerBase
     {
@@ -77,28 +80,37 @@ namespace Inmobiliaria_Tanuz.Api
         [HttpPost("login")]
         public async Task<IActionResult>Login([FromForm] Login login)
         {
-            try 
+            Propietario p = null;
+            try
             {
+                p = await context.Propietario.FirstOrDefaultAsync(x => x.Email == login.Email);
+
                 string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                    password: login.Clave,
-                    salt: System.Text.Encoding.ASCII.GetBytes(config["Salt"]),
-                    prf: KeyDerivationPrf.HMACSHA1,
-                    iterationCount: 1000,
-                    numBytesRequested: 256 / 8));
-                var p = await context.Propietario.FirstOrDefaultAsync(x => x.Email == login.Email);
-                if (p != null || p.Contraseña != hashed)
+                         password: login.Clave,
+                         salt: System.Text.Encoding.ASCII.GetBytes(config["Salt"]),
+                         prf: KeyDerivationPrf.HMACSHA1,
+                         iterationCount: 1000,
+                         numBytesRequested: 256 / 8));
+
+
+                if (p == null || p.Contraseña != hashed)
                 {
-                    return BadRequest("Usuario o Clave incorrecto");
+
+                    return BadRequest("Email o clave incorrecta"); ;
+
                 }
-                else {
-                    var Key = new SymmetricSecurityKey(
+                else
+                {
+                    var key = new SymmetricSecurityKey(
                         System.Text.Encoding.ASCII.GetBytes(config["TokenAuthentication:SecretKey"]));
-                    var credenciales = new SigningCredentials(Key, SecurityAlgorithms.HmacSha256);
-                    var claims = new List<Claim> {
-                       new Claim (ClaimTypes.Name, p.Email),
-                       new Claim("FullName", p.Nombre + " "+p.Apellido),
-                       new Claim(ClaimTypes.Role, "Propietario"),
-                    };
+                    var credenciales = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                    var claims = new List<Claim>
+                     {
+                         new Claim(ClaimTypes.Name, p.Email),
+                         new Claim("FullName", p.Nombre + " " + p.Apellido),
+                         new Claim(ClaimTypes.Role, "Propietario"),
+                     };
+
                     var token = new JwtSecurityToken(
                         issuer: config["TokenAuthentication:Issuer"],
                         audience: config["TokenAuthentication:Audience"],
@@ -106,13 +118,16 @@ namespace Inmobiliaria_Tanuz.Api
                         expires: DateTime.Now.AddMinutes(60),
                         signingCredentials: credenciales
                     );
+
                     return Ok(new JwtSecurityTokenHandler().WriteToken(token));
                 }
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message.ToString());
+
             }
+
         }
 
         // PUT api/Controller>/5

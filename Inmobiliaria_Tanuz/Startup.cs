@@ -38,27 +38,27 @@ namespace Inmobiliaria_Tanuz
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>//el sitio web valida con cookie
                 {
-                    options.LoginPath = "/Usuarios/Login";
-                    options.LogoutPath = "/Usuarios/Logout";
+                    options.LoginPath = "/Usuario/Login";
+                    options.LogoutPath = "/Usuario/Logout";
                     options.AccessDeniedPath = "/Home/Restringido";
-                })
-           
-               .AddJwtBearer(options =>
-               //la api web valida con token
-               {
-                   options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                });
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                   .AddJwtBearer(options =>
                    {
-                       ValidateIssuer = true,
-                       ValidateAudience = true,
-                       ValidateLifetime = true,
-                       ValidateIssuerSigningKey = true,
-                       ValidIssuer = configuration["TokenAuthentication:Issuer"],
-                       ValidAudience = configuration["TokenAuthentication:Audience"],
-                       IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(
-                           configuration["TokenAuthentication:SecretKey"])),
-                   };
-               });
-                   services.AddControllersWithViews();
+                       options.TokenValidationParameters = new TokenValidationParameters()
+                       {
+                           ValidateIssuer = true,
+                           ValidateAudience = true,
+                           ValidateLifetime = true,
+                           ValidateIssuerSigningKey = true,
+                           ValidIssuer = Configuration["TokenAuthentication:Issuer"],
+                           ValidAudience = Configuration["TokenAuthentication:Audience"],
+                           IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(
+                            configuration["TokenAuthentication:SecretKey"])),
+                           
+                       };
+                   });
+            services.AddControllersWithViews();
                    services.AddControllers();
                    services.AddAuthorization(options =>
                    {

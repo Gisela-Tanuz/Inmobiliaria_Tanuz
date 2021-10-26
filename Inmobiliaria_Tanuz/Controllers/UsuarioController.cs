@@ -20,19 +20,19 @@ namespace Inmobiliaria_Tanuz.Controllers
 {
     public class UsuarioController : Controller
     {
-        private readonly RepositorioUsuario repositorio;
+        private RepositorioUsuario repositorio;
         private readonly IWebHostEnvironment environment;
         private readonly IConfiguration config;
-      
-        
 
-        public UsuarioController(IConfiguration config, IWebHostEnvironment environment) 
+
+
+        public UsuarioController(IConfiguration config, IWebHostEnvironment environment)
         {
-           
+
             repositorio = new RepositorioUsuario(config);
             this.environment = environment;
             this.config = config;
-          
+
         }
         // GET: UsuarioController
         [Authorize(Policy = "SuperAdministrador")]
@@ -40,7 +40,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         {
             var usuarios = repositorio.Obtener();
             return View(usuarios);
-           
+
         }
 
         // GET: UsuarioController/Details/5
@@ -49,7 +49,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         {
             var e = repositorio.ObtenerPorId(id);
             return View(e);
-            
+
         }
 
         // GET: UsuarioController/Create
@@ -58,7 +58,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         {
             ViewBag.Roles = Usuario.ObtenerRoles();
             return View();
-           
+
         }
 
         // POST: UsuarioController/Create
@@ -90,7 +90,7 @@ namespace Inmobiliaria_Tanuz.Controllers
                         Directory.CreateDirectory(path);
                     }
 
-                    Path.GetFileName(u.AvatarFile.FileName);//este nombre se puede repetir
+                    //Path.GetFileName(u.AvatarFile.FileName);//este nombre se puede repetir
                     string fileName = "avatar_" + u.Id + Path.GetExtension(u.AvatarFile.FileName);
                     string pathCompleto = Path.Combine(path, fileName);
                     u.Avatar = Path.Combine("/Uploads/", fileName);
@@ -110,7 +110,7 @@ namespace Inmobiliaria_Tanuz.Controllers
                 return View(u);
             }
         }
-    
+
 
         // GET: UsuarioController/Edit/5
         [Authorize(Policy = "SuperAdministrador")]
@@ -164,14 +164,14 @@ namespace Inmobiliaria_Tanuz.Controllers
                 return View(vista, u);
             }
         }
-     
+
         // GET: UsuarioController/Delete/5
         [Authorize(Policy = "SuperAdministrador")]
         public ActionResult Delete(int id)
         {
             var i = repositorio.ObtenerPorId(id);
             return View(i);
-            
+
         }
 
         // POST: UsuarioController/Delete/5
@@ -191,7 +191,7 @@ namespace Inmobiliaria_Tanuz.Controllers
                 return View();
             }
         }
-      //  [AllowAnonymous]
+        //  [AllowAnonymous]
         // GET: Usuarios/Login/
         /*public ActionResult Login()
         {
@@ -199,10 +199,10 @@ namespace Inmobiliaria_Tanuz.Controllers
         }*/
         [AllowAnonymous]
         // GET: Usuarios/Login/
-       public ActionResult Login(string returnUrl)
+        public ActionResult Login(string returnUrl)
         {
-           TempData["returnUrl"] = returnUrl;
-           return View();
+            TempData["returnUrl"] = returnUrl;
+            return View();
         }
 
         [HttpPost]
@@ -212,55 +212,55 @@ namespace Inmobiliaria_Tanuz.Controllers
         {
             try
             {
-                var returnUrl = String.IsNullOrEmpty(TempData["returnUrl"] as string) ? "/Home" : TempData["returnUrl"].ToString();
-                if (ModelState.IsValid)
+                string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                         password: login.Clave,
+                         salt: System.Text.Encoding.ASCII.GetBytes(config["Salt"]),
+                         prf: KeyDerivationPrf.HMACSHA1,
+                         iterationCount: 1000,
+                         numBytesRequested: 256 / 8));
+
+                var e = repositorio.ObtenerPorEmail(login.Email);
+                if (e == null || e.Clave != hashed)
                 {
-                    string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                        password: login.Clave,
-                        salt: System.Text.Encoding.ASCII.GetBytes(config["Salt"]),
-                        prf: KeyDerivationPrf.HMACSHA1,
-                        iterationCount: 1000,
-                        numBytesRequested: 256 / 8));
 
-                    var e = repositorio.ObtenerPorEmail(login.Email);
-                    if (e == null || e.Clave != hashed)
-                    {
-                        ModelState.AddModelError("", "El email o la clave no son correctos");
-                        TempData["returnUrl"] = returnUrl;
-                        return View();
-                    }
-                    var Key = new SymmetricSecurityKey(
-                        System.Text.Encoding.ASCII.GetBytes(config["TokenAutentication:SecretKey"]));
-                    var credenciales = new SigningCredentials(Key, SecurityAlgorithms.HmacSha256);
+                    TempData["error"] = "El email o la clave no son correctos";
+                    return RedirectToAction(nameof(Index), "Home");
+                }
 
-                    var claims = new List<Claim>
+                var claims = new List<Claim>
                     {
                         new Claim(ClaimTypes.Name, e.Email),
                         new Claim("FullName", e.Nombre + " " + e.Apellido),
+                        //new Claim("fotoUrl", e.Avatar),
                         new Claim(ClaimTypes.Role, e.RolNombre),
                     };
-                  
-                     var claimsIdentity = new ClaimsIdentity(
-                        claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-                    await HttpContext.SignInAsync(
-                        CookieAuthenticationDefaults.AuthenticationScheme,
-                        new ClaimsPrincipal(claimsIdentity));
-                    TempData.Remove("returnUrl");
-                    return Redirect(returnUrl);
+                var claimsIdentity = new ClaimsIdentity(
+                    claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                await HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity));
+
+
+                if (TempData[" returnUrl"] != null)
+                {
+                    return Redirect(TempData["returnUrl"].ToString());
                 }
-                TempData["returnUrl"] = returnUrl;
-                return View();
+                else
+                {
+                    return RedirectToAction(nameof(Index), "Home");
+                }
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", ex.Message);
-                return View();
+                return RedirectToAction(nameof(Index), "Home");
             }
+
         }
 
         // GET: Usuarios/Edit/5
-       // [Authorize]
+        // [Authorize]
         public ActionResult Perfil()
         {
             ViewData["Title"] = "Mi perfil";
