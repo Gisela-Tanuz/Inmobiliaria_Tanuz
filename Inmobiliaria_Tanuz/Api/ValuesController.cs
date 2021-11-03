@@ -62,7 +62,7 @@ namespace Inmobiliaria_Tanuz.Api
         {
             if (id > 0)
 
-                return Ok(context.Propietario.Where(x => x.Id == id).Select(x => x.Email).Single());
+                return Ok(context.Propietario.Where(x => x.IdPropietario == id).Select(x => x.Email).Single());
             else
                 return Ok(context.Propietario.Select(x => x.Email).ToList());
         }
@@ -72,8 +72,8 @@ namespace Inmobiliaria_Tanuz.Api
         public IActionResult GetAnonimo(int id) 
         {
             return id > 0 ? 
-                Ok(context.Propietario.Where(x => x.Id == id).Select(x => new { Id = x.Id, x.Email }).Single()) :
-                Ok(context.Propietario.Select(x => new { Id = x.Id, x.Email }).ToList());
+                Ok(context.Propietario.Where(x => x.IdPropietario == id).Select(x => new { Id = x.IdPropietario, x.Email }).Single()) :
+                Ok(context.Propietario.Select(x => new { Id = x.IdPropietario, x.Email }).ToList());
         }
 
 

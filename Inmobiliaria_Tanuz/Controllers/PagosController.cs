@@ -49,7 +49,7 @@ namespace Inmobiliaria_Tanuz.Controllers
             
                 ViewBag.Contrato = repoContrato.ObtenerPorInmuebles(id);
                 Contrato c = repoContrato.ObtenerPorInmuebles(id);
-                IList<Pagos> pagos = repositorio.ObtenerPagoxContrato(c.Id);
+                IList<Pagos> pagos = repositorio.ObtenerPagoxContrato(id);
                 if (pagos.Count == 0)
                 {
                     ViewBag.NroDePago = 1;
@@ -104,7 +104,7 @@ namespace Inmobiliaria_Tanuz.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    pagos.Id = id;
+                    pagos.IdPago = id;
                     int res = repositorio.Modificar(pagos);
                     return RedirectToAction(nameof(Index));
                 }

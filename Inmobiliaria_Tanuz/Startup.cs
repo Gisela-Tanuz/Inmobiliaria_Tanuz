@@ -22,7 +22,7 @@ namespace Inmobiliaria_Tanuz
     public class Startup
 
     {
-        private readonly IConfiguration configuration;
+     
 
         public Startup(IConfiguration configuration)
         {
@@ -41,8 +41,8 @@ namespace Inmobiliaria_Tanuz
                     options.LoginPath = "/Usuario/Login";
                     options.LogoutPath = "/Usuario/Logout";
                     options.AccessDeniedPath = "/Home/Restringido";
-                });
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                })//;
+           // services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                    .AddJwtBearer(options =>
                    {
                        options.TokenValidationParameters = new TokenValidationParameters()
@@ -54,7 +54,7 @@ namespace Inmobiliaria_Tanuz
                            ValidIssuer = Configuration["TokenAuthentication:Issuer"],
                            ValidAudience = Configuration["TokenAuthentication:Audience"],
                            IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(
-                            configuration["TokenAuthentication:SecretKey"])),
+                            Configuration["TokenAuthentication:SecretKey"])),
                            
                        };
                    });

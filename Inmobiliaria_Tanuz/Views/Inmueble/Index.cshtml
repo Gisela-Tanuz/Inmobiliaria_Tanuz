@@ -15,7 +15,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+                @Html.DisplayNameFor(model => model.IdInmueble)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.PropietarioId)
@@ -38,47 +38,69 @@
             <th>
                 @Html.DisplayNameFor(model => model.Estado)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Imagen)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @(item.Duenio.Nombre+" "+ item.Duenio.Apellido)
-                </td>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdInmueble)
+            </td>
+            <td>
+                @(item.Duenio.Nombre+" "+ item.Duenio.Apellido)
+            </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Direccion)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Uso)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Tipo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Ambientes)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Precio)
-                </td>
-                <td>
-                    <!--   Html.DisplayFor(modelItem => item.Estado)-->
-                    @(item.Estado == 1 ? "Disponible" : "No Disponible")
-                </td>
-                <td>
-                    @Html.ActionLink("Actualizar", "Edit", new { id = item.Id }) ||
-                    @Html.ActionLink("Detalles", "Details", new { id = item.Id }) ||
-                    @Html.ActionLink("Eliminar", "Delete", new { id = item.Id }) ||
-                    <a asp-route-id="@item.Id " asp-action="PorPropietario">Ver propiedades</a>
-                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Direccion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Uso)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tipo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ambientes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Precio)
+            </td>
+            <td>
+                @{
+                    if (item.Estado == true)
+                    {
+                        <div class="ok">
+                            <div class="text-center">
+                                <i class="fas fa-check">Disponible</i>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="falso">
+                            <div class="text-center">
+                                <i class="fas fa-times">No disponible</i>
+                            </div>
+                        </div>
+                    }
+                }
+            </td>
+            <td>
+                <img width="32" src="@item.Imagen">
+            </td>
+            <td>
+                @Html.ActionLink("Actualizar", "Edit", new { id = item.IdInmueble }) ||
+                @Html.ActionLink("Detalles", "Details", new { id = item.IdInmueble }) ||
+                @Html.ActionLink("Eliminar", "Delete", new { id = item.IdInmueble }) ||
+                <a asp-route-id="@item.IdInmueble" asp-action="PorPropietario">Ver propiedades</a>
+            </td>
 
-            </tr>
+        </tr>
         }
     </tbody>
 </table>

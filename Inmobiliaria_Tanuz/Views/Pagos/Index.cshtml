@@ -11,7 +11,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+                @Html.DisplayNameFor(model => model.IdPago)
             <th>
                 @Html.DisplayNameFor(model => model.ContratoId)
             </th>
@@ -37,7 +37,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Id)
+                @Html.DisplayFor(modelItem => item.IdPago)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.contrato.Inmueble.Tipo)
@@ -57,11 +57,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.contrato.Inmueble.Precio)
             </td>
-            <!--<td>
-                Html.ActionLink("Actualizar", "Edit", new { id = item.Id }) ||
-                Html.ActionLink("Detalles", "Details", new { id = item.Id }) ||
-                Html.ActionLink("Eliminar", "Delete", new { id = item.Id })
-            </td>-->
+           
         </tr>
 }
     </tbody>

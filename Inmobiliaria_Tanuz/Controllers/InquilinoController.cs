@@ -71,7 +71,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         {
             try
             {
-                inquilino.Id = id;
+                inquilino.IdInquilino = id;
                 repositorio.Modificar(inquilino);
                 return RedirectToAction(nameof(Index));
             }

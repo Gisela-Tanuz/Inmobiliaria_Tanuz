@@ -9,10 +9,10 @@ namespace Inmobiliaria_Tanuz.Models
 {
     public class Pagos
     {
-        [Column("Id")]
+        [Column("IdPago")]
         [Key]
         [Display(Name = "Codigo")]
-        public int Id { get; set; }
+        public int IdPago { get; set; }
         [Display(Name= "Contrato ")]
         public int ContratoId { get; set; }
         [ForeignKey(nameof(ContratoId))]

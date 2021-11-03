@@ -19,7 +19,7 @@ namespace Inmobiliaria_Tanuz.Models
             IList<Inquilino> res = new List<Inquilino>();
             using (SqlConnection connection = new(connectionString))
             {
-                string sql = $"SELECT Id, Nombre, Apellido, Dni, Telefono, Email, NombreGarante, DireccionGarante," +
+                string sql = $"SELECT IdInquilino, Nombre, Apellido, Dni, Telefono, Email, NombreGarante, DireccionGarante," +
                     $"TelGarante, LugarDeTrabajo FROM Inquilino";
                 using (SqlCommand command = new(sql, connection))
                 {
@@ -30,7 +30,7 @@ namespace Inmobiliaria_Tanuz.Models
                     {
                         Inquilino i = new()
                         {
-                            Id= reader.GetInt32(0),
+                            IdInquilino= reader.GetInt32(0),
                             Nombre = reader.GetString(1),
                             Apellido = reader.GetString(2),
                             Dni = reader.GetString(3),
@@ -72,7 +72,7 @@ namespace Inmobiliaria_Tanuz.Models
 
                     connection.Open();
                     res = Convert.ToInt32(command.ExecuteScalar());
-                    i.Id = res;
+                    i.IdInquilino = res;
                     connection.Close();
 
                 }
@@ -102,7 +102,7 @@ namespace Inmobiliaria_Tanuz.Models
                     command.Parameters.AddWithValue("@direccionGarante", i.DireccionGarante);
                     command.Parameters.AddWithValue("@telGarante", i.TelGarante);
                     command.Parameters.AddWithValue("@lugarDeTrabajo", i.LugarDeTrabajo);
-                    command.Parameters.AddWithValue("@id", i.Id);
+                    command.Parameters.AddWithValue("@id", i.IdInquilino);
                     connection.Open();
                     res = command.ExecuteNonQuery();
                     connection.Close();
@@ -116,7 +116,7 @@ namespace Inmobiliaria_Tanuz.Models
             int res = -1;
             using (SqlConnection connection = new(connectionString))
             {
-                string sql = $"DELETE FROM Inquilino WHERE Id = @id";
+                string sql = $"DELETE FROM Inquilino WHERE IdInquilino = @id";
                 using (var command = new SqlCommand(sql, connection))
                 {
                     command.CommandType = CommandType.Text;
@@ -133,8 +133,8 @@ namespace Inmobiliaria_Tanuz.Models
             Inquilino i = null;
             using (SqlConnection connection = new(connectionString))
             {
-                string sql = $"SELECT Id, Nombre, Apellido, Dni, Telefono, Email, NombreGarante, DireccionGarante," +
-                $"TelGarante, LugarDeTrabajo  FROM Inquilino WHERE Id=@id;";
+                string sql = $"SELECT IdInquilino, Nombre, Apellido, Dni, Telefono, Email, NombreGarante, DireccionGarante," +
+                $"TelGarante, LugarDeTrabajo  FROM Inquilino WHERE IdInquilino =@id;";
                 using (var command = new SqlCommand(sql, connection))
                 {
 
@@ -147,7 +147,7 @@ namespace Inmobiliaria_Tanuz.Models
                         i = new Inquilino();
 
                         {
-                            i.Id = int.Parse(reader["Id"].ToString());
+                            i.IdInquilino = int.Parse(reader["IdInquilino"].ToString());
                             i.Nombre = reader["Nombre"].ToString();
                             i.Apellido = reader["Apellido"].ToString();
                             i.Dni = reader["Dni"].ToString();

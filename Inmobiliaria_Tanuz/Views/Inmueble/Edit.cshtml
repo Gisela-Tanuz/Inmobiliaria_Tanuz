@@ -12,19 +12,19 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
-                <span asp-validation-for="Id" class="text-danger"></span>
+                <label asp-for="IdInmueble" class="control-label"></label>
+                <input asp-for="IdInmueble" class="form-control" />
+                <span asp-validation-for="IdInmueble" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">Propietario</label>
                 <select class="form-control" name="PropietarioId">
                     @foreach (var item in propietarios)
                     {
-                        @:<option @(item.Id == Model.PropietarioId ? "selected" : "") value="@item.Id">@(item.Nombre + " " + item.Apellido)</option>
+                        @:<option @(item.IdPropietario == Model.PropietarioId ? "selected" : "") value="@item.IdPropietario">@(item.Nombre + " " + item.Apellido)</option>
                     }
                 </select>
                 <span asp-validation-for="PropietarioId" class="text-danger"></span>
@@ -54,14 +54,13 @@
                 <input asp-for="Precio" class="form-control" />
                 <span asp-validation-for="Precio" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Estado" class="control-label"> Estado del inmueble</label>
-                <select asp-for="Estado" class="form-control" name="Estado" value="@Model.Estado">
-                  <option value="1">Disponible</option>
-                  <option value="0">No Disponible</option>
-                </select>
-                <span asp-validation-for="Estado" class="text-danger"></span>
+
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Estado" /> @Html.DisplayNameFor(model => model.Estado)
+                </label>
             </div>
+            
             <div class="form-group">
                 <input type="submit" value="Actualizar" class="btn btn-primary" />
             </div>

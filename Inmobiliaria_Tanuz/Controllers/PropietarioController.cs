@@ -2,11 +2,13 @@
 using Inmobiliaria_Tanuz.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,12 +17,14 @@ namespace Inmobiliaria_Tanuz.Controllers
     public class PropietarioController : Controller
     {
         private readonly RepositorioPropietario repositorio;
+        private readonly IWebHostEnvironment environment;
         private readonly IConfiguration config;
-        public PropietarioController(IConfiguration config)
+        public PropietarioController(IConfiguration config, IWebHostEnvironment environment)
         {
             this.repositorio = new RepositorioPropietario(config);
             this.config = config;
-            
+            this.environment = environment;
+
         }
         // GET: PropietarioController
   
@@ -66,8 +70,27 @@ namespace Inmobiliaria_Tanuz.Controllers
                         numBytesRequested: 256 / 8));
                     propietario.Contraseña = hashed;
                     repositorio.Alta(propietario);
-                    TempData["Id"] = propietario.Id;
-                    return RedirectToAction(nameof(Index));
+                    TempData["Id"] = propietario.IdPropietario;
+                    if (propietario.AvatarPropFile != null && propietario.IdPropietario > 0)
+                    {
+                        string wwwPath = environment.WebRootPath;
+                        string path = Path.Combine(wwwPath, "Uploads");
+                        if (!Directory.Exists(path))
+                        {
+                            Directory.CreateDirectory(path);
+                        }
+
+                        //Path.GetFileName(u.AvatarFile.FileName);//este nombre se puede repetir
+                        string fileName = "avatar_" + propietario.IdPropietario + Path.GetExtension(propietario.AvatarPropFile.FileName);
+                        string pathCompleto = Path.Combine(path, fileName);
+                        propietario.AvatarProp = Path.Combine("/Uploads/", fileName);
+                        using (FileStream stream = new FileStream(pathCompleto, FileMode.Create))
+                        {
+                            propietario.AvatarPropFile.CopyTo(stream);
+                        }
+                        repositorio.Modificar(propietario);
+                    }
+                        return RedirectToAction(nameof(Index));
                 }
                 else
                     return View(propietario);
@@ -97,8 +120,13 @@ namespace Inmobiliaria_Tanuz.Controllers
         {
             try
             {
-                propietario.Id = id;
+                var p = repositorio.ObtenerPorId(id);
+                propietario.IdPropietario = id;
+             //   repositorio.Modificar(propietario);
+                propietario.Contraseña = p.Contraseña;
+                propietario.AvatarProp = p.AvatarProp;
                 repositorio.Modificar(propietario);
+                TempData["Mensaje"] = "Datos guardados correctamente";
                 return RedirectToAction(nameof(Index));
             }
             catch

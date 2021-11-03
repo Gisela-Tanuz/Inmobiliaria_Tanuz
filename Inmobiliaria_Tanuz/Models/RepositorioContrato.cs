@@ -31,7 +31,7 @@ namespace Inmobiliaria_Tanuz.Models
 					command.Parameters.AddWithValue("@fechaFin", con.FechaFin);
 					connection.Open();
 					res = Convert.ToInt32(command.ExecuteScalar());
-					con.Id = res;
+					con.IdContrato = res;
 					connection.Close();
 				}
 			}
@@ -44,7 +44,7 @@ namespace Inmobiliaria_Tanuz.Models
 			int res = -1;
 			using (SqlConnection connection = new(connectionString))
 			{
-				string sql = $"DELETE FROM Contrato WHERE Id = {id}";
+				string sql = $"DELETE FROM Contrato WHERE IdContrato = {id}";
 				using (SqlCommand command = new(sql, connection))
 				{
 					command.CommandType = CommandType.Text;
@@ -68,7 +68,7 @@ namespace Inmobiliaria_Tanuz.Models
 				command.Parameters.AddWithValue("@inmuebleId", con.InmuebleId);
 				command.Parameters.AddWithValue("@fechaInicio", con.FechaInicio);
 				command.Parameters.AddWithValue("@fechaFin", con.FechaFin);
-				command.Parameters.AddWithValue("@id", con.Id);
+				command.Parameters.AddWithValue("@id", con.IdContrato);
 				command.CommandType = CommandType.Text;
 				connection.Open();
 				res = command.ExecuteNonQuery();
@@ -81,11 +81,11 @@ namespace Inmobiliaria_Tanuz.Models
 			IList<Contrato> res = new List<Contrato>();
 			using (SqlConnection connection = new(connectionString))
 			{
-				string sql = "SELECT Id, InquilinoId, InmuebleId, FechaInicio, FechaFin, " +
+				string sql = "SELECT IdContrato, InquilinoId, InmuebleId, FechaInicio, FechaFin, " +
 					  $" i.Nombre, i.Apellido, im.Direccion, im.Uso, im.Tipo, im.Precio, im.Estado, p.Nombre, p.Apellido " +
-					  $" FROM Contrato c INNER JOIN Inquilino i ON c.InquilinoId = i.Id " +
-					  $" INNER JOIN Inmueble im ON c.InmuebleId = im.Id " +
-					  $"INNER JOIN Propietario p ON im.PropietarioId = p.Id";
+					  $" FROM Contrato c INNER JOIN Inquilino i ON c.InquilinoId = i.IdInquilino " +
+					  $" INNER JOIN Inmueble im ON c.InmuebleId = im.IdInmueble " +
+					  $"INNER JOIN Propietario p ON im.PropietarioId = p.IdPropietario ";
 				using (SqlCommand command = new(sql, connection))
 				{
 					command.CommandType = CommandType.Text;
@@ -95,7 +95,7 @@ namespace Inmobiliaria_Tanuz.Models
 					{
 						Contrato contrato = new()
 						{
-							Id = reader.GetInt32(0),
+							IdContrato = reader.GetInt32(0),
 							InquilinoId = reader.GetInt32(1),
 							InmuebleId = reader.GetInt32(2),
 							FechaInicio = reader.GetDateTime(3),
@@ -112,7 +112,7 @@ namespace Inmobiliaria_Tanuz.Models
 								Uso = reader.GetString(8),
 								Tipo = reader.GetString(9),
 								Precio = reader.GetDecimal(10),
-								Estado = reader.GetInt32(11),
+								Estado = reader.GetBoolean(11),
 								Duenio = new Propietario
 								{
 									Nombre = reader.GetString(12),
@@ -133,12 +133,12 @@ namespace Inmobiliaria_Tanuz.Models
 			Contrato contrato = null;
 			using (SqlConnection connection = new(connectionString))
 			{
-				string sql = "SELECT Id, InquilinoId, InmuebleId, FechaInicio, FechaFin, " +
+				string sql = "SELECT IdContrato, InquilinoId, InmuebleId, FechaInicio, FechaFin, " +
 					  $" i.Nombre, i.Apellido, im.Direccion,im.Uso, im.Tipo, im.Precio, im.Estado, p.Nombre, p.Apellido " +
-					  $" FROM Contrato c INNER JOIN Inquilino i ON c.InquilinoId = i.Id " +
-					  $" INNER JOIN Inmueble im ON c.InmuebleId = im.Id " +
-					  $"INNER JOIN Propietario p ON im.PropietarioId = p.Id " +
-					  $" WHERE Id=@id";
+					  $" FROM Contrato c INNER JOIN Inquilino i ON c.InquilinoId = i.IdInquilino " +
+					  $" INNER JOIN Inmueble im ON c.InmuebleId = im.IdInmueble " +
+					  $"INNER JOIN Propietario p ON im.PropietarioId = p.IdPropietario " +
+					  $" WHERE IdContrato=@id";
 				using (SqlCommand command = new(sql, connection))
 				{
 					command.Parameters.Add("@id", SqlDbType.Int).Value = id;
@@ -149,7 +149,7 @@ namespace Inmobiliaria_Tanuz.Models
 					{
 						contrato = new()
 						{
-							Id = reader.GetInt32(0),
+							IdContrato = reader.GetInt32(0),
 							InquilinoId = reader.GetInt32(1),
 							InmuebleId = reader.GetInt32(2),
 							FechaInicio = reader.GetDateTime(3),
@@ -166,7 +166,7 @@ namespace Inmobiliaria_Tanuz.Models
 								Uso = reader.GetString(8),
 								Tipo = reader.GetString(9),
 								Precio = reader.GetDecimal(10),
-								Estado = reader.GetInt32(11),
+								Estado = reader.GetBoolean(11),
 								Duenio = new Propietario
 								{
 									Nombre = reader.GetString(12),
@@ -188,11 +188,11 @@ namespace Inmobiliaria_Tanuz.Models
 			Contrato c = null;
 			using (SqlConnection connection = new(connectionString))
 			{
-				string sql = $" SELECT Id, InquilinoId, InmuebleId, FechaInicio, FechaFin, " +
+				string sql = $" SELECT IdContrato, InquilinoId, InmuebleId, FechaInicio, FechaFin, " +
 					$" i.Nombre, i.Apellido ," +
 					$" im.Direccion, im.Uso, im.Tipo, im.Precio" +
-					$" FROM Contrato c INNER JOIN Inmueble im ON c.InmuebleId = im.Id " +
-					$" INNER JOIN Inquilino i ON c.InquilinoId = i.Id " +
+					$" FROM Contrato c INNER JOIN Inmueble im ON c.InmuebleId = im.IdInmueble " +
+					$" INNER JOIN Inquilino i ON c.InquilinoId = i.IdInquilino " +
 					$" WHERE InmuebleId = @id";
 
 				using (SqlCommand command = new(sql, connection))
@@ -205,7 +205,7 @@ namespace Inmobiliaria_Tanuz.Models
 					{
 						c = new Contrato
 						{
-							Id = reader.GetInt32(0),
+							IdContrato = reader.GetInt32(0),
 							InquilinoId = reader.GetInt32(1),
 							InmuebleId = reader.GetInt32(2),
 							FechaInicio = reader.GetDateTime(3),
@@ -242,12 +242,12 @@ namespace Inmobiliaria_Tanuz.Models
 
 			using (SqlConnection connection = new(connectionString))
 			{
-				string sql = $" SELECT Id, InquilinoId, InmuebleId, FechaInicio, FechaFin, " +
+				string sql = $" SELECT IdContrato, InquilinoId, InmuebleId, FechaInicio, FechaFin, " +
 					$" i.Nombre, i.Apellido ," +
 					$" im.Direccion, im.Uso, im.Tipo, im.Precio,p.Nombre, p.Apellido" +
-					$" FROM Contrato c INNER JOIN Inmueble im ON c.InmuebleId = im.Id " +
+					$" FROM Contrato c INNER JOIN Inmueble im ON c.InmuebleId = im.IdInmueble " +
 					$" INNER JOIN Inquilino i ON c.InquilinoId = i.IdInquilino " +
-					$"INNER JOIN Propietario p ON im.PropietarioId = p.Id "+
+					$"INNER JOIN Propietario p ON im.PropietarioId = p.IdPropietario "+
 					$" WHERE FechaInicio <= @fechaFin AND FechaFin >= @fechaInicio;";
 				using (SqlCommand command = new(sql, connection))
 				{
@@ -261,7 +261,7 @@ namespace Inmobiliaria_Tanuz.Models
 					{
 						Contrato c = new Contrato
 						{
-							Id = reader.GetInt32(0),
+							IdContrato = reader.GetInt32(0),
 							InquilinoId = reader.GetInt32(1),
 							InmuebleId = reader.GetInt32(2),
 							FechaInicio = reader.GetDateTime(3),

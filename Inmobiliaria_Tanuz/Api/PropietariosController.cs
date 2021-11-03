@@ -30,13 +30,8 @@ namespace Inmobiliaria_Tanuz.Api
             this.context = context;
             this.config = config;
         }
-        // GET: api/<PropietariosController>
-        /*[HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }*/
-        //GET: api/<Controller>
+     
+        //GET: api/<Controller>  
         [HttpGet]
         public async Task<ActionResult<Propietario>> Get() {
             try
@@ -55,7 +50,7 @@ namespace Inmobiliaria_Tanuz.Api
         {
             try
             {
-                var entidad = await context.Propietario.SingleOrDefaultAsync(x => x.Id == id);
+                var entidad = await context.Propietario.SingleOrDefaultAsync(x => x.IdPropietario == id);
                 return entidad != null ? Ok(entidad) : NotFound();
             } catch (Exception ex)
             {
@@ -70,28 +65,27 @@ namespace Inmobiliaria_Tanuz.Api
             try
             {
                 return Ok(await context.Propietario.ToListAsync());
-            } 
-            catch (Exception ex) 
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex);
             }
         }
         // POST api/<Controller>/login
+        [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<IActionResult>Login([FromForm] Login login)
+        public async Task<IActionResult> Login([FromForm] Login login)
         {
-            Propietario p = null;
+            //   Propietario p = null;
             try
             {
-                p = await context.Propietario.FirstOrDefaultAsync(x => x.Email == login.Email);
-
                 string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
                          password: login.Clave,
                          salt: System.Text.Encoding.ASCII.GetBytes(config["Salt"]),
                          prf: KeyDerivationPrf.HMACSHA1,
                          iterationCount: 1000,
                          numBytesRequested: 256 / 8));
-
+                var p = await context.Propietario.FirstOrDefaultAsync(x => x.Email == login.Email);
 
                 if (p == null || p.Contraseña != hashed)
                 {
@@ -129,12 +123,48 @@ namespace Inmobiliaria_Tanuz.Api
             }
 
         }
-
-        // PUT api/Controller>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        // POST api/<PropietariosController>
+        [HttpPost]
+        public async Task<IActionResult> Post([FromForm] Propietario propietarios)
         {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    await context.Propietario.AddAsync(propietarios);
+                    context.SaveChanges();
+                    return CreatedAtAction(nameof(Get), new { id = propietarios.IdPropietario }, propietarios);
+                }
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
+
+        // PUT api/Controller>/5  Actualizar Perfil
+        [HttpPut()]
+        public async Task<IActionResult> Put ([FromBody] Propietario propietario)
+        {
+            try
+            {
+               
+                if (ModelState.IsValid)
+                {
+                    context.Propietario.Update(propietario);
+                   
+                    await context.SaveChangesAsync();
+                    return Ok(propietario);
+                }
+                    return BadRequest();
+                
+            }
+            catch (Exception ex) {
+                return BadRequest(ex);
+            }
+        }
+
 
         // DELETE api/<Controller>/5
         [HttpDelete("{id}")]

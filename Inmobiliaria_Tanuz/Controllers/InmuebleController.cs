@@ -1,10 +1,12 @@
 ﻿using Inmobiliaria_Tanuz.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,16 +17,19 @@ namespace Inmobiliaria_Tanuz.Controllers
         private readonly RepositorioInmueble repositorio;
         private readonly RepositorioPropietario repoPropietario;
         private readonly IConfiguration config;
+        private readonly IWebHostEnvironment environment;
 
-        public InmuebleController(IConfiguration config)
+        public InmuebleController(IConfiguration config, IWebHostEnvironment environment)
         {
             this.repositorio = new RepositorioInmueble(config);
             this.repoPropietario = new RepositorioPropietario(config);
             this.config = config;
+            this.environment = environment;
+
         }
 
         // GET: InmuebleController
-        
+
         public ActionResult Index()
         {
             var lista = repositorio.Obtener();
@@ -32,7 +37,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         }
 
         // GET: Inmuebles/Details/6
-   
+
         public ActionResult Disponibles(int id)
         {
             var lista = repositorio.ObtenerDisponibles();
@@ -43,11 +48,11 @@ namespace Inmobiliaria_Tanuz.Controllers
 
         public ActionResult Details(int id)
         {
-       
+
             try
             {
                 var entidad = repositorio.ObtenerPorId(id);
-                ViewBag.Estado = Inmueble.ObtenerEstado();
+                //ViewBag.Estado = Inmueble.ObtenerEstado();
                 return View(entidad);
             }
             catch (Exception ex)
@@ -56,7 +61,7 @@ namespace Inmobiliaria_Tanuz.Controllers
                 ViewBag.StackTrate = ex.StackTrace;
                 return View();
             }
-            
+
         }
 
         // GET: InmuebleController/Create
@@ -65,7 +70,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         {
             ViewBag.Propietario = repoPropietario.Obtener();
             return View();
-           
+
         }
 
         // POST: InmuebleController/Create
@@ -79,17 +84,37 @@ namespace Inmobiliaria_Tanuz.Controllers
                 if (ModelState.IsValid)
                 {
                     int res = repositorio.Alta(i);
-                    TempData["Id"] = i.Id;
+                    TempData["Id"] = i.IdInmueble;
                     repositorio.EstadoDisponible(i);
                     TempData["Mensaje"] = "Se ha creado un nuevo inmueble";
+                    if (i.ImagenFile != null && i.IdInmueble > 0)
+                    {
+                        string wwwPath = environment.WebRootPath;
+                        string path = Path.Combine(wwwPath, "Uploads");
+                        if (!Directory.Exists(path))
+                        {
+                            Directory.CreateDirectory(path);
+                        }
+
+                        //Path.GetFileName(u.AvatarFile.FileName);//este nombre se puede repetir
+                        string fileName = "imagen_" + i.IdInmueble + Path.GetExtension(i.ImagenFile.FileName);
+                        string pathCompleto = Path.Combine(path, fileName);
+                        i.Imagen = Path.Combine("/Uploads/", fileName);
+                        using (FileStream stream = new FileStream(pathCompleto, FileMode.Create))
+                        {
+                            i.ImagenFile.CopyTo(stream);
+                        }
+                        repositorio.Modificar(i);
+                    }
                     return RedirectToAction(nameof(Index));
-                   
                 }
+
                 else
                 {
                     ViewBag.Propietario = repoPropietario.Obtener();
                     return View(i);
                 }
+
             }
             catch (Exception ex)
             {
@@ -98,7 +123,7 @@ namespace Inmobiliaria_Tanuz.Controllers
                 return View(i);
             }
         }
-
+    
         // GET: InmuebleController/Edit/5
         [Authorize(Policy = "Administrador")]
         public ActionResult Edit(int id)
@@ -122,9 +147,9 @@ namespace Inmobiliaria_Tanuz.Controllers
         { 
             try
             {   
-                entidad.Id = id;
+                entidad.IdInmueble = id;
                 repositorio.Modificar(entidad);
-                ViewBag.Inmueble = Inmueble.ObtenerEstado();
+                //ViewBag.Inmueble = Inmueble.ObtenerEstado();
                 TempData["Mensaje"] = "Datos guardados correctamente";
                 return RedirectToAction(nameof(Index));
             }

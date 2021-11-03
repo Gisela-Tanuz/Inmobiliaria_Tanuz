@@ -61,7 +61,8 @@
                     @Html.DisplayFor(modelItem => item.Precio)
                 </td>
                 <td>
-                    @(item.Estado == 1 ? "Disponible" : "No Disponible")
+                    @Html.DisplayFor(modelItem => item.Estado)
+            
                 </td>
                 <td>
                 </td>

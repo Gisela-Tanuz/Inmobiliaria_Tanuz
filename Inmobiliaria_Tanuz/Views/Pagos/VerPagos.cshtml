@@ -8,9 +8,9 @@
 <h1 style="font-family:Tahoma">Ver Pagos</h1>
 
 <p>
-    <a class="btn btn-outline-secondary" style="font-family:Tahoma" asp-route-id="@c.Id" asp-action="Create">Crear un nuevo pago</a>
+    <a class="btn btn-outline-secondary" style="font-family:Tahoma" asp-route-id="@c.IdContrato" asp-action="Create">Crear un nuevo pago</a>
 </p>
-<h6>El pago corresponde al contrato Nº: @c.Id pertenece al inquilino/a: @c.Inquilino.Nombre  @c.Inquilino.Apellido ,
+<h6>El pago corresponde al contrato Nº: @c.IdContrato pertenece al inquilino/a: @c.Inquilino.Nombre  @c.Inquilino.Apellido ,
  del inmueble para uso @c.Inmueble.Uso , de tipo @c.Inmueble.Tipo , con direccion en : @c.Inmueble.Direccion .
 </h6>
 
@@ -42,9 +42,9 @@
                 @Html.DisplayFor(modelItem => item.Importe)
             </td>
             <td>
-                @Html.ActionLink("Actualizar", "Edit", new { id=item.Id}) ||
-                @Html.ActionLink("Detalles", "Details", new { id=item.Id }) ||
-                @Html.ActionLink("Elimiar", "Delete", new { id=item.Id })
+                @Html.ActionLink("Actualizar", "Edit", new { id=item.IdPago }) ||
+                @Html.ActionLink("Detalles", "Details", new { id=item.IdPago }) ||
+                @Html.ActionLink("Elimiar", "Delete", new { id=item.IdPago })
             </td>
         </tr>
 }
