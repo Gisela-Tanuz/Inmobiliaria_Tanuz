@@ -4,12 +4,13 @@
    
 
 
-<h1 style="font-family:Tahoma">Lista de Contratos.</h1>
+<h1 style="font-family:Tahoma" class="text-center">Lista de Contratos.</h1>
 <hr>
 
     <p>
-        <a class="btn btn-outline-secondary" style="font-family:Tahoma" asp-action="Create">Crear nuevo</a>
+        <a class="btn btn-warning" style="font-family:Tahoma" asp-action="Create">Nuevo contrato</a>
     </p>
+<div class="col-xl-6">
     <form class="form-inline" asp-action="BuscarContratoPorFecha" asp-controller="Contrato">
         <div class="input-group-sm">
             <label for="FechaInicio" class="control-label"></label>
@@ -19,10 +20,11 @@
             <label for="FechaFinal" class="control-label"></label>
             <input type="date" name="FechaFinal" class="form-control" required />
         </div>
-        <button type="submit" class="btn btn-outline-secondary">Contratos vigentes</button>
+        <button type="submit" class="btn btn-outline-warning">Contratos vigentes</button>
     </form>
-    <table class="table">
-        <thead>
+</div>
+    <table class="table table-striped table-hover">
+        <thead class="table-warning">
             <tr>
                 <th>
                     @Html.DisplayNameFor(model => model.IdContrato)
@@ -69,10 +71,10 @@
                     </td>
 
                     <td>
-                        @Html.ActionLink("Actualizar", "Edit", new { id = item.IdContrato }) ||
-                        @Html.ActionLink("Detalles", "Details", new { id = item.IdContrato }) ||
-                        @Html.ActionLink("Eliminar", "Delete", new { id = item.IdContrato })||
-                        <a asp-route-id="@item.IdContrato" asp-controller="Pagos" asp-action="VerPagos">Ver Pagos</a>
+                        <a asp-action="Edit" asp-route-id="@item.IdContrato" title="Actualizar"><i class="bi bi-pencil-square"></i></a>
+                        <a asp-action="Details" asp-route-id="@item.IdContrato" title="Detalles"><i class="bi bi-card-list"></i></a>
+                        <a asp-action="Delete" asp-route-id="@item.IdContrato" title="Eliminar"><i class="bi bi-trash"></i></a>
+                        <a asp-route-id="@item.IdContrato" asp-controller="Pagos" asp-action="VerPagos" title="Ver Pagos"><i class="bi bi-file-earmark-ppt-fill"></i></a>
 
 
                     </td>

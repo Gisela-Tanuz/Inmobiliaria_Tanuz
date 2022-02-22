@@ -166,18 +166,18 @@ namespace Inmobiliaria_Tanuz.Models
 		}
 		public IList<Pagos> ObtenerPagoxContrato(int id)
 		{
-			Pagos p = null;
+			//Pagos p = null;
 			IList<Pagos> res = new List<Pagos>();
 				using (SqlConnection connection = new(connectionString))
 				{
-					string sql = $"SELECT IdPago, ContratoId, NroDePago, Fecha, Importe, " +
-						 $"c.InquilinoId, c.InmuebleId," +
+					string sql = $"SELECT IdPago, p.ContratoId, NroDePago, Fecha, Importe, " +
+						 $"c.IdContrato,c.InquilinoId, c.InmuebleId," +
 						$"im.Direccion, im.Uso, im.Tipo," +
 						$"i.Nombre, i.Apellido " +
-						$" FROM Pago p INNER JOIN Contrato c ON p.ContratoId = c.IdContrato " +
+						$" FROM Pago p INNER JOIN Contrato c ON c.IdContrato = p.ContratoId " +
 						$" INNER JOIN Inmueble im ON im.IdInmueble = c.InmuebleId " +
 						$" INNER JOIN Inquilino i ON i.IdInquilino = c.InquilinoId " +
-						$" WHERE ContratoId=@id";
+						$" WHERE p.ContratoId=@id";
 
 					using (SqlCommand command = new(sql, connection))
 					{
@@ -187,7 +187,7 @@ namespace Inmobiliaria_Tanuz.Models
 						var reader = command.ExecuteReader();
 						while (reader.Read())
 						{
-		           	        p = new Pagos
+		           	       Pagos p = new Pagos
 							{
 								IdPago = reader.GetInt32(0),
 								ContratoId = reader.GetInt32(1),
@@ -196,19 +196,19 @@ namespace Inmobiliaria_Tanuz.Models
 								Importe = reader.GetDecimal(4),
 								contrato = new Contrato
 								{
-									
-									InmuebleId = reader.GetInt32(5),
-									InquilinoId = reader.GetInt32(6),
+									IdContrato = reader.GetInt32(5),
+									InmuebleId = reader.GetInt32(6),
+									InquilinoId = reader.GetInt32(7),
 									Inmueble = new Inmueble
 									{ 
-										Direccion = reader.GetString(7),
-										Uso = reader.GetString(8),
-										Tipo = reader.GetString(9),
+										Direccion = reader.GetString(8),
+										Uso = reader.GetString(9),
+										Tipo = reader.GetString(10),
 									},
 									Inquilino = new Inquilino
 									{
-										Nombre = reader.GetString(10),
-										Apellido = reader.GetString(11),
+										Nombre = reader.GetString(11),
+										Apellido = reader.GetString(12),
 									},
 								}
 							};

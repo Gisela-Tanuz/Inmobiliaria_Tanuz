@@ -5,30 +5,31 @@
 }
 
 
-<h1 class="text-lg-left bg-warning font-weight-bold text-white" style="font-family:'Tahoma'">Ingresar</h1>
+<h4 class="text-lg-center bg-warning font-weight text-black" style="font-family:'Tahoma'">Iniciar sessión</h4>
 
-<hr />
-<div class="row text-lg-center">
-    <div class="col-md-4">
-        <form asp-action="Login" class="text-lg-center">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Email"  class="control-label"></label>
-                <input asp-for="Email" class="form-control"/>
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Clave" class="control-label"></label>
-                <input asp-for="Clave" class="form-control" />
-                <span asp-validation-for="Clave" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Ingresar" class="btn btn-primary"/>
-                <a class="btn btn-secondary" asp-action="Index">Cancelar</a>
-            </div>
-        </form>
+<hr/>
+<div class="form-row">
+  
+        <div class="col-md-6 mb-3">
+            <form asp-action="Login" class="text-lg-center">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Clave" class="control-label"></label>
+                    <input asp-for="Clave" class="form-control" />
+                    <span asp-validation-for="Clave" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Ingresar" class="btn btn-primary" />
+                    <a class="btn btn-secondary" asp-action="Index">Cancelar</a>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

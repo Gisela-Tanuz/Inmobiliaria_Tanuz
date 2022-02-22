@@ -188,12 +188,12 @@ namespace Inmobiliaria_Tanuz.Models
 			Contrato c = null;
 			using (SqlConnection connection = new(connectionString))
 			{
-				string sql = $" SELECT IdContrato, InquilinoId, InmuebleId, FechaInicio, FechaFin, " +
+				string sql = $" SELECT IdContrato, c.InquilinoId, c.InmuebleId, FechaInicio, FechaFin, " +
 					$" i.Nombre, i.Apellido ," +
 					$" im.Direccion, im.Uso, im.Tipo, im.Precio" +
 					$" FROM Contrato c INNER JOIN Inmueble im ON c.InmuebleId = im.IdInmueble " +
 					$" INNER JOIN Inquilino i ON c.InquilinoId = i.IdInquilino " +
-					$" WHERE InmuebleId = @id";
+					$" WHERE c.InmuebleId = @id";
 
 				using (SqlCommand command = new(sql, connection))
 				{

@@ -70,7 +70,7 @@ namespace Inmobiliaria_Tanuz.Models
 			using (SqlConnection connection = new(connectionString))
 			{
 				string sql = "UPDATE Inmueble SET " +
-					$"PropietarioId=@propietarioId, Direccion=@direccion, Uso=@uso, Tipo=@tipo, Ambientes=@ambientes, Precio=@precio, Estado=@estado, Imagen=@imagen " +
+					$"PropietarioId=@propietarioId, Direccion=@direccion, Uso=@uso, Tipo=@tipo, Ambientes=@ambientes, Precio=@precio, Estado=@estado " +
 					$" WHERE IdInmueble = @id";
 				using (SqlCommand command = new(sql, connection))
 				{
@@ -87,7 +87,7 @@ namespace Inmobiliaria_Tanuz.Models
 					}
 					else
 					{*/
-					command.Parameters.AddWithValue("@imagen", i.Imagen);
+					//command.Parameters.AddWithValue("@imagen", i.Imagen);
 					
 					//}
 					

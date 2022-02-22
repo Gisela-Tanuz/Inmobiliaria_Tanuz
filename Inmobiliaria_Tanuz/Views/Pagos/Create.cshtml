@@ -2,20 +2,20 @@
 
 @{
     ViewData["Title"] = "Create";
- 
+    //Contrato c = ViewBag.Contrato as Contrato;
+
 }
 
-<h1 style="font-family:Tahoma">Nuevo Pago</h1>
+<h3 style="font-family:Tahoma" class="text-center">Nuevo Pago</h3>
 
-<h4 style="font-family:Tahoma">Pagos</h4>
 <hr/>
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
+<div class="row align-tex-center">
+    <div class="col-lg-12">
+        <form asp-action="Create"class="form-inline">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="ContratoId" class="control-label"></label>
-                <input asp-for="ContratoId" value="@ViewBag.Contrato.Id" class="form-control" />
+                <input asp-for="ContratoId" value="@ViewBag.Contrato.IdContrato" class="form-control" />
                 <span asp-validation-for="ContratoId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -25,7 +25,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Fecha" class="control-label"></label>
-                <input asp-for="Fecha" class="form-control" />
+                <input asp-for="Fecha" class="form-control" type="date" />
                 <span asp-validation-for="Fecha" class="text-danger"></span>
             </div>
             <div class="form-group">

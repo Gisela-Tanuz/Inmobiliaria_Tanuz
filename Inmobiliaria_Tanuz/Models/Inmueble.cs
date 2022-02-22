@@ -28,7 +28,7 @@ namespace Inmobiliaria_Tanuz.Models
         public string Direccion { get; set; }
         public string Uso { get; set; }
         public string Tipo { get; set; }
-        [Display(Name= "Cantidad de ambientes")]
+        [Display(Name= "Ambientes")]
         public int Ambientes { get; set; }
         public decimal Precio { get; set; }
         [Display(Name ="Disponible")]

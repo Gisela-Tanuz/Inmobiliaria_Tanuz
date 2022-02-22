@@ -245,7 +245,7 @@ namespace Inmobiliaria_Tanuz.Models
             Inmueble i = null;
             using (SqlConnection connection = new(connectionString))
             {
-                string sql = $"SELECT Id, PropietarioId, Direccion, Uso, Tipo, Ambientes,  Precio, Estado, Imagen , p.Nombre, p.Apellido" +
+                string sql = $"SELECT IdInmueble, PropietarioId, Direccion, Uso, Tipo, Ambientes,  Precio, Estado, Imagen , p.Nombre, p.Apellido" +
                     $" FROM Inmueble i INNER JOIN Propietario p ON i.PropietarioId = p.IdPropietario" +
                     $" WHERE PropietarioId=@id";
                 using (SqlCommand command = new(sql, connection))

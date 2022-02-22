@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Inmobiliaria_Tanuz.Models
 {
     public class Propietario
-    {   [Key]
+    {[Key]
         [Display(Name = "Codigo")]
         public int IdPropietario { get; set; }
         public string Nombre { get; set; }
@@ -20,6 +20,7 @@ namespace Inmobiliaria_Tanuz.Models
         public string Usuario { get; set; }
         [Required, DataType(DataType.Password)]
         public string Contraseña { get; set; }
+        [Display(Name = "Foto")]
         public string AvatarProp { get; set; }
         [NotMapped]
         public IFormFile AvatarPropFile { get; set; }

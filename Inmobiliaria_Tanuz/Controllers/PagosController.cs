@@ -46,10 +46,24 @@ namespace Inmobiliaria_Tanuz.Controllers
         [Authorize(Policy = "Administrador")]
         public ActionResult Create(int id)
         {
-            
+            try
+            {
+                IList<Contrato> lista = repoContrato.Obtener();
+                ViewBag.Contrato = lista;
+                return View();
+
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            /*try
+            {
+
                 ViewBag.Contrato = repoContrato.ObtenerPorInmuebles(id);
-                Contrato c = repoContrato.ObtenerPorInmuebles(id);
-                IList<Pagos> pagos = repositorio.ObtenerPagoxContrato(id);
+                //Contrato c = repoContrato.ObtenerPorInmuebles(id);
+                IList<Pagos> pagos = repositorio.ObtenerPagoxContrato(ViewBag.Contrato.IdContrato);
                 if (pagos.Count == 0)
                 {
                     ViewBag.NroDePago = 1;
@@ -61,9 +75,16 @@ namespace Inmobiliaria_Tanuz.Controllers
                 }
 
                 return View();
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex.Message;
+                return View();
+            }*/
+
 
         }
-        
+
         // POST: PagosController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -74,7 +95,10 @@ namespace Inmobiliaria_Tanuz.Controllers
             try
             {
                 int res = repositorio.Alta(p);
+                IList<Pagos> pagos = repositorio.ObtenerPagoxContrato(res);
+                
                 TempData["Mensaje"] = "Se ha creado un nuevo pago";
+
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)

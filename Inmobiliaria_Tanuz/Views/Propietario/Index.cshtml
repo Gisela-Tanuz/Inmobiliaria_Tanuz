@@ -5,13 +5,13 @@
     Inmueble i = ViewBag.Inmueble as Inmueble;
 }
 
-<h1 style="font-family:Tahoma">Lista de propietarios.</h1>
+<h3 style="font-family:Tahoma">Lista de propietarios.</h3>
 
 <p>
-    <a class="btn btn-outline-secondary" style="font-family:Tahoma" asp-action="Create">Crear un nuevo propietario</a>
+    <a class="btn btn-outline-secondary" style="font-family:Tahoma" asp-action="Create">Agregar propietarios</a>
 </p>
-<table class="table">
-    <thead>
+<table class="table table-striped table-hover">
+    <thead class="table-warning">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.IdPropietario)
@@ -21,9 +21,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Apellido)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Dni)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Telefono)
@@ -55,9 +52,6 @@
                 @Html.DisplayFor(modelItem => item.Apellido)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Dni)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Telefono)
             </td>
             <td>
@@ -70,10 +64,11 @@
                 <img width="32" src="@item.AvatarProp">
             </td>
             <td>
-                @Html.ActionLink("Actualizar", "Edit", new { id = item.IdPropietario }) ||
-                @Html.ActionLink("Detalles", "Details", new { id = item.IdPropietario }) ||
-                @Html.ActionLink("Eliminar", "Delete", new { id = item.IdPropietario }) ||
-                <a asp-route-id="@item.IdPropietario " asp-action="PorPropietario">Ver propiedades</a>
+                <a asp-action="Edit" asp-route-id="@item.IdPropietario" title="Actualizar"><i class="bi bi-pencil-square"></i></a>
+                <a asp-action="Details" asp-route-id="@item.IdPropietario" title="Detalles"><i class="bi bi-card-list"></i></a>
+                <a asp-action="Delete" asp-route-id="@item.IdPropietario" title="Eliminar"><i class="bi bi-trash"></i></a>
+                <a asp-action="PorPropietario" asp-route-id="@item.IdPropietario" title="Ver propiedades"><i class="bi bi-house-fill"></i></a>
+               
             </td>
         </tr>
         }
