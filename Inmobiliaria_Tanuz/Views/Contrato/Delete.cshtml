@@ -2,13 +2,11 @@
 
 @{
     ViewData["Title"] = "Delete";
+    Contrato c = ViewBag.Contrato as Contrato;
 }
-
-<h1 style="font-family:'Tahoma'">Eliminar</h1>
-
-<h3 style="font-family:'Tahoma'">¿Esta seguro de eliminar el contrato?</h3>
+<h3 style="font-family:'Tahoma'">¿Esta seguro de eliminar el contrato de @c.Inquilino.Nombre @c.Inquilino.Apellido ?</h3>
 <div>
-    <h4 style="font-family:'Tahoma'">Contrato</h4>
+   
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -62,7 +60,7 @@
     </dl>
     
     <form asp-action="Delete">
-        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
-        <a asp-action="Index">Volver a la Lista</a>
+        <input type="submit" value="Eliminar" class="btn btn-danger" /> 
+        <a asp-action="Index" class="btn btn-secondary">Volver a la Lista</a>
     </form>
 </div>

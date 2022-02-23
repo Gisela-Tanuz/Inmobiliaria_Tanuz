@@ -4,56 +4,55 @@
     ViewData["Title"] = "Create";
 }
 
-<h1 style="font-family:Tahoma">Registrar un nuevo propietario</h1>
+<h3 style="font-family:Tahoma">Registrar un nuevo propietario</h3>
 
-<h4 style="font-family:Tahoma">Propietario:</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create" enctype="multipart/form-data">
+<div class="row align-tex-center">
+    <div class="col-lg-12">
+        <form asp-action="Create" enctype="multipart/form-data" class="form-inline">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <div class="form-group">
-                <label asp-for="Nombre" class="control-label"></label>
-                <input asp-for="Nombre" class="form-control" />
+            <div class="col-lg-6">
+                <label asp-for="Nombre" class="control-label">Nombre</label>
+                <input asp-for="Nombre" class="form-control-file" />
                 <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Apellido" class="control-label"></label>
-                <input asp-for="Apellido" class="form-control" />
+            <div class="col-lg-6">
+                <label asp-for="Apellido" class="control-label">Apellido</label>
+                <input asp-for="Apellido" class="form-control-file" />
                 <span asp-validation-for="Apellido" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Dni" class="control-label"></label>
-                <input asp-for="Dni" class="form-control" />
+            <div class="col-lg-6">
+                <label asp-for="Dni" class="control-label">D.N.I</label>
+                <input asp-for="Dni" class="form-control-file" />
                 <span asp-validation-for="Dni" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Telefono" class="control-label"></label>
-                <input asp-for="Telefono" class="form-control" />
+            <div class="col-lg-6">
+                <label asp-for="Telefono" class="control-label">Telefono</label>
+                <input asp-for="Telefono" class="form-control-file" />
                 <span asp-validation-for="Telefono" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
+            <div class="col-lg-6">
+                <label asp-for="Email" class="control-label">Email</label>
+                <input asp-for="Email" class="form-control-file" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Usuario" class="control-label"></label>
-                <input asp-for="Usuario" class="form-control" />
+            <div class="col-lg-6">
+                <label asp-for="Usuario" class="control-label">Nombre de usuario</label>
+                <input asp-for="Usuario" class="form-control-file" />
                 <span asp-validation-for="Usuario" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Contraseña" class="control-label"></label>
-                <input asp-for="Contraseña" class="form-control" />
+            <div class="col-lg-6">
+                <label asp-for="Contraseña" class="control-label">Contraseña</label>
+                <input asp-for="Contraseña" class="form-control-file" />
                 <span asp-validation-for="Contraseña" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="AvatarPropFile" class="control-label"></label>
+            <div class="col-lg-6">
+                <label asp-for="AvatarPropFile" class="control-label">Foto</label>
                 <input type="file" name="AvatarPropFile" />
                 <span asp-validation-for="AvatarPropFile" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="col-lg-3">
                 <input type="submit" value="Agregar" class="btn btn-primary" />
             </div>
         </form>

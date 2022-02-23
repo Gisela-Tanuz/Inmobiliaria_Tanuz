@@ -11,13 +11,13 @@
         <h1 style="font-family:'Tahoma'">Inmuebles Disponibles</h1>
 
         <p>
-            <a class="btn btn-outline-secondary" style="font-family:'Tahoma'" asp-action ="Create">Crear Nuevo</a>
+            <a class="btn btn-outline-warning" style="font-family:'Tahoma'" asp-action ="Create">Crear Nuevo</a>
         </p>
     }
 
 
-<table class="table">
-    <thead>
+<table class="table table-striped table-hover">
+    <thead class="table-warning">
         <tr>
             @if (User.IsInRole("Administrador"))
             {
@@ -76,13 +76,10 @@
             </td>
          
             <td>
-              
 
-                @Html.ActionLink("Actualizar", "Edit", new { id = item.IdInmueble }) ||
-                
-                @Html.ActionLink("Eliminar", "Delete", new { id = item.IdInmueble }) ||
-                
-                <a asp-route-id="@item.IdInmueble " asp-controller="Contrato" asp-action="">Crear Contrato</a>
+                <a asp-action="Edit" asp-route-id="@item.IdInmueble" title="Actualizar"><i class="bi bi-pencil-square"></i></a>
+                <a asp-action="Delete" asp-route-id="@item.IdInmueble" title="Eliminar"><i class="bi bi-trash"></i></a>
+                <a asp-route-id="@item.IdInmueble " asp-controller="Contrato" asp-action="" title="Crear contrato"><i class="bi bi-file-earmark-post"></i></a>
             </td>
             
             </tr>

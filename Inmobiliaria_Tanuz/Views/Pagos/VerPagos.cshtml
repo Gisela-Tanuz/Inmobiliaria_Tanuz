@@ -14,8 +14,8 @@
  del inmueble para uso @c.Inmueble.Uso , de tipo @c.Inmueble.Tipo , con direccion en : @c.Inmueble.Direccion .
 </h6>
 
-<table class="table">
-    <thead>
+<table class="table table-striped table-hover">
+    <thead class="table-warning">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.NroDePago)
@@ -42,10 +42,10 @@
                 @Html.DisplayFor(modelItem => item.Importe)
             </td>
             <td>
-                @Html.ActionLink("Actualizar", "Edit", new { id=item.IdPago }) ||
-                @Html.ActionLink("Detalles", "Details", new { id=item.IdPago }) ||
-                @Html.ActionLink("Elimiar", "Delete", new { id=item.IdPago })
-            </td>
+                <a asp-action="Edit" asp-route-id="@item.IdPago" title="Actualizar"><i class="bi bi-pencil-square"></i></a>
+                <a asp-action="Details" asp-route-id="@item.IdPago" title="Detalles"><i class="bi bi-card-list"></i></a>
+                <a asp-action="Delete" asp-route-id="@item.IdPago" title="Eliminar"><i class="bi bi-trash"></i></a>
+     
         </tr>
 }
     </tbody>

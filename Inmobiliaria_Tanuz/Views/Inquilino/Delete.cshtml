@@ -2,13 +2,12 @@
 
 @{
     ViewData["Title"] = "Delete";
+    Inquilino i = ViewBag.Inquilino as Inquilino;
 }
 
-<h1 style="font-family:'Tahoma'">Eliminar</h1>
-
-<h3 style="font-family:'Tahoma'">¿Esta seguro que quiere eliminar a esta Persona?</h3>
+<h3 style="font-family:'Tahoma'">¿Esta seguro que quiere eliminar a @i.Nombre @i.Apellido?</h3>
 <div>
-    <h4 style="font-family:'Tahoma'">Inquilino</h4>
+   
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -74,7 +73,7 @@
     </dl>
     
     <form asp-action="Delete">
-        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
-        <a asp-action="Index">Volver a la lista</a>
+        <input type="submit" value="Eliminar" class="btn btn-danger" /> 
+        <a asp-action="Index" class="btn btn-secondary">Volver a la lista</a>
     </form>
 </div>

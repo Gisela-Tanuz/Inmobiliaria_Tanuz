@@ -2,13 +2,13 @@
 
 @{
     ViewData["Title"] = "Details";
-    Inmueble i = ViewBag.Inmueble as Inmueble;
+
 }
 
-<h1 style="font-family:'Tahoma'">Detalles de los datos</h1>
+<h3 style="font-family:'Tahoma'" class="text-center">Detalles de los datos del inmueble</h3>
 
 <div>
-    <h4 style="font-family:'Tahoma'">Inmueble</h4>
+   
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -22,8 +22,8 @@
 
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayNameFor(model => model.Duenio.Nombre)
-            @Html.DisplayNameFor(model => model.Duenio.Apellido)
+            @Html.DisplayFor(model => model.Duenio.Nombre)
+            @Html.DisplayFor(model => model.Duenio.Apellido)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Direccion)
@@ -63,13 +63,13 @@
                 if (Model.Estado == true)
                 {
                     <p>
-                        <i class="fas fa-check"></i> Disponible
+                        <i class="bi bi-check"></i>Disponible
                     </p>
                 }
                 else
                 {
                     <p>
-                        <i class="fas fa-times"></i>No disponible
+                        <i class="bi bi-clock-history"></i>No disponible
                     </p>
                 }
             }
@@ -79,15 +79,14 @@
         </dt>
         <dd class="col-sm-10">
             <div class="form-group">
-                <label asp-for="Imagen" class="control-label"></label>
-                <br />
+                
                 @if (Model.Imagen != "")
                 {
                     <img src="@Model.Imagen" />
                 }
                 else
                 {
-                    <p>Sin avatar</p>
+                    <p>Sin imagen</p>
                 }
                 <input asp-for="Imagen" value="@Model.Imagen" class="form-control" hidden />
 

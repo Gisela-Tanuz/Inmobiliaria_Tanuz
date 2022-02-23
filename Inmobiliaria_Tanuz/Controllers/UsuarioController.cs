@@ -169,6 +169,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         [Authorize(Policy = "SuperAdministrador")]
         public ActionResult Delete(int id)
         {
+            ViewBag.Usuario = repositorio.ObtenerPorId(id);
             var i = repositorio.ObtenerPorId(id);
             return View(i);
 

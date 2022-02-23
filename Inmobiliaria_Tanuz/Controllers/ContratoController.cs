@@ -123,6 +123,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id)
         {
+            ViewBag.Contrato = repositorio.ObtenerPorId(id);
             var con = repositorio.ObtenerPorId(id);
             if (TempData.ContainsKey("Mensaje"))
                 ViewBag.Mensaje = TempData["Mensaje"];

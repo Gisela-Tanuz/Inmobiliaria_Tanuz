@@ -4,45 +4,45 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1 style="font-family:'Tahoma'">Actualizar Pagos</h1>
+<h3 style="font-family:'Tahoma'">Actualizar datos del Pagos</h3>
 
-<h4 style="font-family:'Tahoma'">Pagos</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
+<div class="row align-tex-center">
+    <div class="col-lg-12">
+        <form asp-action="Edit" class="form-inline">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            
-            <div class="form-group">
+
+            <div class="col-lg-6">
                 <label asp-for="ContratoId" class="control-label"></label>
-                <input asp-for="ContratoId" class="form-control" />
+                <input asp-for="ContratoId" class="form-control-file" />
                 <span asp-validation-for="ContratoId" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="col-lg-6">
                 <label asp-for="NroDePago" class="control-label"></label>
-                <input asp-for="NroDePago" class="form-control" />
+                <input asp-for="NroDePago" class="form-control-file" />
                 <span asp-validation-for="NroDePago" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="col-lg-6">
                 <label asp-for="Fecha" class="control-label"></label>
-                <input asp-for="Fecha" class="form-control" />
+                <input asp-for="Fecha" class="form-control-file" />
                 <span asp-validation-for="Fecha" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="col-lg-6">
                 <label asp-for="Importe" class="control-label"></label>
-                <input asp-for="Importe" class="form-control" />
+                <input asp-for="Importe" class="form-control-file" />
                 <span asp-validation-for="Importe" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="col-lg-3">
                 <input type="submit" value="Actualizar" class="btn btn-primary" />
+            </div>
+            <div class="col-lg-3">
+                <a asp-controller="Contrato" asp-action="Index" class="btn btn-secondary">Cancelar</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-controller="Contrato" asp-action="Index">Volver a la lista</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

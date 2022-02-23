@@ -125,10 +125,10 @@ namespace Inmobiliaria_Tanuz.Models
 			using (SqlConnection connection = new(connectionString))
 			{
 
-				string sql = "SELECT Id, ContratoId, NroDePago, Fecha, Importe, i.Direccion, i.Uso, i.Tipo, i.Precio" +
-					$" FROM Pago p INNER JOIN Contrato c ON p.ContratoId = c.Id " +
+				string sql = "SELECT IdPago, ContratoId, NroDePago, Fecha, Importe, i.Direccion, i.Uso, i.Tipo, i.Precio" +
+					$" FROM Pago p INNER JOIN Contrato c ON p.ContratoId = c.IdContrato " +
 					$"INNER JOIN Inmueble i ON c.InmuebleId = i.IdInmueble "+ 
-					$" WHERE Id=@id";
+					$" WHERE IdPago=@id";
 				using (SqlCommand command = new(sql, connection))
 				{
 					command.Parameters.Add("@id", SqlDbType.Int).Value = id;
@@ -166,12 +166,12 @@ namespace Inmobiliaria_Tanuz.Models
 		}
 		public IList<Pagos> ObtenerPagoxContrato(int id)
 		{
-			//Pagos p = null;
+			Pagos p = null;
 			IList<Pagos> res = new List<Pagos>();
 				using (SqlConnection connection = new(connectionString))
 				{
 					string sql = $"SELECT IdPago, p.ContratoId, NroDePago, Fecha, Importe, " +
-						 $"c.IdContrato,c.InquilinoId, c.InmuebleId," +
+						 $"c.InquilinoId, c.InmuebleId," +
 						$"im.Direccion, im.Uso, im.Tipo," +
 						$"i.Nombre, i.Apellido " +
 						$" FROM Pago p INNER JOIN Contrato c ON c.IdContrato = p.ContratoId " +
@@ -187,7 +187,7 @@ namespace Inmobiliaria_Tanuz.Models
 						var reader = command.ExecuteReader();
 						while (reader.Read())
 						{
-		           	       Pagos p = new Pagos
+		           	       p = new Pagos
 							{
 								IdPago = reader.GetInt32(0),
 								ContratoId = reader.GetInt32(1),
@@ -196,19 +196,19 @@ namespace Inmobiliaria_Tanuz.Models
 								Importe = reader.GetDecimal(4),
 								contrato = new Contrato
 								{
-									IdContrato = reader.GetInt32(5),
-									InmuebleId = reader.GetInt32(6),
-									InquilinoId = reader.GetInt32(7),
+									
+									InmuebleId = reader.GetInt32(5),
+									InquilinoId = reader.GetInt32(6),
 									Inmueble = new Inmueble
 									{ 
-										Direccion = reader.GetString(8),
-										Uso = reader.GetString(9),
-										Tipo = reader.GetString(10),
+										Direccion = reader.GetString(7),
+										Uso = reader.GetString(8),
+										Tipo = reader.GetString(9),
 									},
 									Inquilino = new Inquilino
 									{
-										Nombre = reader.GetString(11),
-										Apellido = reader.GetString(12),
+										Nombre = reader.GetString(10),
+										Apellido = reader.GetString(11),
 									},
 								}
 							};

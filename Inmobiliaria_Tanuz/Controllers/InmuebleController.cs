@@ -51,8 +51,9 @@ namespace Inmobiliaria_Tanuz.Controllers
 
             try
             {
+                ViewBag.Inmueble = repositorio.ObtenerPorId(id);
                 var entidad = repositorio.ObtenerPorId(id);
-                //ViewBag.Estado = Inmueble.ObtenerEstado();
+               
                 return View(entidad);
             }
             catch (Exception ex)
@@ -166,6 +167,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id)
         {
+            ViewBag.Inmueble = repositorio.ObtenerPorId(id);
             Inmueble i = repositorio.ObtenerPorId(id);
             if (TempData.ContainsKey("Mensaje"))
                 ViewBag.Mensaje = TempData["Mensaje"];

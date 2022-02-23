@@ -11,7 +11,7 @@
     <div class="col-lg-12">
         <form asp-action="Create" class="form-inline">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            
+
             <div class="col-lg-6">
                 <label asp-for="Nombre" class="control-label">Nombre</label>
                 <input asp-for="Nombre" class="form-control-file" />
@@ -62,15 +62,18 @@
             </div>
             <div class="col-lg-3">
                 <input type="submit" value="Agregar" class="btn btn-primary" />
-                <input type="reset" value="Borrar" class="btn btn-secondary" />
+            </div>
+            <div class="col-lg-3">
+                <input type="reset" value="Borrar" class="btn btn-danger" />
+            </div>
+            <div class="col-lg-3">
+                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <p> <a asp-action="Index" >Volver a la lista</a></p>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

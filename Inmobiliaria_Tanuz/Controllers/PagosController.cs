@@ -48,22 +48,10 @@ namespace Inmobiliaria_Tanuz.Controllers
         {
             try
             {
-                IList<Contrato> lista = repoContrato.Obtener();
-                ViewBag.Contrato = lista;
-                return View();
-
-
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            /*try
-            {
-
                 ViewBag.Contrato = repoContrato.ObtenerPorInmuebles(id);
-                //Contrato c = repoContrato.ObtenerPorInmuebles(id);
-                IList<Pagos> pagos = repositorio.ObtenerPagoxContrato(ViewBag.Contrato.IdContrato);
+                Contrato c = repoContrato.ObtenerPorInmuebles(id);
+                IList<Pagos> pagos = repositorio.ObtenerPagoxContrato(id);
+               
                 if (pagos.Count == 0)
                 {
                     ViewBag.NroDePago = 1;
@@ -75,13 +63,13 @@ namespace Inmobiliaria_Tanuz.Controllers
                 }
 
                 return View();
+
             }
             catch (Exception ex)
             {
-                ViewBag.Error = ex.Message;
-                return View();
-            }*/
-
+                throw ;
+            }
+            
 
         }
 
@@ -111,7 +99,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         // GET: PagosController/Edit/5
         [Authorize(Policy = "Administrador")]
         public ActionResult Edit(int id)
-        {
+        {   
             var p = repositorio.ObtenerPorId(id);
             return View(p);
 

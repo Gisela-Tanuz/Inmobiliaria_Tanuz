@@ -4,13 +4,13 @@
    
 
 
-<h1 style="font-family:Tahoma" class="text-center">Lista de Contratos.</h1>
+<h3 style="font-family:Tahoma" class="text-center">Lista de Contratos.</h3>
 <hr>
 
     <p>
         <a class="btn btn-warning" style="font-family:Tahoma" asp-action="Create">Nuevo contrato</a>
     </p>
-<div class="col-xl-6">
+<div class="col-md-6">
     <form class="form-inline" asp-action="BuscarContratoPorFecha" asp-controller="Contrato">
         <div class="input-group-sm">
             <label for="FechaInicio" class="control-label"></label>
@@ -36,7 +36,7 @@
                     @Html.DisplayNameFor(model => model.InmuebleId)
                 </th>
                 <th>
-                    Direccion
+                    Dirección
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.FechaInicio)

@@ -7,11 +7,11 @@
 
 @if (User.IsInRole("Administrador"))
 {
-    <h1 style="font-family:Tahoma">Sus Inmuebles: </h1>
+    <h3 style="font-family:Tahoma">Sus Inmuebles: </h3>
 
 
-    <table class="table">
-        <thead>
+    <table class="table table-striped table-hover">
+        <thead  class="table-warning">
             <tr>
                 <th>
                     @Html.DisplayNameFor(model => model.PropietarioId)
