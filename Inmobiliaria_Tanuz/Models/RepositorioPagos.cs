@@ -60,15 +60,14 @@ namespace Inmobiliaria_Tanuz.Models
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
 				string sql = "UPDATE Pago SET " +
-					$" ContratoId=@contratoId, NroDePago=@nroDePago, Fecha=@fecha, Importe=@importe " +
+					$" Fecha=@fecha, Importe=@importe " +
 					$" WHERE IdPago=@id";
 				using (SqlCommand command = new(sql, connection))
 				{
-					command.Parameters.AddWithValue("@contratoId", p.ContratoId);
-					command.Parameters.AddWithValue("@nroDePago", p.NroDePago);
+			
 					command.Parameters.AddWithValue("@fecha", p.Fecha);
 					command.Parameters.AddWithValue("@importe", p.Importe);
-					command.Parameters.AddWithValue("@IdPago", p.IdPago);
+					command.Parameters.AddWithValue("@id", p.IdPago);
 					command.CommandType = CommandType.Text;
 					connection.Open();
 					res = command.ExecuteNonQuery();
@@ -82,7 +81,8 @@ namespace Inmobiliaria_Tanuz.Models
 			IList<Pagos> res = new List<Pagos>();
 			using (SqlConnection connection = new(connectionString))
 			{
-				string sql = "SELECT IdPago , ContratoId, NroDePago, Fecha, Importe, i.Uso, i.Tipo, i.Precio " +
+				string sql = "SELECT IdPago , p.ContratoId, p.NroDePago, p.Fecha, p.Importe," +
+					$" i.Uso, i.Tipo, i.Precio " +
 					$" FROM Pago p INNER JOIN Contrato c ON p.ContratoId = c.IdContrato" +
 					 $" INNER JOIN Inmueble i ON c.InmuebleId = i.IdInmueble ";
 				using (SqlCommand command = new(sql, connection))
@@ -125,7 +125,8 @@ namespace Inmobiliaria_Tanuz.Models
 			using (SqlConnection connection = new(connectionString))
 			{
 
-				string sql = "SELECT IdPago, ContratoId, NroDePago, Fecha, Importe, i.Direccion, i.Uso, i.Tipo, i.Precio" +
+				string sql = "SELECT IdPago, p.ContratoId, p.NroDePago, p.Fecha, p.Importe," +
+					$" i.Direccion, i.Uso, i.Tipo, i.Precio" +
 					$" FROM Pago p INNER JOIN Contrato c ON p.ContratoId = c.IdContrato " +
 					$"INNER JOIN Inmueble i ON c.InmuebleId = i.IdInmueble "+ 
 					$" WHERE IdPago=@id";
@@ -170,16 +171,16 @@ namespace Inmobiliaria_Tanuz.Models
 			IList<Pagos> res = new List<Pagos>();
 				using (SqlConnection connection = new(connectionString))
 				{
-					string sql = $"SELECT IdPago, p.ContratoId, NroDePago, Fecha, Importe, " +
+					string sql = $"SELECT IdPago, p.ContratoId, p.NroDePago, p.Fecha, p.Importe, " +
 						 $"c.InquilinoId, c.InmuebleId," +
 						$"im.Direccion, im.Uso, im.Tipo," +
 						$"i.Nombre, i.Apellido " +
-						$" FROM Pago p INNER JOIN Contrato c ON c.IdContrato = p.ContratoId " +
-						$" INNER JOIN Inmueble im ON im.IdInmueble = c.InmuebleId " +
-						$" INNER JOIN Inquilino i ON i.IdInquilino = c.InquilinoId " +
+						$" FROM Pago p INNER JOIN Contrato c ON  c.IdContrato = p.ContratoId " +
+						$" INNER JOIN Inmueble im ON im.IdInmueble = c.InmuebleId  " +
+						$" INNER JOIN Inquilino i ON i.IdInquilino = c.InquilinoId  " +
 						$" WHERE p.ContratoId=@id";
 
-					using (SqlCommand command = new(sql, connection))
+				using (SqlCommand command = new(sql, connection))
 					{
 						command.CommandType = CommandType.Text;
 						command.Parameters.AddWithValue("@id", id);
@@ -209,7 +210,7 @@ namespace Inmobiliaria_Tanuz.Models
 									{
 										Nombre = reader.GetString(10),
 										Apellido = reader.GetString(11),
-									},
+									}
 								}
 							};
 							res.Add(p);

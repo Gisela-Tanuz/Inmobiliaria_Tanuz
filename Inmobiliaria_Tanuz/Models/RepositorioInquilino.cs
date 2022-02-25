@@ -89,7 +89,7 @@ namespace Inmobiliaria_Tanuz.Models
                 string sql = $"UPDATE Inquilino SET" +
                     $" Nombre=@nombre, Apellido=@apellido, Dni=@dni, Telefono=@telefono, Email=@email," +
                     $" NombreGarante=@nombreGarante, DireccionGarante=@direccionGarante, TelGarante=@telGarante, LugarDeTrabajo=@lugarDeTrabajo" +
-                    $" WHERE Id = @id";
+                    $" WHERE IdInquilino = @id";
                 using (SqlCommand command = new(sql, connection))
                 {
                     command.CommandType = CommandType.Text;

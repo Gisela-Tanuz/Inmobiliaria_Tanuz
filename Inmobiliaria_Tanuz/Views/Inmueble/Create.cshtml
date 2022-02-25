@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Create";
-    IList<Propietario> propietarios = ViewBag.Propietario as List<Propietario>;
+    IList<Propietario> propietario = ViewBag.Propietario as List<Propietario>;
     }
 
 <h3 style="font-family:Tahoma">Agregar un nuevo inmueble</h3>
@@ -15,7 +15,7 @@
             <div class="col-lg-6">
                 <label class="control-label">Propietario</label>
                 <select class="form-control-file" name="PropietarioId">
-                    @foreach (var item in propietarios)
+                    @foreach (var item in propietario)
                     {
                         <option value="@item.IdPropietario">@(item.Nombre + " " + item.Apellido)</option>
                     }

@@ -62,7 +62,7 @@ namespace Inmobiliaria_Tanuz.Models
 			{
 				string sql = "UPDATE Contrato SET " +
 					$" InquilinoId=@inquilinoId, InmuebleId=@inmuebleId, FechaInicio=@fechaInicio, FechaFin=@fechaFin " +
-					$" WHERE Id = @id";
+					$" WHERE IdContrato = @id";
 				using SqlCommand command = new(sql, connection);
 				command.Parameters.AddWithValue("@inquilinoId", con.InquilinoId);
 				command.Parameters.AddWithValue("@inmuebleId", con.InmuebleId);

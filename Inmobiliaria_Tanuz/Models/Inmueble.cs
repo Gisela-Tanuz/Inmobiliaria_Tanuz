@@ -36,19 +36,6 @@ namespace Inmobiliaria_Tanuz.Models
         public string Imagen { get; set; }
         [NotMapped]
         public IFormFile ImagenFile { get; set; }
-        /* public int Estado { get; set; }
-
-         public string estado => Estado == 1 ? "Disponible" : "No Disponible";
-
-         public static IDictionary<int, string> ObtenerEstado()
-         {
-             SortedDictionary<int, string> estados = new SortedDictionary<int, string>();
-             Type tipoEnumEstado = typeof(estado);
-             foreach (var valor in Enum.GetValues(tipoEnumEstado))
-             {
-                 estados.Add((int)valor, Enum.GetName(tipoEnumEstado, valor));
-             }
-             return estados;
-         }*/
+       
     }
 }

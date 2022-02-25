@@ -87,7 +87,7 @@ namespace Inmobiliaria_Tanuz.Controllers
                     int res = repositorio.Alta(i);
                     TempData["Id"] = i.IdInmueble;
                     repositorio.EstadoDisponible(i);
-                    TempData["Mensaje"] = "Se ha creado un nuevo inmueble";
+                    
                     if (i.ImagenFile != null && i.IdInmueble > 0)
                     {
                         string wwwPath = environment.WebRootPath;
@@ -107,12 +107,12 @@ namespace Inmobiliaria_Tanuz.Controllers
                         }
                         repositorio.Modificar(i);
                     }
+                   
                     return RedirectToAction(nameof(Index));
                 }
 
                 else
                 {
-                    ViewBag.Propietario = repoPropietario.Obtener();
                     return View(i);
                 }
 
@@ -129,13 +129,8 @@ namespace Inmobiliaria_Tanuz.Controllers
         [Authorize(Policy = "Administrador")]
         public ActionResult Edit(int id)
         {
-          
-            var entidad = repositorio.ObtenerPorId(id);
             ViewBag.Propietario = repoPropietario.Obtener();
-            if (TempData.ContainsKey("Mensaje"))
-                ViewBag.Mensaje = TempData["Mensaje"];
-            if (TempData.ContainsKey("Error"))
-                ViewBag.Error = TempData["Error"];
+            var entidad = repositorio.ObtenerPorId(id);
             return View(entidad);
         }
 
@@ -147,19 +142,20 @@ namespace Inmobiliaria_Tanuz.Controllers
         public ActionResult Edit(int id, Inmueble entidad)
         { 
             try
-            {   
+            {
+                var i = repositorio.ObtenerPorId(id);
                 entidad.IdInmueble = id;
+                entidad.Imagen = i.Imagen;
                 repositorio.Modificar(entidad);
-                //ViewBag.Inmueble = Inmueble.ObtenerEstado();
-                TempData["Mensaje"] = "Datos guardados correctamente";
+                TempData["Mensaje"] = "Datos actualizados correctamente";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
-                ViewBag.Propietario = repoPropietario.Obtener();
+              
                 ViewBag.Error = ex.Message;
                 ViewBag.StackTrate = ex.StackTrace;
-                return View(entidad);
+                return View();
             }
         }
 

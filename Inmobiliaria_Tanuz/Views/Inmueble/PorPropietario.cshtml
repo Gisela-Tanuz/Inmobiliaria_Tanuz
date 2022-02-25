@@ -8,10 +8,10 @@
 @if (User.IsInRole("Administrador"))
 {
     <h3 style="font-family:Tahoma">Sus Inmuebles: </h3>
-
+    <hr>
 
     <table class="table table-striped table-hover">
-        <thead  class="table-warning">
+        <thead>
             <tr>
                 <th>
                     @Html.DisplayNameFor(model => model.PropietarioId)

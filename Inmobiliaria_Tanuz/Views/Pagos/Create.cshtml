@@ -2,7 +2,8 @@
 
 @{
     ViewData["Title"] = "Create";
-   
+
+    Contrato c = ViewBag.Contrato as Contrato;
 
 }
 
@@ -15,7 +16,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="col-lg-6">
                 <label asp-for="ContratoId" class="control-label">Contrato</label>
-                <input asp-for="ContratoId" value="@ViewBag.ContratoId" class="form-control-file" />
+                <input asp-for="ContratoId" value="@c.IdContrato" class="form-control-file" disabled />
                 <span asp-validation-for="ContratoId" class="text-danger"></span>
             </div>
             <div class="col-lg-6">
@@ -30,7 +31,7 @@
             </div>
             <div class="col-lg-6">
                 <label asp-for="Importe" class="control-label">Importe</label>
-                <input asp-for="Importe" value="@ViewBag.Importe" class="form-control-file" />
+                <input asp-for="Importe" value="@c.Inmueble.Precio" class="form-control-file" />
                 <span asp-validation-for="Importe" class="text-danger"></span>
             </div>
             <div class="col-lg-3">

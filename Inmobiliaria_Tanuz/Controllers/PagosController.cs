@@ -48,9 +48,10 @@ namespace Inmobiliaria_Tanuz.Controllers
         {
             try
             {
+               
                 ViewBag.Contrato = repoContrato.ObtenerPorInmuebles(id);
                 Contrato c = repoContrato.ObtenerPorInmuebles(id);
-                IList<Pagos> pagos = repositorio.ObtenerPagoxContrato(id);
+                IList<Pagos> pagos = repositorio.ObtenerPagoxContrato(c.IdContrato);
                
                 if (pagos.Count == 0)
                 {
@@ -83,7 +84,7 @@ namespace Inmobiliaria_Tanuz.Controllers
             try
             {
                 int res = repositorio.Alta(p);
-                IList<Pagos> pagos = repositorio.ObtenerPagoxContrato(res);
+              //  IList<Pagos> pagos = repositorio.ObtenerPagoxContrato(res);
                 
                 TempData["Mensaje"] = "Se ha creado un nuevo pago";
 

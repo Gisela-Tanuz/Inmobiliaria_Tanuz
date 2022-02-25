@@ -122,7 +122,7 @@ namespace Inmobiliaria_Tanuz.Controllers
             {
                 var p = repositorio.ObtenerPorId(id);
                 propietario.IdPropietario = id;
-             //   repositorio.Modificar(propietario);
+            
                 propietario.Contraseña = p.Contraseña;
                 propietario.AvatarProp = p.AvatarProp;
                 repositorio.Modificar(propietario);
