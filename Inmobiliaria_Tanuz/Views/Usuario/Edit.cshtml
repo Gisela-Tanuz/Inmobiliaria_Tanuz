@@ -7,44 +7,38 @@
 <h3 style="font-family:'Tahoma'">Actaulizar los datos del Usuario</h3>
 
 <hr />
-<div class="row">
+<div class="row align-tex-center">
     <div class="col-md-12">
         <form asp-action="Edit" enctype="multipart/form-data" class="form-inline">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
            
-                <div class="form-group">
+                <div class="col-md-6">
                     <label asp-for="Nombre" class="control-label"></label>
                     <input asp-for="Nombre" class="form-control-file" />
                     <span asp-validation-for="Nombre" class="text-danger"></span>
                 </div>
     
         
-                <div class="form-group">
+                <div class="col-md-6">
                     <label asp-for="Apellido" class="control-label"></label>
                     <input asp-for="Apellido" class="form-control-file" />
                     <span asp-validation-for="Apellido" class="text-danger"></span>
                 </div>
                
                
-                    <div class="form-group">
+                    <div class="col-md-6">
                         <label asp-for="Email" class="control-label"></label>
                         <input asp-for="Email" class="form-control-file" />
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
-                 
                     <div class="form-group">
                         <label asp-for="Clave" class="control-label"></label>
-                        <input asp-for="Clave" class="form-control-file" />
+                        <input asp-for="Clave" class="form-control" />
                         <span asp-validation-for="Clave" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="AvatarFile" class="control-label"></label>
-                        <input type="file" name="AvatarFile" />
-                        <span asp-validation-for="AvatarFile" class="text-danger"></span>
-                        <input asp-for="Avatar" value="@Model.Avatar" class="form-control" hidden />
-
-                    </div>
-                    <div class="form-group">
+          
+                   
+                    <div class="col-md-6">
                         <label asp-for="Rol" class="control-label">Rol que ocupa</label>
                         <select asp-for="Rol" class="form-control-file" name="Rol" value="@Model.Rol">
                             <option value="1">Super Administrador</option>
@@ -53,7 +47,7 @@
                         </select>
                         <span asp-validation-for="Rol" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
+                    <div class="col-md-3">
                         <input type="submit" value="Actualizar" class="btn btn-primary" />
                     </div>
 </form>

@@ -236,7 +236,7 @@ namespace Inmobiliaria_Tanuz.Models
 				using (SqlCommand command = new(sql, connection))
 				{
 					command.CommandType = CommandType.Text;
-					command.Parameters.AddWithValue("@clave", u.Clave);
+					command.Parameters.AddWithValue("@clave", u.ClaveNueva);
 					command.Parameters.AddWithValue("@id", u.Id);
 					connection.Open();
 					res = command.ExecuteNonQuery();

@@ -9,13 +9,13 @@
 <h3  class="text-center" style="font-family:Tahoma" >Crear un nuevo contrato</h3>
 
 <hr />
-<div class="row">
+<div class="row align-tex-center">
     <div class="col-lg-12">
-        <form asp-action="Create" class="text-lg-center form-inline">
-            <div class="col-lg-6">
-                <div class="form-control-plaintext">
+        <form asp-action="Create" class="form-inline">
+           
+                <div class="col-lg-6">
                     <label class="control-label">Inquilino</label>
-                    <select class="form-control-sm" name="InquilinoId">
+                    <select class="form-control-file" name="InquilinoId">
                         @foreach (var item in inquilinos)
                         {
                             <option value="@item.IdInquilino">@(item.Nombre + " " + item.Apellido)</option>
@@ -23,10 +23,10 @@
                     </select>
                     <span asp-validation-for="InquilinoId" class="text-danger"></span>
                 </div>
-                </div>
+                
                 <div class="col-lg-6">
                     <label class="control-label">Dueño del Inmueble</label>
-                    <select class="form-control-sm" name="InmuebleId">
+                    <select class="form-control-file" name="InmuebleId">
                         @foreach (var item in inmuebles)
                         {
                             <option value="@item.IdInmueble">@(item.Duenio.Nombre + " " + item.Duenio.Apellido)</option>
@@ -36,15 +36,15 @@
                 </div>
                 <div class="col-lg-6">
                     <label asp-for="FechaInicio" class="control-label">Fecha de inicio</label>
-                    <input class="form-control-sm" asp-for="FechaInicio" type="date" />
+                    <input class="form-control-file" asp-for="FechaInicio" type="date" />
                     <span asp-validation-for="FechaInicio" class="text-danger"></span>
                 </div>
                 <div class="col-lg-6">
                     <label asp-for="FechaFin" class="control-label">Fecha final</label>
-                    <input class="form-control-sm" asp-for="FechaFin" type="date" />
+                    <input class="form-control-file" asp-for="FechaFin" type="date" />
                     <span asp-validation-for="FechaFin" class="text-danger"></span>
                 </div>
-                <div class="col-lg-3">
+                <div class="form-control">
 
                     <input type="submit" value="Confirmar contrato" class="btn btn-primary" />
 

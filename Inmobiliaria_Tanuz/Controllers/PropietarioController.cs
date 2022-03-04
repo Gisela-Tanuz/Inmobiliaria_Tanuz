@@ -122,8 +122,22 @@ namespace Inmobiliaria_Tanuz.Controllers
             {
                 var p = repositorio.ObtenerPorId(id);
                 propietario.IdPropietario = id;
-            
-                propietario.Contraseña = p.Contraseña;
+                if (propietario.Contraseña == null)
+                {
+                    propietario.Contraseña = p.Contraseña;
+                }
+                else
+                {
+                    string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                       password: propietario.Contraseña,
+                       salt: System.Text.Encoding.ASCII.GetBytes(config["Salt"]),
+                       prf: KeyDerivationPrf.HMACSHA1,
+                       iterationCount: 1000,
+                       numBytesRequested: 256 / 8));
+                    propietario.Contraseña = hashed;
+
+                }
+                //propietario.Contraseña = p.Contraseña;
                 propietario.AvatarProp = p.AvatarProp;
                 repositorio.Modificar(propietario);
                 TempData["Mensaje"] = "Datos guardados correctamente";

@@ -45,6 +45,7 @@ namespace Inmobiliaria_Tanuz.Models
 			}
 			return roles;
 		}
-	
+		[Required, DataType(DataType.Password)]
+		public string ClaveNueva { get; set; }
 	}
 }

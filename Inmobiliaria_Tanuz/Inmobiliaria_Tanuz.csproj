@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <Content Remove="Views\Usuario\CambioDeClave.cshtml" />
+    <Content Remove="Views\Usuario\EditarClave.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

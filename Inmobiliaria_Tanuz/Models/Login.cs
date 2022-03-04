@@ -8,10 +8,10 @@ namespace Inmobiliaria_Tanuz.Models
 {
     public class Login
     {
-        [Required]
+        [Required(ErrorMessage = "Campo obligatorio")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Campo obligatorio")]
         [DataType(DataType.Password)]
         public string Clave { get; set; }
     }

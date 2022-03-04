@@ -149,7 +149,22 @@ namespace Inmobiliaria_Tanuz.Controllers
 
                 }
                 // TODO: Add update logic here
-                u.Clave = usuario.Clave;
+                if (u.Clave == null)
+                {
+                    u.Clave = usuario.Clave;
+                }
+                else
+                {
+                    string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                       password: u.Clave,
+                       salt: System.Text.Encoding.ASCII.GetBytes(config["Salt"]),
+                       prf: KeyDerivationPrf.HMACSHA1,
+                       iterationCount: 1000,
+                       numBytesRequested: 256 / 8));
+                    u.Clave = hashed;
+
+                }
+                //u.Clave = usuario.Clave;
                 u.Avatar = usuario.Avatar;
                 repositorio.Modificar(u);
                 TempData["Mensaje"] = "Datos actualizados correctamente";
@@ -330,64 +345,11 @@ namespace Inmobiliaria_Tanuz.Controllers
                 CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index", "Home");
         }
-       // [HttpGet]
-       // [Route("Usuario/CambioDeClave")]
-        /*public IActionResult CambioDeClave() {
-            return View();
-        }*/
-        [HttpPost]
-        [Route("Usuario/CambioDeClave")]
-        public async Task<IActionResult> CambioDeClave(CambioDeClave cambioDeClave)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-
-                    var usuarioA =  repositorio.ObtenerPorEmail(User.Identity.Name);
-                    
-                    if (usuarioA == null)
-                    {
-                        return RedirectToAction(nameof(Index), "Home");
-                    }
+      
+    } 
+}
 
 
-                    string hashedActual = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                      password: cambioDeClave.claveActual,
-                      salt: System.Text.Encoding.ASCII.GetBytes(config["Salt"]),
-                      prf: KeyDerivationPrf.HMACSHA1,
-                      iterationCount: 1000,
-                      numBytesRequested: 256 / 8));
-                    if (usuarioA.Clave == hashedActual)
-                    {
-                        string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                            password: cambioDeClave.claveNueva,
-                            salt: System.Text.Encoding.ASCII.GetBytes(config["Salt"]),
-                            prf: KeyDerivationPrf.HMACSHA1,
-                            iterationCount: 1000,
-                            numBytesRequested: 256 / 8));
-                        usuarioA.Clave = hashed;
-                        repositorio.CambiarClave(usuarioA);
-                        TempData["Mensaje"] = "Contraseña Actualizada con éxito.";
-                        return RedirectToAction("Index", "Home");
-                    }
-                    else
-                    {
-                        TempData["Mensaje"] = "No sé puedo cambiar la contraseña.";
-                        return RedirectToAction("Index", "Home");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                TempData["Error"] = ex.Message;
-                TempData["StackTrate"] = ex.StackTrace;
-                return RedirectToAction(nameof(Index));
-            }
-            return RedirectToAction(nameof(Index));
-        }
-    }
-
-    }
+    
 
     
