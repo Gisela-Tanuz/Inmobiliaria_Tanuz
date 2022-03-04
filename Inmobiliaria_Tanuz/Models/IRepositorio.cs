@@ -10,6 +10,7 @@ namespace Inmobiliaria_Tanuz.Models
             int Baja(int id);
             int Modificar(T p);
             T ObtenerPorId(int id);
+            
         }
     
 }

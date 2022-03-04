@@ -225,6 +225,27 @@ namespace Inmobiliaria_Tanuz.Models
 			}
 			return res;
 		}
+
+		public int CambiarClave(Usuario u)
+		{
+			int res = -1;
+			using (SqlConnection connection = new(connectionString))
+			{
+				string sql = $"UPDATE Usuario SET clave=@clave " +
+					$"WHERE Id=@id";
+				using (SqlCommand command = new(sql, connection))
+				{
+					command.CommandType = CommandType.Text;
+					command.Parameters.AddWithValue("@clave", u.Clave);
+					command.Parameters.AddWithValue("@id", u.Id);
+					connection.Open();
+					res = command.ExecuteNonQuery();
+					connection.Close();
+				}
+			}
+			return res;
+		}
+
 	}
 }
 

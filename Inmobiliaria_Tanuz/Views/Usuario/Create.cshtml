@@ -21,12 +21,12 @@
             </div>
             <div class="col-lg-6">
                 <label asp-for="Apellido" class="control-label">Apellido</label>
-                <input asp-for="Apellido" class="form-control" />
+                <input asp-for="Apellido" class="form-control-file" />
                 <span asp-validation-for="Apellido" class="text-danger"></span>
             </div>
             <div class="col-lg-6">
                 <label asp-for="Email" class="control-label">Email</label>
-                <input asp-for="Email" class="form-control" />
+                <input asp-for="Email" class="form-control-file" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="col-lg-6">
@@ -36,16 +36,22 @@
             </div>
             <div class="col-lg-6">
                 <label asp-for="AvatarFile" class="control-label">Foto</label>
-                <input type="file" name="AvatarFile" class="form-control-file"/>
+                <input type="file" name="AvatarFile" class="form-control-file" />
                 <span asp-validation-for="AvatarFile" class="text-danger"></span>
             </div>
+     
             <div class="col-lg-6">
-                <label asp-for="Rol" class="control-label">Rol</label>
-                <input asp-for="Rol" class="form-control-file" />
+                <label class="control-label">Rol</label>
+                <select class="form-control-file" name="Rol">
+                    @foreach (var item in (IDictionary<int, string>)ViewBag.Roles)
+                    {
+                        <option value="@item.Key">@item.Value</option>
+                    }
+                </select>
                 <span asp-validation-for="Rol" class="text-danger"></span>
             </div>
 
-            <div>
+            <div class="col-lg-6">
                 <input type="submit" value="Crear" class="btn btn-primary" />
             </div>
         </form>

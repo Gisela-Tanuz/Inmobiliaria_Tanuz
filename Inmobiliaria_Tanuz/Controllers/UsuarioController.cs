@@ -143,7 +143,7 @@ namespace Inmobiliaria_Tanuz.Controllers
                     else
                     {
                         repositorio.Modificar(u);
-                        TempData["Mensaje"] = "Datos guardados correctamente";
+                        TempData["Mensaje"] = "Datos actualizados correctamente";
                         return RedirectToAction(nameof(Index));
                     }
 
@@ -152,7 +152,7 @@ namespace Inmobiliaria_Tanuz.Controllers
                 u.Clave = usuario.Clave;
                 u.Avatar = usuario.Avatar;
                 repositorio.Modificar(u);
-                TempData["Mensaje"] = "Datos guardados correctamente";
+                TempData["Mensaje"] = "Datos actualizados correctamente";
 
                 return RedirectToAction(nameof(Index));
             }
@@ -260,6 +260,7 @@ namespace Inmobiliaria_Tanuz.Controllers
 
         }
 
+
         // GET: Usuarios/Edit/5
         // [Authorize]
         public ActionResult Perfil()
@@ -297,9 +298,9 @@ namespace Inmobiliaria_Tanuz.Controllers
                 var ext = Path.GetExtension(u.Avatar);
                 return new FileStreamResult(stream, $"image/{ext.Substring(1)}");
             }
-            catch  (Exception ex)
+            catch (Exception ex)
             {
-                 throw ;
+                throw;
             }
         }
         // GET: Usuarios/Create
@@ -318,17 +319,75 @@ namespace Inmobiliaria_Tanuz.Controllers
             }
             catch (Exception ex)
             {
-                throw ;
+                throw;
             }
         }
         // GET: /salir
-       [Route("salir", Name = "logout")]
+        [Route("salir", Name = "logout")]
         public async Task<ActionResult> Logout()
         {
             await HttpContext.SignOutAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index", "Home");
         }
+       // [HttpGet]
+       // [Route("Usuario/CambioDeClave")]
+        /*public IActionResult CambioDeClave() {
+            return View();
+        }*/
+        [HttpPost]
+        [Route("Usuario/CambioDeClave")]
+        public async Task<IActionResult> CambioDeClave(CambioDeClave cambioDeClave)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+
+                    var usuarioA =  repositorio.ObtenerPorEmail(User.Identity.Name);
+                    
+                    if (usuarioA == null)
+                    {
+                        return RedirectToAction(nameof(Index), "Home");
+                    }
+
+
+                    string hashedActual = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                      password: cambioDeClave.claveActual,
+                      salt: System.Text.Encoding.ASCII.GetBytes(config["Salt"]),
+                      prf: KeyDerivationPrf.HMACSHA1,
+                      iterationCount: 1000,
+                      numBytesRequested: 256 / 8));
+                    if (usuarioA.Clave == hashedActual)
+                    {
+                        string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                            password: cambioDeClave.claveNueva,
+                            salt: System.Text.Encoding.ASCII.GetBytes(config["Salt"]),
+                            prf: KeyDerivationPrf.HMACSHA1,
+                            iterationCount: 1000,
+                            numBytesRequested: 256 / 8));
+                        usuarioA.Clave = hashed;
+                        repositorio.CambiarClave(usuarioA);
+                        TempData["Mensaje"] = "Contraseña Actualizada con éxito.";
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        TempData["Mensaje"] = "No sé puedo cambiar la contraseña.";
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = ex.Message;
+                TempData["StackTrate"] = ex.StackTrace;
+                return RedirectToAction(nameof(Index));
+            }
+            return RedirectToAction(nameof(Index));
+        }
     }
-}
+
+    }
+
     

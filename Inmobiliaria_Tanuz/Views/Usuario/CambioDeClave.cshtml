@@ -1,0 +1,43 @@
+﻿@model Inmobiliaria_Tanuz.Models.CambioDeClave;
+
+@{
+    ViewData["Title"] = "CambioDeClave";
+}
+
+<h1>CambioDeClave</h1>
+
+<h4>CambioDeClave</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CambioDeClave">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="claveActual" class="control-label"></label>
+                <input asp-for="claveActual" class="form-control" />
+                <span asp-validation-for="claveActual" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="claveNueva" class="control-label"></label>
+                <input asp-for="claveNueva" class="form-control" />
+                <span asp-validation-for="claveNueva" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="confirmarClave" class="control-label"></label>
+                <input asp-for="confirmarClave" class="form-control" />
+                <span asp-validation-for="confirmarClave" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

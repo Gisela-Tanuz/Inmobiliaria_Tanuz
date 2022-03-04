@@ -45,5 +45,6 @@ namespace Inmobiliaria_Tanuz.Models
 			}
 			return roles;
 		}
+	
 	}
 }
