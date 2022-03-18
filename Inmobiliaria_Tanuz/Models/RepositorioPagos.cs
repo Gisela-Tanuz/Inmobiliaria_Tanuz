@@ -171,14 +171,14 @@ namespace Inmobiliaria_Tanuz.Models
 			IList<Pagos> res = new List<Pagos>();
 				using (SqlConnection connection = new(connectionString))
 				{
-					string sql = $"SELECT IdPago, p.ContratoId, p.NroDePago, p.Fecha, p.Importe, " +
+					string sql = $"SELECT IdPago, ContratoId, NroDePago, Fecha, Importe, " +
 						 $"c.InquilinoId, c.InmuebleId," +
 						$"im.Direccion, im.Uso, im.Tipo," +
 						$"i.Nombre, i.Apellido " +
 						$" FROM Pago p INNER JOIN Contrato c ON  c.IdContrato = p.ContratoId " +
 						$" INNER JOIN Inmueble im ON im.IdInmueble = c.InmuebleId  " +
 						$" INNER JOIN Inquilino i ON i.IdInquilino = c.InquilinoId  " +
-						$" WHERE p.ContratoId=@id";
+						$" WHERE ContratoId=@id";
 
 				using (SqlCommand command = new(sql, connection))
 					{

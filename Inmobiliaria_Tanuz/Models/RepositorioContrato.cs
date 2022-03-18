@@ -193,11 +193,11 @@ namespace Inmobiliaria_Tanuz.Models
 					$" im.Direccion, im.Uso, im.Tipo, im.Precio" +
 					$" FROM Contrato c INNER JOIN Inmueble im ON c.InmuebleId = im.IdInmueble " +
 					$" INNER JOIN Inquilino i ON c.InquilinoId = i.IdInquilino " +
-					$" WHERE c.InmuebleId = @id";
+					$" WHERE c.InmuebleId = @inmuebleId";
 
 				using (SqlCommand command = new(sql, connection))
 				{
-					command.Parameters.Add("@id", SqlDbType.Int).Value = id;
+					command.Parameters.Add("@inmuebleId", SqlDbType.Int).Value = id;
 					command.CommandType = CommandType.Text;
 					connection.Open();
 					var reader = command.ExecuteReader();

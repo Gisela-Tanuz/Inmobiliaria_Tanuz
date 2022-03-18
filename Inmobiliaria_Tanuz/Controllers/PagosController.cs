@@ -48,9 +48,9 @@ namespace Inmobiliaria_Tanuz.Controllers
         {
             try
             {
-               
-                ViewBag.Contrato = repoContrato.ObtenerPorInmuebles(id);
-                Contrato c = repoContrato.ObtenerPorInmuebles(id);
+                
+                ViewBag.Contrato = repoContrato.ObtenerPorId(id);
+                Contrato c = repoContrato.ObtenerPorId(id);
                 IList<Pagos> pagos = repositorio.ObtenerPagoxContrato(c.IdContrato);
                
                 if (pagos.Count == 0)
