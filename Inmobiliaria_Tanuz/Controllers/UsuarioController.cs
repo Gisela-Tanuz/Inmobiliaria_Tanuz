@@ -39,6 +39,10 @@ namespace Inmobiliaria_Tanuz.Controllers
         public ActionResult Index()
         {
             var usuarios = repositorio.Obtener();
+            if (TempData.ContainsKey("Id"))
+                ViewBag.Id = TempData["Id"];
+            if (TempData.ContainsKey("Mensaje"))
+                ViewBag.Mensaje = TempData["Mensaje"];
             return View(usuarios);
 
         }
@@ -139,15 +143,16 @@ namespace Inmobiliaria_Tanuz.Controllers
                     if (usuarioActual.Id != id)
                     {
                         return RedirectToAction(nameof(Index), "Home");
-                    }
-                    else
-                    {
-                        repositorio.Modificar(u);
-                        TempData["Mensaje"] = "Datos actualizados correctamente";
-                        return RedirectToAction(nameof(Index));
-                    }
-
+                    } 
                 }
+                else
+                //  {
+                //    repositorio.Modificar(u);
+                //  TempData["Mensaje"] = "Datos actualizados correctamente";
+                //return RedirectToAction(nameof(Index));
+                //}
+
+                //}
                 // TODO: Add update logic here
                 if (u.Clave == null)
                 {
@@ -164,13 +169,46 @@ namespace Inmobiliaria_Tanuz.Controllers
                     u.Clave = hashed;
 
                 }
-                //u.Clave = usuario.Clave;
-                u.Avatar = usuario.Avatar;
-                repositorio.Modificar(u);
-                TempData["Mensaje"] = "Datos actualizados correctamente";
+                    //u.Clave = usuario.Clave;
+                    // u.Avatar = usuario.Avatar;
+                   
+                    if (u.AvatarFile != null && u.Id > 0)
+                    {
+                        string wwwPath = environment.WebRootPath;
+                        string path = Path.Combine(wwwPath, "Uploads");
+                        if (!Directory.Exists(path))
+                        {
+                            Directory.CreateDirectory(path);
+                        }
 
-                return RedirectToAction(nameof(Index));
+                        //Path.GetFileName(u.AvatarFile.FileName);//este nombre se puede repetir
+                        string fileName = "avatarE_" + u.Id + Path.GetExtension(u.AvatarFile.FileName);
+                        string pathCompleto = Path.Combine(path, fileName);
+                        u.Avatar = Path.Combine("/Uploads/", fileName);
+                        using (FileStream stream = new FileStream(pathCompleto, FileMode.Create))
+                        {
+                            u.AvatarFile.CopyTo(stream);
+                        }
+                       repositorio.Modificar(u);
+                    TempData["Mensaje"] = "Datos actualizados correctamente";
+
+                    return RedirectToAction(nameof(Index));
+
+                }
+                else
+                    {
+                        u.Avatar = usuario.Avatar;
+                        repositorio.Modificar(u);
+                    return RedirectToAction(nameof(Index));
+                }
+
+                    //repositorio.Modificar(u);
+                  //  TempData["Mensaje"] = "Datos actualizados correctamente";
+
+                    
+                
             }
+            
             catch (Exception ex)
             {
                 ViewBag.Roles = Usuario.ObtenerRoles();
@@ -218,6 +256,7 @@ namespace Inmobiliaria_Tanuz.Controllers
         public ActionResult Login(string returnUrl)
         {
             TempData["returnUrl"] = returnUrl;
+            
             return View();
         }
 
@@ -241,6 +280,7 @@ namespace Inmobiliaria_Tanuz.Controllers
 
                     TempData["error"] = "El email o la clave no son correctos";
                     return RedirectToAction(nameof(Index), "Home");
+                   
                 }
 
                 var claims = new List<Claim>

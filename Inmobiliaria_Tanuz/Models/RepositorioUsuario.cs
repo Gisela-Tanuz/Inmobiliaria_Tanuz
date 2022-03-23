@@ -79,12 +79,12 @@ namespace Inmobiliaria_Tanuz.Models
 					command.Parameters.AddWithValue("@apellido", e.Apellido);
 					//if (String.IsNullOrEmpty(e.Avatar))
 					//{
-					//	command.Parameters.AddWithValue("@avatar", DBNull.Value);
+						//command.Parameters.AddWithValue("@avatar", DBNull.Value);
 					//}
 					//else
 					//{
 						command.Parameters.AddWithValue("@avatar", e.Avatar);
-					//}
+				  //}
 					command.Parameters.AddWithValue("@email", e.Email);
 					command.Parameters.AddWithValue("@clave", e.Clave);
 					command.Parameters.AddWithValue("@rol", e.Rol);

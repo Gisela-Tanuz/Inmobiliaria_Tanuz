@@ -33,6 +33,10 @@ namespace Inmobiliaria_Tanuz.Controllers
         public ActionResult Index()
         {
             var lista = repositorio.Obtener();
+            if (TempData.ContainsKey("Id"))
+                ViewBag.Id = TempData["Id"];
+            if (TempData.ContainsKey("Mensaje"))
+                ViewBag.Mensaje = TempData["Mensaje"];
             return View(lista);
         }
 

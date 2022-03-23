@@ -139,29 +139,31 @@ namespace Inmobiliaria_Tanuz.Models
             Propietario p = null;
             using (SqlConnection connection = new(connectionString))
             {
-                string sql = $"SELECT IdPropietario, Nombre, Apellido, Dni, Telefono, Email, Usuario, Contraseña, AvatarProp FROM Propietario " +
+                string sql = $"SELECT IdPropietario, Nombre, Apellido, Dni, " +
+                    $" Telefono, Email, Usuario, Contraseña, AvatarProp FROM Propietario " +
                     $"WHERE IdPropietario=@id;";
                 using (var command = new SqlCommand(sql, connection))
                 {
-
                     command.Parameters.AddWithValue("@id", id);
                     connection.Open();
-                    SqlDataReader reader = command.ExecuteReader();
+                    var reader = command.ExecuteReader();
+                    //SqlDataReader reader = command.ExecuteReader();
 
                     if (reader.Read())
                     {
-                        p = new Propietario();
+                        p = new Propietario()
 
                         {
-                            p.IdPropietario = int.Parse(reader["IdPropietario"].ToString());
-                            p.Nombre = reader["Nombre"].ToString();
-                            p.Apellido = reader["Apellido"].ToString();
-                            p.Dni = reader["Dni"].ToString();
-                            p.Telefono = reader["Telefono"].ToString();
-                            p.Email = reader["Email"].ToString();
-                            p.Usuario = reader["Usuario"].ToString();
-                            p.Contraseña = reader["Contraseña"].ToString();
-                            p.AvatarProp = reader["AvatarProp"].ToString();
+                            IdPropietario = reader.GetInt32(0),
+                            Nombre = reader.GetString(1),
+                            Apellido = reader.GetString(2),
+                            Dni = reader.GetString(3),
+                            Telefono = reader.GetString(4),
+                            Email = reader.GetString(5),
+                            Usuario = reader.GetString(6),
+                            Contraseña= reader.GetString(7),
+                            AvatarProp = reader["AvatarProp"].ToString(),
+
                         };
 
                     }

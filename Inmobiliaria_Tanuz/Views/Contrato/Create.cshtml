@@ -6,55 +6,58 @@
     IList<Inmueble> inmuebles = ViewBag.Inmueble as List<Inmueble>;
 }
 
-<h3  class="text-center" style="font-family:Tahoma" >Crear un nuevo contrato</h3>
+<h3  class="text-lg-center" style="font-family:Tahoma" >Crear un nuevo contrato</h3>
 
 <hr />
-<div class="row align-tex-center">
-    <div class="col-lg-12">
-        <form asp-action="Create" class="form-inline">
+<div class="row d-flex justify-content-center">
+    
+        <div class="col-6">
+            <form asp-action="Create" class="text-lg-center">
 
-            <div class="col-lg-6">
-                <label class="control-label">Inquilino</label>
-                <select class="form-control-file" name="InquilinoId">
-                    @foreach (var item in inquilinos)
-                    {
-                        <option value="@item.IdInquilino">@(item.Nombre + " " + item.Apellido)</option>
-                    }
-                </select>
-                <span asp-validation-for="InquilinoId" class="text-danger"></span>
-            </div>
+                <div class="form-group">
 
-            <div class="col-lg-6">
-                <label class="control-label">Dueño del Inmueble</label>
-                <select class="form-control-file" name="InmuebleId">
-                    @foreach (var item in inmuebles)
-                    {
-                        <option value="@item.IdInmueble">@(item.Duenio.Nombre + " " + item.Duenio.Apellido)</option>
-                    }
-                </select>
-                <span asp-validation-for="InmuebleId" class="text-danger"></span>
-            </div>
-            <div class="col-lg-6">
-                <label asp-for="FechaInicio" class="control-label">Fecha de inicio</label>
-                <input class="form-control-file" asp-for="FechaInicio" type="date" />
-                <span asp-validation-for="FechaInicio" class="text-danger"></span>
-            </div>
-            <div class="col-lg-6">
-                <label asp-for="FechaFin" class="control-label">Fecha final</label>
-                <input class="form-control-file" asp-for="FechaFin" type="date" />
-                <span asp-validation-for="FechaFin" class="text-danger"></span>
-            </div>
-  
-    <div class="d-grid gap-2 d-md-block">
+                    <label class="control-label">Inquilino</label>
+                    <select class="form-control" name="InquilinoId">
+                        @foreach (var item in inquilinos)
+                        {
+                            <option value="@item.IdInquilino">@(item.Nombre + " " + item.Apellido)</option>
+                        }
+                    </select>
+                    <span asp-validation-for="InquilinoId" class="text-danger"></span>
+                </div>
 
-        <input type="submit" value="Confirmar contrato" class="btn btn-primary" />
+                <div class="form-group">
+                    <label class="control-label">Dueño del Inmueble</label>
+                    <select class="form-control" name="InmuebleId">
+                        @foreach (var item in inmuebles)
+                        {
+                            <option value="@item.IdInmueble">@(item.Duenio.Nombre + " " + item.Duenio.Apellido)</option>
+                        }
+                    </select>
+                    <span asp-validation-for="InmuebleId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FechaInicio" class="control-label">Fecha de inicio</label>
+                    <input class="form-control" asp-for="FechaInicio" type="date" />
+                    <span asp-validation-for="FechaInicio" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FechaFin" class="control-label">Fecha final</label>
+                    <input class="form-control" asp-for="FechaFin" type="date" />
+                    <span asp-validation-for="FechaFin" class="text-danger"></span>
+                </div>
 
-        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                <div class="form-group">
 
+                    <input type="submit" value="Confirmar contrato" class="btn btn-primary" />
+
+                    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+
+                </div>
+            </form>
+        </div>
     </div>
-    </form>
-</div>
-</div>
+
 
 <div>
     <p><a asp-action="Index">Volver a la lista</a></p>

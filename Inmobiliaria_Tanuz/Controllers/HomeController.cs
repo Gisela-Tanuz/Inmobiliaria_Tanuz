@@ -28,7 +28,9 @@ namespace Inmobiliaria_Tanuz.Controllers
         }
 
         public IActionResult Index()
+
         {
+            
             if (User.IsInRole("SuperAdministrador"))
             {
                 return RedirectToAction(nameof(Seguro));
@@ -43,6 +45,10 @@ namespace Inmobiliaria_Tanuz.Controllers
             }
             else
             {
+                if (TempData.ContainsKey("Id"))
+                    ViewBag.Id = TempData["Id"];
+                if (TempData.ContainsKey("Mensaje"))
+                    ViewBag.Mensaje = TempData["Mensaje"];
                 return View();
             }
             

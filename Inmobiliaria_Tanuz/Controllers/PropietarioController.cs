@@ -32,7 +32,11 @@ namespace Inmobiliaria_Tanuz.Controllers
         
             {
                 IList<Propietario> lta = repositorio.Obtener();
-                return View(lta);
+            if (TempData.ContainsKey("Id"))
+                ViewBag.Id = TempData["Id"];
+            if (TempData.ContainsKey("Mensaje"))
+                ViewBag.Mensaje = TempData["Mensaje"];
+            return View(lta);
 
             }
 
@@ -121,7 +125,7 @@ namespace Inmobiliaria_Tanuz.Controllers
             try
             {
                 var p = repositorio.ObtenerPorId(id);
-                propietario.IdPropietario = id;
+                //propietario.IdPropietario = id;
                 if (propietario.Contraseña == null)
                 {
                     propietario.Contraseña = p.Contraseña;
@@ -138,10 +142,37 @@ namespace Inmobiliaria_Tanuz.Controllers
 
                 }
                 //propietario.Contraseña = p.Contraseña;
-                propietario.AvatarProp = p.AvatarProp;
-                repositorio.Modificar(propietario);
-                TempData["Mensaje"] = "Datos guardados correctamente";
-                return RedirectToAction(nameof(Index));
+                //propietario.AvatarProp = p.AvatarProp;
+                if (propietario.AvatarPropFile != null && propietario.IdPropietario > 0)
+                {
+                    string wwwPath = environment.WebRootPath;
+                    string path = Path.Combine(wwwPath, "Uploads");
+                    if (!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+
+                    //Path.GetFileName(u.AvatarFile.FileName);//este nombre se puede repetir
+                    string fileName = "avatarP_" + propietario.IdPropietario + Path.GetExtension(propietario.AvatarPropFile.FileName);
+                    string pathCompleto = Path.Combine(path, fileName);
+                    propietario.AvatarProp = Path.Combine("/Uploads/", fileName);
+                    using (FileStream stream = new FileStream(pathCompleto, FileMode.Create))
+                    {
+                        propietario.AvatarPropFile.CopyTo(stream);
+                    }
+              
+
+                    repositorio.Modificar(propietario);
+                    TempData["Mensaje"] = "Datos actualizados correctamente";
+                    return RedirectToAction(nameof(Index));
+                }
+                else 
+                {
+                    propietario.Contraseña = p.Contraseña;
+                    propietario.AvatarProp = p.AvatarProp;
+                    repositorio.Modificar(propietario);
+                    return RedirectToAction(nameof(Index));
+                }
             }
             catch
             {

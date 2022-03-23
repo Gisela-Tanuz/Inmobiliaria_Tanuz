@@ -24,6 +24,10 @@ namespace Inmobiliaria_Tanuz.Controllers
         public ActionResult Index()
         {
             IList<Inquilino> lta = repositorio.Obtener();
+            if (TempData.ContainsKey("Id"))
+                ViewBag.Id = TempData["Id"];
+            if (TempData.ContainsKey("Mensaje"))
+                ViewBag.Mensaje = TempData["Mensaje"];
             return View(lta);
         }
 
