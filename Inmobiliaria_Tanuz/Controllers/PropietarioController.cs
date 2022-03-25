@@ -125,54 +125,57 @@ namespace Inmobiliaria_Tanuz.Controllers
             try
             {
                 var p = repositorio.ObtenerPorId(id);
-                //propietario.IdPropietario = id;
-                if (propietario.Contraseña == null)
-                {
-                    propietario.Contraseña = p.Contraseña;
-                }
-                else
-                {
-                    string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                       password: propietario.Contraseña,
-                       salt: System.Text.Encoding.ASCII.GetBytes(config["Salt"]),
-                       prf: KeyDerivationPrf.HMACSHA1,
-                       iterationCount: 1000,
-                       numBytesRequested: 256 / 8));
-                    propietario.Contraseña = hashed;
-
-                }
-                //propietario.Contraseña = p.Contraseña;
-                //propietario.AvatarProp = p.AvatarProp;
-                if (propietario.AvatarPropFile != null && propietario.IdPropietario > 0)
-                {
-                    string wwwPath = environment.WebRootPath;
-                    string path = Path.Combine(wwwPath, "Uploads");
-                    if (!Directory.Exists(path))
+                propietario.IdPropietario = id;
+               
+                    if (propietario.Contraseña != null)
+                   // {
+                    //    propietario.Contraseña = p.Contraseña;
+                    //}
+                    //else
                     {
-                        Directory.CreateDirectory(path);
-                    }
+                        string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                           password: propietario.Contraseña,
+                           salt: System.Text.Encoding.ASCII.GetBytes(config["Salt"]),
+                           prf: KeyDerivationPrf.HMACSHA1,
+                           iterationCount: 1000,
+                           numBytesRequested: 256 / 8));
+                        propietario.Contraseña = hashed;
 
-                    //Path.GetFileName(u.AvatarFile.FileName);//este nombre se puede repetir
-                    string fileName = "avatarP_" + propietario.IdPropietario + Path.GetExtension(propietario.AvatarPropFile.FileName);
-                    string pathCompleto = Path.Combine(path, fileName);
-                    propietario.AvatarProp = Path.Combine("/Uploads/", fileName);
-                    using (FileStream stream = new FileStream(pathCompleto, FileMode.Create))
+                    }
+                    //propietario.Contraseña = p.Contraseña;
+                    //propietario.AvatarProp = p.AvatarProp;
+                    if (propietario.AvatarPropFile != null && propietario.IdPropietario > 0)
                     {
-                        propietario.AvatarPropFile.CopyTo(stream);
-                    }
-              
+                        string wwwPath = environment.WebRootPath;
+                        string path = Path.Combine(wwwPath, "Uploads");
+                        if (!Directory.Exists(path))
+                        {
+                            Directory.CreateDirectory(path);
+                        }
 
-                    repositorio.Modificar(propietario);
-                    TempData["Mensaje"] = "Datos actualizados correctamente";
-                    return RedirectToAction(nameof(Index));
-                }
-                else 
-                {
-                    propietario.Contraseña = p.Contraseña;
-                    propietario.AvatarProp = p.AvatarProp;
-                    repositorio.Modificar(propietario);
-                    return RedirectToAction(nameof(Index));
-                }
+                        //Path.GetFileName(u.AvatarFile.FileName);//este nombre se puede repetir
+                        string fileName = "avatarP_" + propietario.IdPropietario + Path.GetExtension(propietario.AvatarPropFile.FileName);
+                        string pathCompleto = Path.Combine(path, fileName);
+                        propietario.AvatarProp = Path.Combine("/Uploads/", fileName);
+                        using (FileStream stream = new FileStream(pathCompleto, FileMode.Create))
+                        {
+                            propietario.AvatarPropFile.CopyTo(stream);
+                        }
+
+
+                        repositorio.Modificar(propietario);
+                        TempData["Mensaje"] = "Datos actualizados correctamente";
+                        return RedirectToAction(nameof(Index));
+                    }
+                    else
+                    {
+
+                        propietario.Contraseña = p.Contraseña;
+                        propietario.AvatarProp = p.AvatarProp;
+                        repositorio.Modificar(propietario);
+                        return RedirectToAction(nameof(Index));
+                    }
+                
             }
             catch
             {

@@ -45,14 +45,14 @@
             <div class="col-lg-6">
                 <label asp-for="Contraseña" class="control-label">Contraseña</label>
                 <input asp-for="Contraseña" class="form-control-file" />
-               
+                <span asp-validation-for="Contraseña" class="text-danger"></span>
             </div>
             <div class="col-lg-6">
                 <label asp-for="AvatarPropFile" class="control-label">Foto</label>
                 <input type="file" name="AvatarPropFile" />
                 <span asp-validation-for="AvatarPropFile" class="text-danger"></span>
             </div>
-            <div class="col-lg-3">
+            <div class="form-control">
                 <input type="submit" value="Agregar" class="btn btn-primary" />
             </div>
         </form>

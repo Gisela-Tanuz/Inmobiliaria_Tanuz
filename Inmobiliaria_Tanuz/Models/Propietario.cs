@@ -16,9 +16,10 @@ namespace Inmobiliaria_Tanuz.Models
         public string Apellido { get; set; }
         public string Dni { get; set; }
         public string Telefono { get; set; }
+        [Required, DataType(DataType.EmailAddress)]
         public string Email { get; set; }
         public string Usuario { get; set; }
-        [Required, DataType(DataType.Password)]
+        [DataType(DataType.Password)]
         public string Contraseña { get; set; }
         [Display(Name = "Foto")]
         public string AvatarProp { get; set; }

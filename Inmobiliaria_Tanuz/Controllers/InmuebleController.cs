@@ -144,19 +144,44 @@ namespace Inmobiliaria_Tanuz.Controllers
         [ValidateAntiForgeryToken]
         [Authorize(Policy = "Administrador")]
         public ActionResult Edit(int id, Inmueble entidad)
-        { 
+        {
             try
             {
                 var i = repositorio.ObtenerPorId(id);
                 entidad.IdInmueble = id;
-                entidad.Imagen = i.Imagen;
-                repositorio.Modificar(entidad);
-                TempData["Mensaje"] = "Datos actualizados correctamente";
-                return RedirectToAction(nameof(Index));
+              
+                if (entidad.ImagenFile != null && entidad.IdInmueble > 0)
+                {
+                    string wwwPath = environment.WebRootPath;
+                    string path = Path.Combine(wwwPath, "Uploads");
+                    if (!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+
+                    //Path.GetFileName(u.AvatarFile.FileName);//este nombre se puede repetir
+                    string fileName = "imagenE_" + entidad.IdInmueble + Path.GetExtension(entidad.ImagenFile.FileName);
+                    string pathCompleto = Path.Combine(path, fileName);
+                    entidad.Imagen = Path.Combine("/Uploads/", fileName);
+                    using (FileStream stream = new FileStream(pathCompleto, FileMode.Create))
+                    {
+                        entidad.ImagenFile.CopyTo(stream);
+                    }
+                    repositorio.Modificar(entidad);
+                    TempData["Mensaje"] = "Datos actualizados correctamente";
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    entidad.Imagen = i.Imagen;
+                    repositorio.Modificar(entidad);
+                    TempData["Mensaje"] = "Datos actualizados correctamente";
+                    return RedirectToAction(nameof(Index));
+                }
             }
             catch (Exception ex)
             {
-              
+
                 ViewBag.Error = ex.Message;
                 ViewBag.StackTrate = ex.StackTrace;
                 return View();
