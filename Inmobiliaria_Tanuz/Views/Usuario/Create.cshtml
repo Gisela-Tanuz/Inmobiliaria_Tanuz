@@ -30,7 +30,7 @@
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="col-md-6">
-            
+
                 <label asp-for="Clave" class="control-label">Contraseña</label>
                 <input asp-for="Clave" class="form-control-file" />
                 <span asp-validation-for="Clave" class="text-danger"></span>
@@ -40,7 +40,7 @@
                 <input type="file" name="AvatarFile" class="form-control-file" />
                 <span asp-validation-for="AvatarFile" class="text-danger"></span>
             </div>
-     
+
             <div class="col-md-6">
                 <label class="control-label">Rol</label>
                 <select class="form-control-file" name="Rol">
@@ -51,16 +51,18 @@
                 </select>
                 <span asp-validation-for="Rol" class="text-danger"></span>
             </div>
-
-            <div class="col-md-3">
+            <div class="col-md-2 m-2">
                 <input type="submit" value="Crear" class="btn btn-primary" />
-            </div>
-        </form>
+                </div>
+                <div class="col-md-2 m-3">
+                    <a asp-controller="Usuario" asp-action="Index" class="btn btn-secondary" role="button">Cancelar</a>
+                </div>
+</form>
     </div>
+
+
+ 
+       
 </div>
 
-<div>
-
-   <p><a asp-action="Index">Volver a la lista</a></p>
-</div>
 

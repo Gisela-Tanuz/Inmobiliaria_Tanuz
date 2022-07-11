@@ -6,9 +6,12 @@
 
 <h3 style="font-family:Tahoma" class="text-center">Agregar un nuevo inquilino</h3>
 <hr />
-<p>Datos del Inquilino:</p>
+
 <div class="row d-flex justify-content-center">
     <div class="col-lg-12">
+        <div class="col-lg-12">
+            <h6>Datos del Inquilino:</h6>
+        </div>
         <form asp-action="Create" class="form-inline">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -36,9 +39,9 @@
                 <label asp-for="Email" class="control-label">Email</label>
                 <input asp-for="Email" class="form-control-file" />
                 <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
+            </div> <br />
             <div class="col-lg-12">
-                <p>Datos del garante:</p>
+                <h6>Datos del garante:</h6>
             </div>
             <div class="col-lg-6">
                 <label asp-for="NombreGarante" class="control-label">Nombre</label>
@@ -60,13 +63,13 @@
                 <input asp-for="LugarDeTrabajo" class="form-control-file" />
                 <span asp-validation-for="LugarDeTrabajo" class="text-danger"></span>
             </div>
-            <div class="col-lg-3">
+            <div class="col-md-2 m-2">
                 <input type="submit" value="Agregar" class="btn btn-primary" />
             </div>
-            <div class="col-lg-3">
+            <div class="col-md-2 m-2">
                 <input type="reset" value="Borrar" class="btn btn-danger" />
             </div>
-            <div class="col-lg-3">
+            <div class="col-md-2 m-2">
                 <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
             </div>
         </form>

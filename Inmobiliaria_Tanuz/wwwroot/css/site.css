@@ -79,3 +79,15 @@ body {
 .headerTable {
 color: darkorange;
 }
+/*--stile login--------------------------------------*/
+.gradient-custom-2 {
+    background: #fccb90;
+    background: -webkit-linear-gradient( to right,#F9A95A,#FA942E,#FABF2E,#F9CB5D);
+    background: linear-gradient(to right,#F9A95A,#FA942E,#FABF2E,#F9CB5D);
+}
+@media (min-width: 769px) {
+    .gradient-custom-2 {
+        border-top-right-radius: .3rem;
+        border-bottom-right-radius: .3rem;
+    }
+}

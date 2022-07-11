@@ -42,7 +42,7 @@
                 <input asp-for="Contraseña" class="form-control-file" />
                 <span asp-validation-for="Contraseña" class="text-danger"></span>
             </div>
-           
+
             <div class="col-lg-6">
                 <label asp-for="Usuario" class="control-label"></label>
                 <input asp-for="Usuario" class="form-control-file" />
@@ -50,21 +50,21 @@
             </div>
             <div class="col-lg-6">
                 <label asp-for="AvatarPropFile" class="control-label">Foto</label>
-                <input type="file" name="AvatarPropFile"/>
+                <input type="file" name="AvatarPropFile" />
                 <span asp-validation-for="AvatarPropFile" class="text-danger"></span>
             </div>
-            <p>
-              
-                    <input type="submit" value="Actualizar" class="btn btn-primary" />
-                
-            </p>
+            <div class="col-md-2 m-2">
+
+                <input type="submit" value="Actualizar" class="btn btn-primary" />
+
+            </div>
+            <div class="col-md-2 m-3">
+                <a asp-controller="Propietario" asp-action="Index" class="btn btn-secondary" role="button">Cancelar</a>
+            </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Volver a la lista</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

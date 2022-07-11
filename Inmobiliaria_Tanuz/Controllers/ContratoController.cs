@@ -67,6 +67,7 @@ namespace Inmobiliaria_Tanuz.Controllers
 
                 int res = repositorio.Alta(c);
                 Inquilino i = repoInquilino.ObtenerPorId(c.InquilinoId);
+                Inmueble imn = repoInmueble.ObtenerPorId(c.InmuebleId);
                 TempData["Id"] = c.IdContrato;
                 return RedirectToAction(nameof(Index));
 
@@ -75,6 +76,7 @@ namespace Inmobiliaria_Tanuz.Controllers
             {
 
                 ViewBag.Inquilino = repoInquilino.Obtener();
+                ViewBag.Inmueble = repoInmueble.Obtener();
                 ViewBag.Error = ex.Message;
                 ViewBag.StackTrate = ex.StackTrace;
                 return View(c);

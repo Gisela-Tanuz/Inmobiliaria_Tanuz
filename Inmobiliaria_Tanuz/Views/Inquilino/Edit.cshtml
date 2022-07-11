@@ -7,71 +7,76 @@
 <h3 style="font-family:Tahoma">Actualizar los datos del inquilino.</h3>
 
 <hr />
-<p>Datos del Inquilino:</p>
+
 <div class="row align-tex-center">
     <div class="col-lg-12">
-        <form asp-action="Edit" class="form-inline">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="col-lg-6">
-                <label asp-for="IdInquilino" class="control-label"></label>
-                <input asp-for="IdInquilino" class="form-control-file" />
-                <span asp-validation-for="IdInquilino" class="text-danger"></span>
+        <div class="col-lg-12">
+            <h6>Datos del Inquilino:</h6>
             </div>
-            <div class="col-lg-6">
-                <label asp-for="Nombre" class="control-label"></label>
-                <input asp-for="Nombre" class="form-control-file" />
-                <span asp-validation-for="Nombre" class="text-danger"></span>
-            </div>
-            <div class="col-lg-6">
-                <label asp-for="Apellido" class="control-label"></label>
-                <input asp-for="Apellido" class="form-control-file" />
-                <span asp-validation-for="Apellido" class="text-danger"></span>
-            </div>
-            <div class="col-lg-6">
-                <label asp-for="Dni" class="control-label"></label>
-                <input asp-for="Dni" class="form-control-file" />
-                <span asp-validation-for="Dni" class="text-danger"></span>
-            </div>
-            <div class="col-lg-6">
-                <label asp-for="Telefono" class="control-label"></label>
-                <input asp-for="Telefono" class="form-control-file" />
-                <span asp-validation-for="Telefono" class="text-danger"></span>
-            </div>
-            <div class="col-lg-6">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control-file" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="col-lg-12">
-                <p>Datos del garante:</p>
-            </div>
-            <div class="col-lg-6">
-                <label asp-for="NombreGarante" class="control-label"></label>
-                <input asp-for="NombreGarante" class="form-control-file" />
-                <span asp-validation-for="NombreGarante" class="text-danger"></span>
-            </div>
-            <div class="col-lg-6">
-                <label asp-for="DireccionGarante" class="control-label"></label>
-                <input asp-for="DireccionGarante" class="form-control-file" />
-                <span asp-validation-for="DireccionGarante" class="text-danger"></span>
-            </div>
-            <div class="col-lg-6">
-                <label asp-for="TelGarante" class="control-label"></label>
-                <input asp-for="TelGarante" class="form-control-file" />
-                <span asp-validation-for="TelGarante" class="text-danger"></span>
-            </div>
-            <div class="col-lg-6">
-                <label asp-for="LugarDeTrabajo" class="control-label"></label>
-                <input asp-for="LugarDeTrabajo" class="form-control-file" />
-                <span asp-validation-for="LugarDeTrabajo" class="text-danger"></span>
-            </div>
-            <div class="col-lg-3">
-                <input type="submit" value="Actualizar" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
-            </div>
-        </form>
+            <form asp-action="Edit" class="form-inline">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="col-lg-6">
+                    <label asp-for="IdInquilino" class="control-label"></label>
+                    <input asp-for="IdInquilino" class="form-control-file" />
+                    <span asp-validation-for="IdInquilino" class="text-danger"></span>
+                </div>
+                <div class="col-lg-6">
+                    <label asp-for="Nombre" class="control-label"></label>
+                    <input asp-for="Nombre" class="form-control-file" />
+                    <span asp-validation-for="Nombre" class="text-danger"></span>
+                </div>
+                <div class="col-lg-6">
+                    <label asp-for="Apellido" class="control-label"></label>
+                    <input asp-for="Apellido" class="form-control-file" />
+                    <span asp-validation-for="Apellido" class="text-danger"></span>
+                </div>
+                <div class="col-lg-6">
+                    <label asp-for="Dni" class="control-label"></label>
+                    <input asp-for="Dni" class="form-control-file" />
+                    <span asp-validation-for="Dni" class="text-danger"></span>
+                </div>
+                <div class="col-lg-6">
+                    <label asp-for="Telefono" class="control-label"></label>
+                    <input asp-for="Telefono" class="form-control-file" />
+                    <span asp-validation-for="Telefono" class="text-danger"></span>
+                </div>
+                <div class="col-lg-6">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control-file" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="col-lg-12">
+                    <h6>Datos del garante:</h6>
+                </div>
+                <div class="col-lg-6">
+                    <label asp-for="NombreGarante" class="control-label"></label>
+                    <input asp-for="NombreGarante" class="form-control-file" />
+                    <span asp-validation-for="NombreGarante" class="text-danger"></span>
+                </div>
+                <div class="col-lg-6">
+                    <label asp-for="DireccionGarante" class="control-label"></label>
+                    <input asp-for="DireccionGarante" class="form-control-file" />
+                    <span asp-validation-for="DireccionGarante" class="text-danger"></span>
+                </div>
+                <div class="col-lg-6">
+                    <label asp-for="TelGarante" class="control-label"></label>
+                    <input asp-for="TelGarante" class="form-control-file" />
+                    <span asp-validation-for="TelGarante" class="text-danger"></span>
+                </div>
+                <div class="col-lg-6">
+                    <label asp-for="LugarDeTrabajo" class="control-label"></label>
+                    <input asp-for="LugarDeTrabajo" class="form-control-file" />
+                    <span asp-validation-for="LugarDeTrabajo" class="text-danger"></span>
+                </div>
+                <div class="col-md-2 m-2">
+                    <input type="submit" value="Actualizar" class="btn btn-primary" />
+                </div>
+                <div class="col-md-2 m-3">
+                    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
 
 
